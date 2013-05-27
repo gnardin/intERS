@@ -1,6 +1,8 @@
-*.class
+/bin
+/lib
+/output
+/transferFiles
 
-# Package Files #
-*.jar
-*.war
-*.ear
+*.class
+*.o
+~*

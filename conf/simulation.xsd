@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema">
+
+	<element name="simulation">
+		<complexType>
+			<sequence>
+				<element name="numberOfRuns" type="positiveInteger" />
+				<element name="randomSeeds" maxOccurs="1">
+					<complexType>
+						<choice minOccurs="0" maxOccurs="unbounded">
+							<element name="seed" type="positiveInteger" />
+						</choice>
+					</complexType>
+				</element>
+				<element name="rsDirectory" type="string" />
+				<element name="xmlFilename" type="string" />
+				<element name="xsdFilename" type="string" />
+				<element name="output" maxOccurs="1">
+					<complexType>
+						<sequence>
+							<element name="directory" type="string" />
+							<element name="fileExtorter" type="string" />
+							<element name="fileObserver" type="string" />
+							<element name="fileTarget" type="string" />
+							<element name="fileAppend" type="boolean" />
+							<element name="fieldSeparator" type="string" />
+							<element name="writeEvery" type="positiveInteger" />
+						</sequence>
+					</complexType>
+				</element>
+			</sequence>
+		</complexType>
+	</element>
+</schema>
