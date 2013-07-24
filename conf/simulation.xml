@@ -1004,11 +1004,11 @@
 		<seed>604909</seed>
 		<seed>220854</seed>
 	</randomSeeds>
-	<rsDirectory>/data/workspace/repast/intERS/intERS.rs</rsDirectory>
-	<xmlFilename>/data/workspace/repast/intERS/conf/scenario.xml</xmlFilename>
-	<xsdFilename>/data/workspace/repast/intERS/conf/scenario.xsd</xsdFilename>
+	<rsDirectory>intERS.rs</rsDirectory>
+	<xmlFilename>conf/scenario.xml</xmlFilename>
+	<xsdFilename>conf/scenario.xsd</xsdFilename>
 	<output>
-		<directory>/data/workspace/repast/intERS/output/test/heterogeneous/LL-LH-HL-HH</directory>
+		<directory>output/test/heterogeneous/LL-LH-HL-HH</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>
