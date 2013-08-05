@@ -1,12 +1,12 @@
-package intERS.output;
+package intERS.objects;
 
-public class TargetOutput extends OutputAbstract {
+public class TargetObject extends ObjectAbstract {
 
 	private double wealth;
 	private double income;
 	private int numExtortion;
 	private double totalExtortion;
-	private int numHelpRequest;
+	private int numHelpRequested;
 	private int numHelpReceived;
 	private int numPaid;
 	private double totalPaid;
@@ -15,14 +15,14 @@ public class TargetOutput extends OutputAbstract {
 	private int numPunishment;
 	private double totalPunishment;
 
-	public TargetOutput(int id, String type) {
-		super(AgentType.TARGET, id, type);
+	public TargetObject(int cycle, int id, String type) {
+		super(AgentType.TARGET, cycle, id, type);
 
 		this.wealth = 0;
 		this.income = 0;
 		this.numExtortion = 0;
 		this.totalExtortion = 0;
-		this.numHelpRequest = 0;
+		this.numHelpRequested = 0;
 		this.numHelpReceived = 0;
 		this.numPaid = 0;
 		this.totalPaid = 0;
@@ -38,7 +38,7 @@ public class TargetOutput extends OutputAbstract {
 
 		str += "type" + fs + "id" + fs + "wealth" + fs + "income" + fs
 				+ "numExtortion" + fs + "totalExtortion" + fs
-				+ "numHelpRequest" + fs + "numHelpReceived" + fs + "numPaid"
+				+ "numHelpRequested" + fs + "numHelpReceived" + fs + "numPaid"
 				+ fs + "totalPaid" + fs + "numNotPaid" + fs + "totalNotPaid"
 				+ fs + "numPunishment" + fs + "totalPunishment";
 
@@ -51,7 +51,7 @@ public class TargetOutput extends OutputAbstract {
 
 		str += this.type + fs + this.id + fs + this.wealth + fs + this.income
 				+ fs + this.numExtortion + fs + this.totalExtortion + fs
-				+ this.numHelpRequest + fs + this.numHelpReceived + fs
+				+ this.numHelpRequested + fs + this.numHelpReceived + fs
 				+ this.numPaid + fs + this.totalPaid + fs + this.numNotPaid
 				+ fs + this.totalNotPaid + fs + this.numPunishment + fs
 				+ this.totalPunishment;
@@ -91,12 +91,12 @@ public class TargetOutput extends OutputAbstract {
 		this.totalPunishment = totalPunishment;
 	}
 
-	public synchronized int getNumHelpRequest() {
-		return numHelpRequest;
+	public synchronized int getNumHelpRequested() {
+		return numHelpRequested;
 	}
 
-	public synchronized void setNumHelpRequest(int numHelpRequested) {
-		this.numHelpRequest = numHelpRequested;
+	public synchronized void setNumHelpRequested(int numHelpRequested) {
+		this.numHelpRequested = numHelpRequested;
 	}
 
 	public synchronized int getNumHelpReceived() {

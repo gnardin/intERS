@@ -9,9 +9,11 @@ public class OutputConf {
 	private Boolean fileAppend;
 	private String fieldSeparator;
 	private int writeEvery;
+	private String filePrefixAvg;
+	private String filePrefixSum;
 
 	public String getDirectory() {
-		return directory;
+		return this.directory;
 	}
 
 	public void setDirectory(String directory) {
@@ -19,7 +21,7 @@ public class OutputConf {
 	}
 
 	public String getFileExtorter() {
-		return fileExtorter;
+		return this.fileExtorter;
 	}
 
 	public void setFileExtorter(String fileExtorter) {
@@ -27,7 +29,7 @@ public class OutputConf {
 	}
 
 	public String getFileObserver() {
-		return fileObserver;
+		return this.fileObserver;
 	}
 
 	public void setFileObserver(String fileObserver) {
@@ -35,7 +37,7 @@ public class OutputConf {
 	}
 
 	public String getFileTarget() {
-		return fileTarget;
+		return this.fileTarget;
 	}
 
 	public void setFileTarget(String fileTarget) {
@@ -43,7 +45,7 @@ public class OutputConf {
 	}
 
 	public Boolean getFileAppend() {
-		return fileAppend;
+		return this.fileAppend;
 	}
 
 	public void setFileAppend(Boolean fileAppend) {
@@ -51,7 +53,7 @@ public class OutputConf {
 	}
 
 	public String getFieldSeparator() {
-		return fieldSeparator;
+		return this.fieldSeparator;
 	}
 
 	public void setFieldSeparator(String fieldSeparator) {
@@ -59,11 +61,27 @@ public class OutputConf {
 	}
 
 	public int getWriteEvery() {
-		return writeEvery;
+		return this.writeEvery;
 	}
 
 	public void setWriteEvery(int writeEvery) {
 		this.writeEvery = writeEvery;
+	}
+
+	public String getFilePrefixAvg() {
+		return this.filePrefixAvg;
+	}
+
+	public void setFilePrefixAvg(String filePrefixAvg) {
+		this.filePrefixAvg = filePrefixAvg;
+	}
+
+	public String getFilePrefixSum() {
+		return this.filePrefixSum;
+	}
+
+	public void setFilePrefixSum(String filePrefixSum) {
+		this.filePrefixSum = filePrefixSum;
 	}
 
 	@Override
@@ -78,6 +96,8 @@ public class OutputConf {
 		str += "File Append..................: [" + this.fileAppend + "]\n";
 		str += "Field Separator..............: [" + this.fieldSeparator + "]\n";
 		str += "Write Every..................: [" + this.writeEvery + "]\n";
+		str += "File Prefix Avg..............: [" + this.filePrefixAvg + "]\n";
+		str += "File Prefix Sum..............: [" + this.filePrefixSum + "]\n";
 
 		return str;
 	}

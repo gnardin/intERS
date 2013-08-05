@@ -1,17 +1,17 @@
-package intERS.output;
+package intERS.objects;
 
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ObserverOutput extends OutputAbstract {
+public class ObserverObject extends ObjectAbstract {
 
 	private Map<String, Integer> targetsAlive;
 	private Map<String, Integer> extortersFree;
 	private Map<String, Integer> extortersImprisoned;
 
-	public ObserverOutput(int id, String type) {
-		super(AgentType.OBSERVER, id, type);
+	public ObserverObject(int cycle, int id, String type) {
+		super(AgentType.OBSERVER, cycle, id, type);
 
 		this.targetsAlive = new Hashtable<String, Integer>();
 		this.extortersFree = new Hashtable<String, Integer>();

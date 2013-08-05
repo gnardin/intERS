@@ -25,6 +25,8 @@
 							<element name="fileAppend" type="boolean" />
 							<element name="fieldSeparator" type="string" />
 							<element name="writeEvery" type="positiveInteger" />
+							<element name="filePrefixAvg" type="string" />
+							<element name="filePrefixSum" type="string" />
 						</sequence>
 					</complexType>
 				</element>

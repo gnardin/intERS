@@ -33,6 +33,8 @@ public class SimulationConf {
 	private final static String OUTPUT_FILE_APPEND = "fileAppend";
 	private final static String OUTPUT_FIELD_SEPARATOR = "fieldSeparator";
 	private final static String OUTPUT_WRITE_EVERY = "writeEvery";
+	private final static String OUTPUT_FILE_PREFIX_AVG = "filePrefixAvg";
+	private final static String OUTPUT_FILE_PREFIX_SUM = "filePrefixSum";
 
 	// General information
 	private int numberRuns;
@@ -177,6 +179,20 @@ public class SimulationConf {
 						event = eventReader.nextEvent();
 						output.setWriteEvery(new Integer(event.asCharacters()
 								.getData()));
+						continue;
+
+						// Set filePrefixAvg attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(OUTPUT_FILE_PREFIX_AVG)) {
+						event = eventReader.nextEvent();
+						output.setFilePrefixAvg(event.asCharacters().getData());
+						continue;
+
+						// Set filePrefixSum attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(OUTPUT_FILE_PREFIX_SUM)) {
+						event = eventReader.nextEvent();
+						output.setFilePrefixSum(event.asCharacters().getData());
 						continue;
 					}
 				}

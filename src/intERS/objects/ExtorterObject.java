@@ -1,6 +1,6 @@
-package intERS.output;
+package intERS.objects;
 
-public class ExtorterOutput extends OutputAbstract {
+public class ExtorterObject extends ObjectAbstract {
 
 	private double wealth;
 	private int numTargets;
@@ -18,8 +18,8 @@ public class ExtorterOutput extends OutputAbstract {
 	private double totalExtortionReceived;
 	private int numPunishment;
 
-	public ExtorterOutput(int id, String type) {
-		super(AgentType.EXTORTER, id, type);
+	public ExtorterObject(int cycle, int id, String type) {
+		super(AgentType.EXTORTER, cycle, id, type);
 
 		this.wealth = 0;
 		this.numTargets = 0;

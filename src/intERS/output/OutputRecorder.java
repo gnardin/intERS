@@ -1,15 +1,19 @@
 package intERS.output;
 
 import intERS.conf.simulation.OutputConf;
+import intERS.objects.ExtorterObject;
+import intERS.objects.ObjectAbstract;
+import intERS.objects.ObserverObject;
+import intERS.objects.TargetObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class OutputRecorder {
 
@@ -29,7 +33,7 @@ public class OutputRecorder {
 
 	private OutputConf output;
 
-	private Map<Integer, List<OutputAbstract>> records;
+	private Map<Integer, List<ObjectAbstract>> records;
 
 	/**
 	 * Constructor
@@ -38,7 +42,7 @@ public class OutputRecorder {
 	 * @return none
 	 */
 	private OutputRecorder() {
-		this.records = new Hashtable<Integer, List<OutputAbstract>>();
+		this.records = new TreeMap<Integer, List<ObjectAbstract>>();
 	}
 
 	public void setOutput(OutputConf output) {
@@ -91,21 +95,19 @@ public class OutputRecorder {
 	/**
 	 * Add a record to record
 	 * 
-	 * @param cycle
-	 *            Simulation cycle
 	 * @param record
 	 *            Record output
 	 * @return none
 	 */
-	public synchronized void addRecord(int cycle, OutputAbstract record) {
-		List<OutputAbstract> outputs = this.records.get(cycle);
+	public synchronized void addRecord(ObjectAbstract record) {
+		List<ObjectAbstract> outputs = this.records.get(record.getCycle());
 
 		if (outputs == null) {
-			outputs = new ArrayList<OutputAbstract>();
+			outputs = new ArrayList<ObjectAbstract>();
 		}
 
 		outputs.add(record);
-		this.records.put(cycle, outputs);
+		this.records.put(record.getCycle(), outputs);
 	}
 
 	/**
@@ -116,13 +118,13 @@ public class OutputRecorder {
 	 */
 	public synchronized void write() throws IOException {
 
-		List<OutputAbstract> outputs;
+		List<ObjectAbstract> outputs;
 		for (Integer cycle : this.records.keySet()) {
 			outputs = this.records.get(cycle);
 
-			for (OutputAbstract record : outputs) {
+			for (ObjectAbstract record : outputs) {
 
-				if (record instanceof ExtorterOutput) {
+				if (record instanceof ExtorterObject) {
 					if (this.firstExtorter) {
 						this.fExtorter.write("cycle"
 								+ this.output.getFieldSeparator()
@@ -137,7 +139,7 @@ public class OutputRecorder {
 							+ record.getLine(this.output.getFieldSeparator()));
 					this.fExtorter.newLine();
 
-				} else if (record instanceof ObserverOutput) {
+				} else if (record instanceof ObserverObject) {
 					if (this.firstObserver) {
 						this.fObserver.write("cycle"
 								+ this.output.getFieldSeparator()
@@ -152,7 +154,7 @@ public class OutputRecorder {
 							+ record.getLine(this.output.getFieldSeparator()));
 					this.fObserver.newLine();
 
-				} else if (record instanceof TargetOutput) {
+				} else if (record instanceof TargetObject) {
 					if (this.firstTarget) {
 						this.fTarget.write("cycle"
 								+ this.output.getFieldSeparator()

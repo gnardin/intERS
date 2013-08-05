@@ -3,7 +3,7 @@ package intERS.agents.observer;
 import intERS.agents.extorter.ExtorterAbstract;
 import intERS.agents.target.TargetAbstract;
 import intERS.conf.scenario.ScenarioConf;
-import intERS.output.ObserverOutput;
+import intERS.objects.ObserverObject;
 import intERS.output.OutputRecorder;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class Observer {
 		}
 
 		// Output
-		this.outputRecorder.addRecord(1, this.getOutput());
+		this.outputRecorder.addRecord(this.getOutput(0));
 	}
 
 	@ScheduledMethod(start = 1, interval = 1, priority = 0)
@@ -194,11 +194,11 @@ public class Observer {
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount() + 1;
 
-		this.outputRecorder.addRecord(cycle, this.getOutput());
+		this.outputRecorder.addRecord(this.getOutput(cycle));
 	}
 
-	private ObserverOutput getOutput() {
-		ObserverOutput output = new ObserverOutput(this.id, "0");
+	private ObserverObject getOutput(int cycle) {
+		ObserverObject output = new ObserverObject(cycle, this.id, "0");
 
 		for (String type : this.extorterTypes) {
 			output.setNumExtortersFree(type, 0);

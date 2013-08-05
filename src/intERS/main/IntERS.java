@@ -1,6 +1,7 @@
 package intERS.main;
 
 import intERS.conf.simulation.SimulationConf;
+import intERS.statistics.DataAggregation;
 import intERS.utils.XML;
 
 import java.io.File;
@@ -23,7 +24,7 @@ public class IntERS {
 
 		int randomSeed;
 		String outputDirectory;
-		// Number of Runs
+		// Runs the simulation
 		for (int sim = 0; sim < simulation.getNumberRuns(); sim++) {
 
 			randomSeed = simulation.getSeed(sim);
@@ -52,5 +53,29 @@ public class IntERS {
 			runner.cleanUpRun();
 		}
 		runner.cleanUpBatch();
+
+		// Data aggregation
+		DataAggregation summary = new DataAggregation(
+				simulation.getNumberRuns(), simulation.getOutput()
+						.getDirectory(), simulation.getOutput()
+						.getFieldSeparator());
+
+		summary.aggregate(simulation.getOutput().getFileExtorter(), simulation
+				.getOutput().getFilePrefixAvg()
+				+ simulation.getOutput().getFileExtorter(), simulation
+				.getOutput().getFilePrefixSum()
+				+ simulation.getOutput().getFileExtorter());
+
+		summary.aggregate(simulation.getOutput().getFileObserver(), simulation
+				.getOutput().getFilePrefixAvg()
+				+ simulation.getOutput().getFileObserver(), simulation
+				.getOutput().getFilePrefixSum()
+				+ simulation.getOutput().getFileObserver());
+
+		summary.aggregate(simulation.getOutput().getFileTarget(), simulation
+				.getOutput().getFilePrefixAvg()
+				+ simulation.getOutput().getFileTarget(), simulation
+				.getOutput().getFilePrefixSum()
+				+ simulation.getOutput().getFileTarget());
 	}
 }

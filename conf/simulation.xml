@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="simulation.xsd">
-	<numberOfRuns>1</numberOfRuns>
+	<numberOfRuns>30</numberOfRuns>
 	<randomSeeds>
 		<seed>535734</seed>
 		<seed>495417</seed>
@@ -1015,5 +1015,7 @@
 		<fileAppend>false</fileAppend>
 		<fieldSeparator>;</fieldSeparator>
 		<writeEvery>50</writeEvery>
+		<filePrefixAvg>cAvg</filePrefixAvg>
+		<filePrefixSum>cSum</filePrefixSum>
 	</output>
 </simulation>

@@ -2,7 +2,7 @@ package intERS.agents.extorter;
 
 import intERS.agents.target.TargetAbstract;
 import intERS.conf.scenario.ExtorterConf;
-import intERS.output.ExtorterOutput;
+import intERS.objects.ExtorterObject;
 import intERS.output.OutputRecorder;
 
 import java.util.ArrayList;
@@ -41,9 +41,6 @@ public abstract class ExtorterAbstract {
 	// Counterattack propensity [0;1]
 	protected double counterattackPropensity;
 
-	// Simulation cycle
-	protected int cycle;
-
 	// Enlargement probability
 	protected double enlargementProbability;
 
@@ -63,7 +60,7 @@ public abstract class ExtorterAbstract {
 	private double lostWealth;
 
 	// Output cycle data
-	protected ExtorterOutput output;
+	protected ExtorterObject output;
 
 	// Output recorder
 	protected OutputRecorder outputRecorder;
@@ -117,7 +114,6 @@ public abstract class ExtorterAbstract {
 		this.counterattack = new ArrayList<Integer>();
 		this.counterattacked = new ArrayList<Integer>();
 		this.counterattackPropensity = this.extorterConf.getCounterattack() / 100;
-		this.cycle = 0;
 
 		this.extorted = new HashMap<Integer, Double>();
 		for (Integer target : initialTargets) {
@@ -127,7 +123,6 @@ public abstract class ExtorterAbstract {
 		this.extorters = extorters;
 		this.helpRequested = new HashMap<Integer, List<Integer>>();
 		this.lostWealth = 0;
-		this.output = new ExtorterOutput(this.id, this.extorterConf.getType());
 		this.outputRecorder = OutputRecorder.getInstance();
 		this.paid = new HashMap<Integer, Double>();
 		this.punishments = new HashMap<Integer, Double>();
@@ -139,9 +134,12 @@ public abstract class ExtorterAbstract {
 		this.wealth = extorterConf.getInitialWealth();
 
 		// Output
+		this.output = new ExtorterObject(0, this.id,
+				this.extorterConf.getType());
 		this.output.setWealth(this.wealth);
-		this.outputRecorder.addRecord(1, this.output);
-		this.output = new ExtorterOutput(this.id, this.extorterConf.getType());
+		this.outputRecorder.addRecord(this.output);
+		this.output = new ExtorterObject(1, this.id,
+				this.extorterConf.getType());
 	}
 
 	/**
@@ -215,13 +213,14 @@ public abstract class ExtorterAbstract {
 	public void beginCycle() {
 		this.counterattack.clear();
 		this.counterattacked.clear();
-
-		this.cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
-				.getTickCount() + 1;
-
 		this.helpRequested.clear();
 		this.lostWealth = 0;
-		this.output = new ExtorterOutput(this.id, this.extorterConf.getType());
+
+		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
+				.getTickCount() + 1;
+		this.output = new ExtorterObject(cycle, this.id,
+				this.extorterConf.getType());
+
 		this.paid.clear();
 		this.punishments.clear();
 		this.retaliate.clear();
@@ -554,14 +553,11 @@ public abstract class ExtorterAbstract {
 	 */
 	@ScheduledMethod(start = 1.80, interval = 1)
 	public void endCycle() {
-		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
-				.getTickCount() + 1;
-
 		// Output
 		this.output.setWealth(this.wealth);
 		this.output.setNumTargets(this.extorted.size());
 
-		this.outputRecorder.addRecord(cycle, this.output);
+		this.outputRecorder.addRecord(this.output);
 	}
 
 	/**

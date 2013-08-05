@@ -2,8 +2,8 @@ package intERS.agents.target;
 
 import intERS.agents.extorter.ExtorterAbstract;
 import intERS.conf.scenario.TargetConf;
+import intERS.objects.TargetObject;
 import intERS.output.OutputRecorder;
-import intERS.output.TargetOutput;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,9 +22,6 @@ public abstract class TargetAbstract {
 
 	// Identification
 	protected int id;
-
-	// Simulation cycle
-	protected int cycle;
 
 	// List of received extortions
 	protected Map<Integer, Double> extortions;
@@ -54,7 +51,7 @@ public abstract class TargetAbstract {
 	protected List<Integer> extortersAskHelpAgainst;
 
 	// Output cycle data
-	protected TargetOutput output;
+	protected TargetObject output;
 
 	// Output recorder
 	protected OutputRecorder outputRecorder;
@@ -96,7 +93,6 @@ public abstract class TargetAbstract {
 	public TargetAbstract(Map<Integer, ExtorterAbstract> extorters,
 			Map<Integer, TargetAbstract> targets, int id, TargetConf targetConf) {
 		this.id = id;
-		this.cycle = 0;
 		this.extortions = new HashMap<Integer, Double>();
 		this.extorters = extorters;
 		this.extortersToPay = new ArrayList<Integer>();
@@ -109,7 +105,6 @@ public abstract class TargetAbstract {
 		this.incomePublished = this.income
 				* RandomHelper.nextDoubleFromTo(1.0, 1.5);
 
-		this.output = new TargetOutput(this.id, targetConf.getType());
 		this.outputRecorder = OutputRecorder.getInstance();
 
 		this.percIncomeForExtortion = RandomHelper.nextDoubleFromTo(
@@ -123,9 +118,10 @@ public abstract class TargetAbstract {
 		this.wealth = 0;
 
 		// Output
+		this.output = new TargetObject(0, this.id, targetConf.getType());
 		this.output.setIncome(this.income);
-		this.outputRecorder.addRecord(1, this.output);
-		this.output = new TargetOutput(this.id, targetConf.getType());
+		this.outputRecorder.addRecord(this.output);
+		this.output = new TargetObject(1, this.id, targetConf.getType());
 	}
 
 	/**
@@ -186,9 +182,6 @@ public abstract class TargetAbstract {
 	 */
 	@ScheduledMethod(start = 1, interval = 1)
 	public void beginCycle() {
-		this.cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
-				.getTickCount() + 1;
-
 		this.extortions.clear();
 		this.extortersToPay.clear();
 		this.helpInfo.clear();
@@ -197,7 +190,11 @@ public abstract class TargetAbstract {
 		this.incomeCurrent = this.income
 				* (1 + RandomHelper.nextDoubleFromTo(-0.5, 0.5));
 
-		this.output = new TargetOutput(this.id, this.targetConf.getType());
+		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
+				.getTickCount() + 1;
+		this.output = new TargetObject(cycle, this.id,
+				this.targetConf.getType());
+
 		this.payment = 0;
 		this.punishment = 0;
 	}
@@ -245,7 +242,7 @@ public abstract class TargetAbstract {
 			}
 
 			// Output numHelpRequested
-			this.output.setNumHelpRequest(this.extortersAskHelp.size());
+			this.output.setNumHelpRequested(this.extortersAskHelp.size());
 		}
 	}
 
@@ -350,7 +347,7 @@ public abstract class TargetAbstract {
 		this.output.setWealth(this.wealth);
 		this.output.setIncome(this.incomeCurrent);
 
-		this.outputRecorder.addRecord(this.cycle, this.output);
+		this.outputRecorder.addRecord(this.output);
 	}
 
 	/**
