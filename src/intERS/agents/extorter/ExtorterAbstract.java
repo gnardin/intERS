@@ -2,7 +2,7 @@ package intERS.agents.extorter;
 
 import intERS.agents.target.TargetAbstract;
 import intERS.conf.scenario.ExtorterConf;
-import intERS.objects.ExtorterObject;
+import intERS.output.OutputExtorter;
 import intERS.output.OutputRecorder;
 
 import java.util.ArrayList;
@@ -60,7 +60,7 @@ public abstract class ExtorterAbstract {
 	private double lostWealth;
 
 	// Output cycle data
-	protected ExtorterObject output;
+	protected OutputExtorter output;
 
 	// Output recorder
 	protected OutputRecorder outputRecorder;
@@ -134,12 +134,10 @@ public abstract class ExtorterAbstract {
 		this.wealth = extorterConf.getInitialWealth();
 
 		// Output
-		this.output = new ExtorterObject(0, this.id,
+		this.output = new OutputExtorter(1, this.id,
 				this.extorterConf.getType());
 		this.output.setWealth(this.wealth);
 		this.outputRecorder.addRecord(this.output);
-		this.output = new ExtorterObject(1, this.id,
-				this.extorterConf.getType());
 	}
 
 	/**
@@ -218,7 +216,7 @@ public abstract class ExtorterAbstract {
 
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount() + 1;
-		this.output = new ExtorterObject(cycle, this.id,
+		this.output = new OutputExtorter(cycle, this.id,
 				this.extorterConf.getType());
 
 		this.paid.clear();

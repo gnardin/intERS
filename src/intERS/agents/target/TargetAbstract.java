@@ -2,8 +2,8 @@ package intERS.agents.target;
 
 import intERS.agents.extorter.ExtorterAbstract;
 import intERS.conf.scenario.TargetConf;
-import intERS.objects.TargetObject;
 import intERS.output.OutputRecorder;
+import intERS.output.OutputTarget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ public abstract class TargetAbstract {
 	// Identification
 	protected int id;
 
-	// List of received extortions
+	// List of received extortions <Extorter Id, Extortion>
 	protected Map<Integer, Double> extortions;
 
 	// List of Extorters <Extorter Id, Extorter Object>
@@ -51,7 +51,7 @@ public abstract class TargetAbstract {
 	protected List<Integer> extortersAskHelpAgainst;
 
 	// Output cycle data
-	protected TargetObject output;
+	protected OutputTarget output;
 
 	// Output recorder
 	protected OutputRecorder outputRecorder;
@@ -118,10 +118,9 @@ public abstract class TargetAbstract {
 		this.wealth = 0;
 
 		// Output
-		this.output = new TargetObject(0, this.id, targetConf.getType());
+		this.output = new OutputTarget(1, this.id, targetConf.getType());
 		this.output.setIncome(this.income);
 		this.outputRecorder.addRecord(this.output);
-		this.output = new TargetObject(1, this.id, targetConf.getType());
 	}
 
 	/**
@@ -175,6 +174,16 @@ public abstract class TargetAbstract {
 	}
 
 	/**
+	 * Return number of received extortions
+	 * 
+	 * @param none
+	 * @return Number of received extortions
+	 */
+	public int getNumExtortions() {
+		return extortions.size();
+	}
+
+	/**
 	 * Cycle initialization
 	 * 
 	 * @param none
@@ -192,7 +201,7 @@ public abstract class TargetAbstract {
 
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount() + 1;
-		this.output = new TargetObject(cycle, this.id,
+		this.output = new OutputTarget(cycle, this.id,
 				this.targetConf.getType());
 
 		this.payment = 0;

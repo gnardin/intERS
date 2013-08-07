@@ -1,6 +1,6 @@
-package intERS.objects;
+package intERS.output;
 
-public class TargetObject extends ObjectAbstract {
+public class OutputTarget extends OutputAbstract {
 
 	private double wealth;
 	private double income;
@@ -15,7 +15,7 @@ public class TargetObject extends ObjectAbstract {
 	private int numPunishment;
 	private double totalPunishment;
 
-	public TargetObject(int cycle, int id, String type) {
+	public OutputTarget(int cycle, int id, String type) {
 		super(AgentType.TARGET, cycle, id, type);
 
 		this.wealth = 0;

@@ -1,10 +1,6 @@
 package intERS.output;
 
 import intERS.conf.simulation.OutputConf;
-import intERS.objects.ExtorterObject;
-import intERS.objects.ObjectAbstract;
-import intERS.objects.ObserverObject;
-import intERS.objects.TargetObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -33,7 +29,7 @@ public class OutputRecorder {
 
 	private OutputConf output;
 
-	private Map<Integer, List<ObjectAbstract>> records;
+	private Map<Integer, List<OutputAbstract>> records;
 
 	/**
 	 * Constructor
@@ -42,7 +38,7 @@ public class OutputRecorder {
 	 * @return none
 	 */
 	private OutputRecorder() {
-		this.records = new TreeMap<Integer, List<ObjectAbstract>>();
+		this.records = new TreeMap<Integer, List<OutputAbstract>>();
 	}
 
 	public void setOutput(OutputConf output) {
@@ -99,11 +95,11 @@ public class OutputRecorder {
 	 *            Record output
 	 * @return none
 	 */
-	public synchronized void addRecord(ObjectAbstract record) {
-		List<ObjectAbstract> outputs = this.records.get(record.getCycle());
+	public synchronized void addRecord(OutputAbstract record) {
+		List<OutputAbstract> outputs = this.records.get(record.getCycle());
 
 		if (outputs == null) {
-			outputs = new ArrayList<ObjectAbstract>();
+			outputs = new ArrayList<OutputAbstract>();
 		}
 
 		outputs.add(record);
@@ -118,13 +114,13 @@ public class OutputRecorder {
 	 */
 	public synchronized void write() throws IOException {
 
-		List<ObjectAbstract> outputs;
+		List<OutputAbstract> outputs;
 		for (Integer cycle : this.records.keySet()) {
 			outputs = this.records.get(cycle);
 
-			for (ObjectAbstract record : outputs) {
+			for (OutputAbstract record : outputs) {
 
-				if (record instanceof ExtorterObject) {
+				if (record instanceof OutputExtorter) {
 					if (this.firstExtorter) {
 						this.fExtorter.write("cycle"
 								+ this.output.getFieldSeparator()
@@ -139,7 +135,7 @@ public class OutputRecorder {
 							+ record.getLine(this.output.getFieldSeparator()));
 					this.fExtorter.newLine();
 
-				} else if (record instanceof ObserverObject) {
+				} else if (record instanceof OutputObserver) {
 					if (this.firstObserver) {
 						this.fObserver.write("cycle"
 								+ this.output.getFieldSeparator()
@@ -154,7 +150,7 @@ public class OutputRecorder {
 							+ record.getLine(this.output.getFieldSeparator()));
 					this.fObserver.newLine();
 
-				} else if (record instanceof TargetObject) {
+				} else if (record instanceof OutputTarget) {
 					if (this.firstTarget) {
 						this.fTarget.write("cycle"
 								+ this.output.getFieldSeparator()

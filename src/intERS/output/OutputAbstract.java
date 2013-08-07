@@ -1,6 +1,6 @@
-package intERS.objects;
+package intERS.output;
 
-public abstract class ObjectAbstract {
+public abstract class OutputAbstract {
 
 	public enum AgentType {
 		EXTORTER, OBSERVER, TARGET;
@@ -11,7 +11,7 @@ public abstract class ObjectAbstract {
 	protected int id;
 	protected String type;
 
-	public ObjectAbstract(AgentType agentType, int cycle, int id, String type) {
+	public OutputAbstract(AgentType agentType, int cycle, int id, String type) {
 		this.agentType = agentType;
 		this.cycle = cycle;
 		this.id = id;

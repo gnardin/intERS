@@ -3,7 +3,7 @@ package intERS.agents.observer;
 import intERS.agents.extorter.ExtorterAbstract;
 import intERS.agents.target.TargetAbstract;
 import intERS.conf.scenario.ScenarioConf;
-import intERS.objects.ObserverObject;
+import intERS.output.OutputObserver;
 import intERS.output.OutputRecorder;
 
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class Observer {
 		}
 
 		// Output
-		this.outputRecorder.addRecord(this.getOutput(0));
+		this.outputRecorder.addRecord(this.getOutput(1));
 	}
 
 	@ScheduledMethod(start = 1, interval = 1, priority = 0)
@@ -197,8 +197,8 @@ public class Observer {
 		this.outputRecorder.addRecord(this.getOutput(cycle));
 	}
 
-	private ObserverObject getOutput(int cycle) {
-		ObserverObject output = new ObserverObject(cycle, this.id, "0");
+	private OutputObserver getOutput(int cycle) {
+		OutputObserver output = new OutputObserver(cycle, this.id, "0");
 
 		for (String type : this.extorterTypes) {
 			output.setNumExtortersFree(type, 0);
@@ -206,18 +206,31 @@ public class Observer {
 		}
 
 		for (String type : this.targetTypes) {
-			output.setNumTargets(type, 0);
+			output.setNumTargetsAlive(type, 0);
+			output.setNumTargetsExtorted(type, 0);
+			output.setNumTargetExtorions(type, 0);
 		}
 
 		int num;
+		int numExtortions;
 		String type;
 		TargetAbstract target;
 		for (Integer targetId : this.targets.keySet()) {
 			target = this.targets.get(targetId);
 
 			type = target.getType();
-			num = output.getNumTypeTargets(type);
-			output.setNumTargets(type, num + 1);
+			num = output.getNumTypeTargetsAlive(type);
+			output.setNumTargetsAlive(type, num + 1);
+
+			numExtortions = target.getNumExtortions();
+			if (numExtortions > 0) {
+				num = output.getNumTypeTargetsExtorted(type);
+				output.setNumTargetsExtorted(type, num + 1);
+
+				num = output.getNumTargetExtortions(type);
+				output.setNumTargetExtorions(type, num
+						+ numExtortions);
+			}
 		}
 
 		ExtorterAbstract extorter;

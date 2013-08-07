@@ -1,21 +1,25 @@
-package intERS.objects;
+package intERS.output;
 
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ObserverObject extends ObjectAbstract {
+public class OutputObserver extends OutputAbstract {
 
 	private Map<String, Integer> targetsAlive;
+	private Map<String, Integer> targetsExtorted;
+	private Map<String, Integer> targesExtortion;
 	private Map<String, Integer> extortersFree;
 	private Map<String, Integer> extortersImprisoned;
 
-	public ObserverObject(int cycle, int id, String type) {
+	public OutputObserver(int cycle, int id, String type) {
 		super(AgentType.OBSERVER, cycle, id, type);
 
 		this.targetsAlive = new Hashtable<String, Integer>();
+		this.targetsExtorted = new Hashtable<String, Integer>();
 		this.extortersFree = new Hashtable<String, Integer>();
 		this.extortersImprisoned = new Hashtable<String, Integer>();
+		this.targesExtortion = new Hashtable<String, Integer>();
 	}
 
 	@Override
@@ -27,7 +31,17 @@ public class ObserverObject extends ObjectAbstract {
 
 		map = new TreeMap<String, Integer>(this.targetsAlive);
 		for (String type : map.keySet()) {
-			str += "T" + type + fs;
+			str += "TA" + type + fs;
+		}
+
+		map = new TreeMap<String, Integer>(this.targetsExtorted);
+		for (String type : map.keySet()) {
+			str += "TE" + type + fs;
+		}
+
+		map = new TreeMap<String, Integer>(this.targesExtortion);
+		for (String type : map.keySet()) {
+			str += "NE" + type + fs;
 		}
 
 		str += "totalTargets" + fs;
@@ -35,8 +49,8 @@ public class ObserverObject extends ObjectAbstract {
 		String strImprisoned = new String();
 		map = new TreeMap<String, Integer>(this.extortersFree);
 		for (String type : map.keySet()) {
-			str += "F" + type + fs;
-			strImprisoned += "I" + type + fs;
+			str += "FR" + type + fs;
+			strImprisoned += "IM" + type + fs;
 		}
 
 		str += "totalExtortersFree" + fs + strImprisoned
@@ -60,6 +74,22 @@ public class ObserverObject extends ObjectAbstract {
 			numTotalTargets += numTargets;
 
 			str += numTargets + fs;
+		}
+
+		int numTargetsExtorted = 0;
+		map = new TreeMap<String, Integer>(this.targetsExtorted);
+		for (String type : map.keySet()) {
+			numTargetsExtorted = map.get(type);
+
+			str += numTargetsExtorted + fs;
+		}
+
+		int numExtortersPerTargetExtorted = 0;
+		map = new TreeMap<String, Integer>(this.targesExtortion);
+		for (String type : map.keySet()) {
+			numExtortersPerTargetExtorted = map.get(type);
+
+			str += numExtortersPerTargetExtorted + fs;
 		}
 
 		str += numTotalTargets + fs;
@@ -97,7 +127,7 @@ public class ObserverObject extends ObjectAbstract {
 		return num;
 	}
 
-	public synchronized int getNumTypeTargets(String type) {
+	public synchronized int getNumTypeTargetsAlive(String type) {
 		int num = 0;
 		if (this.targetsAlive.containsKey(type)) {
 			num = this.targetsAlive.get(type);
@@ -106,8 +136,35 @@ public class ObserverObject extends ObjectAbstract {
 		return num;
 	}
 
-	public synchronized void setNumTargets(String type, int numTargets) {
+	public synchronized void setNumTargetsAlive(String type, int numTargets) {
 		this.targetsAlive.put(type, numTargets);
+	}
+
+	public synchronized int getNumTypeTargetsExtorted(String type) {
+		int num = 0;
+		if (this.targetsExtorted.containsKey(type)) {
+			num = this.targetsExtorted.get(type);
+		}
+
+		return num;
+	}
+
+	public synchronized void setNumTargetsExtorted(String type, int numTargets) {
+		this.targetsExtorted.put(type, numTargets);
+	}
+
+	public synchronized int getNumTargetExtortions(String type) {
+		int num = 0;
+		if (this.targesExtortion.containsKey(type)) {
+			num = this.targesExtortion.get(type);
+		}
+
+		return num;
+	}
+
+	public synchronized void setNumTargetExtorions(String type,
+			int numExtortions) {
+		this.targesExtortion.put(type, numExtortions);
 	}
 
 	public synchronized int getNumTotalExtortersFree() {
