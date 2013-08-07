@@ -110,11 +110,6 @@ public class DataStatistics {
 				numbers.put(cycle, numberType);
 			}
 
-			// Map<Integer, Map<String, Double[]>> avgValues = new
-			// TreeMap<Integer, Map<String, Double[]>>();
-			// Map<Integer, Map<String, Double[]>> sumValues = new
-			// TreeMap<Integer, Map<String, Double[]>>();
-
 			Map<String, Double[]> avgValueType;
 			Map<String, Double[]> sumValueType;
 
