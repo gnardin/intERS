@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="scenario.xsd">
+	<!-- General Information -->
+	<general>
+		<stopAt><![CDATA[#{CYCLE} == 1800]]></stopAt>
+		<!-- Prison Information -->
+		<prison>
+			<probability>0</probability>
+			<rounds>0</rounds>
+		</prison>
+	</general>
+	<!-- Targets Information -->
+	<targets>
+		<target>
+			<targetType>0</targetType>
+			<numberOfTargets>2000</numberOfTargets>
+			<extorterPerTarget>-1</extorterPerTarget>
+			<minimumIncome>300.0</minimumIncome>
+			<maximumIncome>1200.0</maximumIncome>
+			<minimumExtortion>100</minimumExtortion>
+			<maximumExtortion>100</maximumExtortion>
+			<memoryLength>0</memoryLength>
+		</target>
+	</targets>
+	<!-- Extorters Information -->
+	<extorters>
+		<!-- ceil(#{TARGETS} / #{EXTORTERS}) -->
+		<targetPerExtorter><![CDATA[ceil(#{TARGETS} / #{EXTORTERS})]]></targetPerExtorter>
+		<extorter>
+			<extorterType>0</extorterType>
+<enlargementProbability>40</enlargementProbability>
+			<numberOfExtorters>15</numberOfExtorters>
+			<initialWealth>1000.0</initialWealth>
+<tolerance>80</tolerance>
+			<retaliation>100</retaliation>
+			<counterattack>20</counterattack>
+			<costOfFight>25</costOfFight>
+			<extortionType>proportional</extortionType>
+<extortion>50</extortion>
+			<punishmentType>proportional</punishmentType>
+			<punishmentCost>33.33</punishmentCost>
+<punishment>50</punishment>
+		</extorter>
+		<extorter>
+			<extorterType>1</extorterType>
+<enlargementProbability>40</enlargementProbability>
+			<numberOfExtorters>15</numberOfExtorters>
+			<initialWealth>1000.0</initialWealth>
+<tolerance>80</tolerance>
+			<retaliation>100</retaliation>
+			<counterattack>20</counterattack>
+			<costOfFight>25</costOfFight>
+			<extortionType>proportional</extortionType>
+<extortion>50</extortion>
+			<punishmentType>proportional</punishmentType>
+			<punishmentCost>33.33</punishmentCost>
+<punishment>100</punishment>
+		</extorter>
+		<extorter>
+			<extorterType>2</extorterType>
+<enlargementProbability>40</enlargementProbability>
+			<numberOfExtorters>15</numberOfExtorters>
+			<initialWealth>1000.0</initialWealth>
+<tolerance>80</tolerance>
+			<retaliation>100</retaliation>
+			<counterattack>20</counterattack>
+			<costOfFight>25</costOfFight>
+			<extortionType>proportional</extortionType>
+<extortion>100</extortion>
+			<punishmentType>proportional</punishmentType>
+			<punishmentCost>33.33</punishmentCost>
+<punishment>50</punishment>
+		</extorter>
+		<extorter>
+			<extorterType>3</extorterType>
+<enlargementProbability>40</enlargementProbability>
+			<numberOfExtorters>15</numberOfExtorters>
+			<initialWealth>1000.0</initialWealth>
+<tolerance>80</tolerance>
+			<retaliation>100</retaliation>
+			<counterattack>20</counterattack>
+			<costOfFight>25</costOfFight>
+			<extortionType>proportional</extortionType>
+<extortion>100</extortion>
+			<punishmentType>proportional</punishmentType>
+			<punishmentCost>33.33</punishmentCost>
+<punishment>100</punishment>
+		</extorter>
+	</extorters>
+</scenario>

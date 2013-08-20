@@ -20,16 +20,12 @@ public class BatchHeterogeneous {
 		String newSimulationXML = "/data/workspace/repast/intERS/conf/newSimulation.xml";
 		String newScenarioXML = "/data/workspace/repast/intERS/conf/newScenario.xml";
 
-		String tolerance[] = { "10" };
-		String enlargement[] = { "40" };
-		String punishment[][] = { { "30", "60" }, { "40", "80" },
-				{ "50", "100" } };
-		String extortion[][] = { { "10", "20" } };
-
-		// String punishment[][] = { { "20", "40" }, { "30", "60" },
-		// { "40", "80" }, { "50", "100" } };
-		// String extortion[][] = { { "10", "20" }, { "20", "40" },
-		// { "30", "60" }, { "40", "80" }, { "50", "100" } };
+		String tolerance[] = { "80" };
+		String enlargement[] = { "10", "40" };
+		String punishment[][] = { { "20", "40" }, { "30", "60" },
+				{ "40", "80" }, { "50", "100" } };
+		String extortion[][] = { { "10", "20" }, { "20", "40" },
+				{ "30", "60" }, { "40", "80" }, { "50", "100" } };
 
 		Path readFile;
 		Path writeFile;
