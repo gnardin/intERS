@@ -10,6 +10,7 @@ public class ExtorterConf {
 		FIXED, PROPORTIONAL, ESCALATION
 	}
 
+	private String extorterClass;
 	private String type;
 	private String enlargementProbability;
 	private int number;
@@ -30,6 +31,14 @@ public class ExtorterConf {
 	private double minEscalation;
 	private double maxEscalation;
 	private String formulaEscalation;
+
+	public String getExtorterClass() {
+		return this.extorterClass;
+	}
+
+	public void setExtorterClass(String extorterClass) {
+		this.extorterClass = extorterClass;
+	}
 
 	public String getType() {
 		return this.type;
@@ -164,6 +173,7 @@ public class ExtorterConf {
 		String str = new String();
 
 		str = "EXTORTER \n";
+		str += "Class........................: [" + this.extorterClass + "]\n";
 		str += "Type.........................: [" + this.type + "]\n";
 		str += "Enlargement Probability......: [" + this.enlargementProbability
 				+ "]\n";

@@ -11,6 +11,9 @@ public class OutputConf {
 	private int writeEvery;
 	private String filePrefixAvg;
 	private String filePrefixSum;
+	private String classExtorterStat;
+	private String classObserverStat;
+	private String classTargetStat;
 
 	public String getDirectory() {
 		return this.directory;
@@ -84,6 +87,30 @@ public class OutputConf {
 		this.filePrefixSum = filePrefixSum;
 	}
 
+	public String getClassExtorterStat() {
+		return this.classExtorterStat;
+	}
+
+	public void setClassExtorterStat(String classExtorterStat) {
+		this.classExtorterStat = classExtorterStat;
+	}
+
+	public String getClassObserverStat() {
+		return this.classObserverStat;
+	}
+
+	public void setClassObserverStat(String classObserverStat) {
+		this.classObserverStat = classObserverStat;
+	}
+
+	public String getClassTargetStat() {
+		return this.classTargetStat;
+	}
+
+	public void setClassTargetStat(String classTargetStat) {
+		this.classTargetStat = classTargetStat;
+	}
+
 	@Override
 	public String toString() {
 		String str = new String();
@@ -98,6 +125,12 @@ public class OutputConf {
 		str += "Write Every..................: [" + this.writeEvery + "]\n";
 		str += "File Prefix Avg..............: [" + this.filePrefixAvg + "]\n";
 		str += "File Prefix Sum..............: [" + this.filePrefixSum + "]\n";
+		str += "Class Extorter Statistic.....: [" + this.classExtorterStat
+				+ "]\n";
+		str += "Class Observer Statistic.....: [" + this.classObserverStat
+				+ "]\n";
+		str += "Class Target Statistic.......: [" + this.classTargetStat
+				+ "]\n";
 
 		return str;
 	}

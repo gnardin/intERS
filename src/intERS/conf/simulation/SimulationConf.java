@@ -35,6 +35,9 @@ public class SimulationConf {
 	private final static String OUTPUT_WRITE_EVERY = "writeEvery";
 	private final static String OUTPUT_FILE_PREFIX_AVG = "filePrefixAvg";
 	private final static String OUTPUT_FILE_PREFIX_SUM = "filePrefixSum";
+	private final static String OUTPUT_CLASS_EXTORTER_STAT = "classExtorterStat";
+	private final static String OUTPUT_CLASS_OBSERVER_STAT = "classObserverStat";
+	private final static String OUTPUT_CLASS_TARGET_STAT = "classTargetStat";
 
 	// General information
 	private int numberRuns;
@@ -193,6 +196,30 @@ public class SimulationConf {
 							.equals(OUTPUT_FILE_PREFIX_SUM)) {
 						event = eventReader.nextEvent();
 						output.setFilePrefixSum(event.asCharacters().getData());
+						continue;
+
+						// Set classExtorterStat attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(OUTPUT_CLASS_EXTORTER_STAT)) {
+						event = eventReader.nextEvent();
+						output.setClassExtorterStat(event.asCharacters()
+								.getData());
+						continue;
+
+						// Set classObserverStat attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(OUTPUT_CLASS_OBSERVER_STAT)) {
+						event = eventReader.nextEvent();
+						output.setClassObserverStat(event.asCharacters()
+								.getData());
+						continue;
+
+						// Set classTargetStat attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(OUTPUT_CLASS_TARGET_STAT)) {
+						event = eventReader.nextEvent();
+						output.setClassTargetStat(event.asCharacters()
+								.getData());
 						continue;
 					}
 				}

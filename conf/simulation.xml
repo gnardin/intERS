@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="simulation.xsd">
-	<numberOfRuns>30</numberOfRuns>
+	<numberOfRuns>2</numberOfRuns>
 	<randomSeeds>
 		<seed>690659</seed>
 		<seed>69236</seed>
@@ -209,7 +209,7 @@
 	<xmlFilename>./conf/scenario.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-		<directory>./output/En40_To10/Ex10-20_Pu20-40_En40_To10/LL-LH-HL-HH</directory>
+		<directory>./output</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>
@@ -218,5 +218,8 @@
 		<writeEvery>50</writeEvery>
 		<filePrefixAvg>cAvg</filePrefixAvg>
 		<filePrefixSum>cSum</filePrefixSum>
+		<classExtorterStat>intERS.statistics.DataSummaryGeneric</classExtorterStat>
+		<classObserverStat>intERS.statistics.DataSummaryGeneric</classObserverStat>
+		<classTargetStat>intERS.statistics.DataSummaryTarget</classTargetStat>
 	</output>
 </simulation>

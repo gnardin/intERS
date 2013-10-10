@@ -12,15 +12,16 @@
 							<!-- #{EXTORTER_TYPES} - Number of Extorter Types -->
 							<!-- #{TARGETS} - Number of Targets -->
 							<!-- #{TARGET_TYPES} - Number of Target Types -->
-							<element name="stopAt" type="string"></element>
-							<element name="prison" maxOccurs="1">
-								<complexType>
-									<sequence>
-										<element name="probability" type="decimal" minOccurs="0" />
-										<element name="rounds" type="nonNegativeInteger" />
-									</sequence>
-								</complexType>
-							</element>
+							<element name="stopAt" type="string" />
+						</sequence>
+					</complexType>
+				</element>
+				<element name="state" maxOccurs="1">
+					<complexType>
+						<sequence>
+							<element name="stateClass" type="string" />
+							<element name="prisonProbability" type="decimal" />
+							<element name="prisonRounds" type="nonNegativeInteger" />
 						</sequence>
 					</complexType>
 				</element>
@@ -30,6 +31,7 @@
 							<element name="target" maxOccurs="unbounded">
 								<complexType>
 									<sequence>
+										<element name="targetClass" type="string" />
 										<element name="targetType" type="string" />
 										<element name="numberOfTargets" type="positiveInteger" />
 										<!-- Lesser than 0 - Disable feature -->
@@ -38,8 +40,36 @@
 										<element name="extorterPerTarget" type="integer" />
 										<element name="minimumIncome" type="decimal" />
 										<element name="maximumIncome" type="decimal" />
-										<element name="minimumExtortion" type="decimal" />
-										<element name="maximumExtortion" type="decimal" />
+										<element name="minimumIncomeVariation">
+											<simpleType>
+												<restriction base="decimal">
+													<minInclusive value="0.0" />
+												</restriction>
+											</simpleType>
+										</element>
+										<element name="maximumIncomeVariation">
+											<simpleType>
+												<restriction base="decimal">
+													<minInclusive value="0.0" />
+												</restriction>
+											</simpleType>
+										</element>
+										<element name="minimumExtortion">
+											<simpleType>
+												<restriction base="decimal">
+													<minInclusive value="0.0" />
+													<maxInclusive value="100.0" />
+												</restriction>
+											</simpleType>
+										</element>
+										<element name="maximumExtortion">
+											<simpleType>
+												<restriction base="decimal">
+													<minInclusive value="0.0" />
+													<maxInclusive value="100.0" />
+												</restriction>
+											</simpleType>
+										</element>
 										<!-- Lesser than 0 - Disable memory -->
 										<!-- 0 - Unlimited memory -->
 										<!-- Greater than 0 - Limited memory -->
@@ -60,6 +90,7 @@
 							<element name="extorter" maxOccurs="unbounded">
 								<complexType>
 									<sequence>
+										<element name="extorterClass" type="string" />
 										<element name="extorterType" type="string" />
 										<!-- Parameters that may compose the formula -->
 										<!-- #{TARGETS} - Number of Current Targets -->

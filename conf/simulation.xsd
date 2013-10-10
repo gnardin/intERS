@@ -27,6 +27,9 @@
 							<element name="writeEvery" type="positiveInteger" />
 							<element name="filePrefixAvg" type="string" />
 							<element name="filePrefixSum" type="string" />
+							<element name="classExtorterStat" type="string" />
+							<element name="classObserverStat" type="string" />
+							<element name="classTargetStat" type="string" />
 						</sequence>
 					</complexType>
 				</element>

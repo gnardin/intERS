@@ -1,6 +1,8 @@
 package intERS.statistics;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
 public class DataAggregation {
 
@@ -18,6 +20,9 @@ public class DataAggregation {
 	/**
 	 * Aggregate data
 	 * 
+	 * @param classStat
+	 *            Full path to the class to summarize the raw data (implements
+	 *            DataSummaryInterface)
 	 * @param rawFile
 	 *            Raw file to process
 	 * @param avgFilename
@@ -25,19 +30,40 @@ public class DataAggregation {
 	 * @param sumFilename
 	 *            Output filename containing the sum values
 	 */
-	public void aggregate(String rawFile, String avgFilename, String sumFilename) {
+	public void aggregate(String classStat, String rawFile, String avgFilename,
+			String sumFilename) {
 
-		DataStatistics summary = new DataStatistics(this.numSims,
-				this.outputFieldSeparator);
-		String filename;
-		for (int sim = 0; sim < this.numSims; sim++) {
-			filename = this.baseDirectory + File.separator + (sim + 1)
-					+ File.separator + rawFile;
+		try {
+			@SuppressWarnings("unchecked")
+			Class<DataSummaryInterface> ds = (Class<DataSummaryInterface>) Class
+					.forName(classStat);
+			Constructor<DataSummaryInterface> dataSummary = ds
+					.getDeclaredConstructor(Integer.class, String.class);
 
-			summary.add(filename);
+			DataSummaryInterface summary = dataSummary.newInstance(this.numSims,
+					this.outputFieldSeparator);
+
+			String filename;
+			for (int sim = 0; sim < this.numSims; sim++) {
+				filename = this.baseDirectory + File.separator + (sim + 1)
+						+ File.separator + rawFile;
+
+				summary.add(filename);
+			}
+
+			summary.writeAvg(this.baseDirectory + File.separator + avgFilename);
+			summary.writeSum(this.baseDirectory + File.separator + sumFilename);
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
 		}
-
-		summary.writeAvg(this.baseDirectory + File.separator + avgFilename);
-		summary.writeSum(this.baseDirectory + File.separator + sumFilename);
 	}
 }

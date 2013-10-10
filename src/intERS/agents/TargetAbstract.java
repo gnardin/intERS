@@ -1,6 +1,5 @@
-package intERS.agents.target;
+package intERS.agents;
 
-import intERS.agents.extorter.ExtorterAbstract;
 import intERS.conf.scenario.TargetConf;
 import intERS.output.OutputRecorder;
 import intERS.output.OutputTarget;
@@ -41,14 +40,14 @@ public abstract class TargetAbstract {
 	// Published income wealth
 	protected double incomePublished;
 
-	// List Extorters helped against
-	protected Map<Integer, List<Integer>> helpInfo;
+	// List Extorters protected against
+	protected Map<Integer, List<Integer>> protectionInfo;
 
-	// List Extorters to requested help
-	protected List<Integer> extortersAskHelp;
+	// List Extorters to requested protection
+	protected List<Integer> extortersAskProtection;
 
-	// List Extorters to request help against
-	protected List<Integer> extortersAskHelpAgainst;
+	// List Extorters to request protection against
+	protected List<Integer> extortersAskProtectionAgainst;
 
 	// Output cycle data
 	protected OutputTarget output;
@@ -91,24 +90,27 @@ public abstract class TargetAbstract {
 	 * @return none
 	 */
 	public TargetAbstract(Map<Integer, ExtorterAbstract> extorters,
-			Map<Integer, TargetAbstract> targets, int id, TargetConf targetConf) {
+			Map<Integer, TargetAbstract> targets, Integer id,
+			TargetConf targetConf) {
 		this.id = id;
 		this.extortions = new HashMap<Integer, Double>();
 		this.extorters = extorters;
 		this.extortersToPay = new ArrayList<Integer>();
-		this.helpInfo = new HashMap<Integer, List<Integer>>();
-		this.extortersAskHelp = new ArrayList<Integer>();
-		this.extortersAskHelpAgainst = new ArrayList<Integer>();
+		this.protectionInfo = new HashMap<Integer, List<Integer>>();
+		this.extortersAskProtection = new ArrayList<Integer>();
+		this.extortersAskProtectionAgainst = new ArrayList<Integer>();
 
 		this.income = RandomHelper.nextDoubleFromTo(targetConf.getMinIncome(),
 				targetConf.getMaxIncome());
 		this.incomePublished = this.income
-				* RandomHelper.nextDoubleFromTo(1.0, 1.5);
+				* (RandomHelper.nextDoubleFromTo(
+						targetConf.getMinIncomeVariation(),
+						targetConf.getMaxIncomeVariation()) / 100.0);
 
 		this.outputRecorder = OutputRecorder.getInstance();
 
 		this.percIncomeForExtortion = RandomHelper.nextDoubleFromTo(
-				targetConf.getMinExtortion(), targetConf.getMaxExtortion()) / 100;
+				targetConf.getMinExtortion(), targetConf.getMaxExtortion()) / 100.0;
 
 		this.payment = 0;
 		this.punishment = 0;
@@ -193,11 +195,11 @@ public abstract class TargetAbstract {
 	public void beginCycle() {
 		this.extortions.clear();
 		this.extortersToPay.clear();
-		this.helpInfo.clear();
-		this.extortersAskHelp.clear();
-		this.extortersAskHelpAgainst.clear();
+		this.protectionInfo.clear();
+		this.extortersAskProtection.clear();
+		this.extortersAskProtectionAgainst.clear();
 		this.incomeCurrent = this.income
-				* (1 + RandomHelper.nextDoubleFromTo(-0.5, 0.5));
+				* RandomHelper.nextDoubleFromTo(0.5, 1.5);
 
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount() + 1;
@@ -215,7 +217,7 @@ public abstract class TargetAbstract {
 	 *            Extortion request
 	 * @return none
 	 */
-	public void receiveExtortion(int id, double extortion) {
+	public void receiveExtortionRequest(int id, double extortion) {
 		this.extortions.put(id, extortion);
 
 		// Output numExtortion and totalExtortion
@@ -225,50 +227,52 @@ public abstract class TargetAbstract {
 	}
 
 	/**
-	 * Decide to which Extorters ask for help
+	 * Decide to which Extorters ask for protection
 	 * 
 	 * @param none
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.20, interval = 1)
-	public abstract void decideAskForHelp();
+	public abstract void decideAskForProtection();
 
 	/**
-	 * Request help to some Extorters against others
+	 * Request protection against some Extorters against others
 	 * 
 	 * @param none
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.25, interval = 1)
-	public void requestHelp() {
-		if ((!this.extortersAskHelp.isEmpty())
-				&& (!this.extortersAskHelpAgainst.isEmpty())) {
+	public void requestProtection() {
+		if ((!this.extortersAskProtection.isEmpty())
+				&& (!this.extortersAskProtectionAgainst.isEmpty())) {
 			ExtorterAbstract extorter;
-			for (Integer extorterId : this.extortersAskHelp) {
+			for (Integer extorterId : this.extortersAskProtection) {
 				extorter = this.extorters.get(extorterId);
-				extorter.receiveHelpRequest(this.id,
-						this.extortersAskHelpAgainst);
+				extorter.receiveProtectionRequest(this.id,
+						this.extortersAskProtectionAgainst);
 			}
 
-			// Output numHelpRequested
-			this.output.setNumHelpRequested(this.extortersAskHelp.size());
+			// Output numProtectionRequested
+			this.output.setNumProtectionRequested(this.extortersAskProtection
+					.size());
 		}
 	}
 
 	/**
-	 * Receive the information about the Help request
+	 * Receive the information about the Protection request
 	 * 
 	 * @param id
 	 *            Extorter identification
 	 * @param extorters
-	 *            List of Extorters helped against
+	 *            List of Extorters protected against
 	 * @return none
 	 */
-	public void receiveHelpInform(int id, List<Integer> extorters) {
-		this.helpInfo.put(id, extorters);
+	public void receiveProtectionInform(int id, List<Integer> extorters) {
+		this.protectionInfo.put(id, extorters);
 
-		// Output numHelpReceived
-		this.output.setNumHelpReceived(this.output.getNumHelpReceived() + 1);
+		// Output numProtectionReceived
+		this.output.setNumProtectionReceived(this.output
+				.getNumProtectionReceived() + 1);
 	}
 
 	/**
@@ -281,13 +285,15 @@ public abstract class TargetAbstract {
 	public abstract void decideToPay();
 
 	/**
-	 * Perform the Extorters payment
+	 * Perform the Extorters payment and inform those that are not paid
 	 * 
 	 * @param none
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.60, interval = 1)
-	public void pay() {
+	public void payInformNotPay() {
+		Map<Integer, Double> payments = new HashMap<Integer, Double>();
+
 		ExtorterAbstract extorter;
 		double value;
 		for (Integer extorterId : this.extortersToPay) {
@@ -297,8 +303,13 @@ public abstract class TargetAbstract {
 			value = this.extortions.get(extorterId);
 			if ((this.incomeCurrent - (this.payment + value)) > 0) {
 				this.payment += value;
-				extorter.receivePayment(this.id, value);
+				payments.put(extorterId, value);
 			}
+		}
+
+		for (Integer extorterId : this.extorters.keySet()) {
+			extorter = this.extorters.get(extorterId);
+			extorter.receivePayment(this.id, payments);
 		}
 	}
 
@@ -342,7 +353,7 @@ public abstract class TargetAbstract {
 	 * @param none
 	 * @return none
 	 */
-	@ScheduledMethod(start = 1.75, interval = 1)
+	@ScheduledMethod(start = 1.95, interval = 1)
 	public abstract void decideToExit();
 
 	/**
@@ -351,7 +362,7 @@ public abstract class TargetAbstract {
 	 * @param none
 	 * @return none
 	 */
-	@ScheduledMethod(start = 1.80, interval = 1)
+	@ScheduledMethod(start = 1.97, interval = 1)
 	public void endCycle() {
 		this.output.setWealth(this.wealth);
 		this.output.setIncome(this.incomeCurrent);

@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class DataStatistics {
+public class DataSummaryGeneric implements DataSummaryInterface {
 
 	private static final int CYCLE = 0;
 	private static final int TYPE = 1;
@@ -30,7 +30,7 @@ public class DataStatistics {
 
 	private int numSims;
 
-	public DataStatistics(int numSims, String fieldSeparator) {
+	public DataSummaryGeneric(Integer numSims, String fieldSeparator) {
 		this.avgData = new TreeMap<Integer, Map<String, Double[]>>();
 		this.sumData = new TreeMap<Integer, Map<String, Double[]>>();
 
@@ -40,7 +40,10 @@ public class DataStatistics {
 		this.numSims = numSims;
 	}
 
-	public void add(String filename) {
+	@Override
+	public boolean add(String filename) {
+		boolean result = false;
+
 		Path file = Paths.get(filename);
 		BufferedReader reader;
 		try {
@@ -166,12 +169,19 @@ public class DataStatistics {
 				}
 			}
 
+			result = true;
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return result;
 	}
 
-	public void writeAvg(String filename) {
+	@Override
+	public boolean writeAvg(String filename) {
+		boolean result = false;
+
 		Path file = Paths.get(filename);
 		BufferedWriter writer;
 		try {
@@ -202,12 +212,18 @@ public class DataStatistics {
 			}
 
 			writer.close();
+			result = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return result;
 	}
 
-	public void writeSum(String filename) {
+	@Override
+	public boolean writeSum(String filename) {
+		boolean result = false;
+
 		Path file = Paths.get(filename);
 		BufferedWriter writer;
 		try {
@@ -238,8 +254,11 @@ public class DataStatistics {
 			}
 
 			writer.close();
+			result = true;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		return result;
 	}
 }

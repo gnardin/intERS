@@ -60,22 +60,25 @@ public class IntERS {
 						.getDirectory(), simulation.getOutput()
 						.getFieldSeparator());
 
-		summary.aggregate(simulation.getOutput().getFileExtorter(), simulation
-				.getOutput().getFilePrefixAvg()
-				+ simulation.getOutput().getFileExtorter(), simulation
-				.getOutput().getFilePrefixSum()
-				+ simulation.getOutput().getFileExtorter());
+		summary.aggregate(simulation.getOutput().getClassExtorterStat(),
+				simulation.getOutput().getFileExtorter(), simulation
+						.getOutput().getFilePrefixAvg()
+						+ simulation.getOutput().getFileExtorter(), simulation
+						.getOutput().getFilePrefixSum()
+						+ simulation.getOutput().getFileExtorter());
 
-		summary.aggregate(simulation.getOutput().getFileObserver(), simulation
-				.getOutput().getFilePrefixAvg()
-				+ simulation.getOutput().getFileObserver(), simulation
-				.getOutput().getFilePrefixSum()
-				+ simulation.getOutput().getFileObserver());
+		summary.aggregate(simulation.getOutput().getClassObserverStat(),
+				simulation.getOutput().getFileObserver(), simulation
+						.getOutput().getFilePrefixAvg()
+						+ simulation.getOutput().getFileObserver(), simulation
+						.getOutput().getFilePrefixSum()
+						+ simulation.getOutput().getFileObserver());
 
-		summary.aggregate(simulation.getOutput().getFileTarget(), simulation
-				.getOutput().getFilePrefixAvg()
-				+ simulation.getOutput().getFileTarget(), simulation
-				.getOutput().getFilePrefixSum()
-				+ simulation.getOutput().getFileTarget());
+		summary.aggregate(simulation.getOutput().getClassTargetStat(),
+				simulation.getOutput().getFileTarget(), simulation.getOutput()
+						.getFilePrefixAvg()
+						+ simulation.getOutput().getFileTarget(), simulation
+						.getOutput().getFilePrefixSum()
+						+ simulation.getOutput().getFileTarget());
 	}
 }

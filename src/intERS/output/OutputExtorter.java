@@ -6,13 +6,18 @@ public class OutputExtorter extends OutputAbstract {
 	private int numTargets;
 	private int numExtortion;
 	private double totalExtortion;
-	private int numHelpRequested;
-	private int numHelpProvided;
-	private int numRetaliation;
-	private int numReceivedRetaliation;
-	private int numCounterattack;
-	private int numReceivedCounterattack;
-	private double totalLostFight;
+	private int numProtectionRequested;
+	private int numProtectionProvided;
+	private int numAttackProtection;
+	private int numReceivedAttackProtection;
+	private int numCounterattackProtection;
+	private int numReceivedCounterattackProtection;
+	private int numAttackRetaliation;
+	private int numReceivedAttackRetaliation;
+	private int numCounterattackRetaliation;
+	private int numReceivedCounterattackRetaliation;
+	private double totalLostFightProtection;
+	private double totalLostFightRetaliation;
 	private double totalLostPunishment;
 	private int numExtortionReceived;
 	private double totalExtortionReceived;
@@ -25,13 +30,18 @@ public class OutputExtorter extends OutputAbstract {
 		this.numTargets = 0;
 		this.numExtortion = 0;
 		this.totalExtortion = 0;
-		this.numHelpRequested = 0;
-		this.numHelpProvided = 0;
-		this.numRetaliation = 0;
-		this.numReceivedRetaliation = 0;
-		this.numCounterattack = 0;
-		this.numReceivedCounterattack = 0;
-		this.totalLostFight = 0;
+		this.numProtectionRequested = 0;
+		this.numProtectionProvided = 0;
+		this.numAttackProtection = 0;
+		this.numReceivedAttackProtection = 0;
+		this.numCounterattackProtection = 0;
+		this.numReceivedCounterattackProtection = 0;
+		this.numAttackRetaliation = 0;
+		this.numReceivedAttackRetaliation = 0;
+		this.numCounterattackRetaliation = 0;
+		this.numReceivedCounterattackRetaliation = 0;
+		this.totalLostFightProtection = 0;
+		this.totalLostFightRetaliation = 0;
 		this.totalLostPunishment = 0;
 		this.numExtortionReceived = 0;
 		this.totalExtortionReceived = 0;
@@ -44,12 +54,16 @@ public class OutputExtorter extends OutputAbstract {
 
 		str += "type" + fs + "id" + fs + "wealth" + fs + "numTargets" + fs
 				+ "numExtortion" + fs + "totalExtortion" + fs
-				+ "numHelpRequested" + fs + "numHelpProvided" + fs
-				+ "numRetaliation" + fs + "numReceivedRetaliation" + fs
-				+ "numCounterattack" + fs + "numReceivedCounterattack" + fs
-				+ "totalLostFight" + fs + "numExtortionReceived" + fs
-				+ "totalExtortionReceived" + fs + "numPunishment" + fs
-				+ "totalLostPunishment";
+				+ "numProtectionRequested" + fs + "numProtectionProvided" + fs
+				+ "numAttackProtection" + fs + "numReceivedAttackProtection"
+				+ fs + "numCounterattackProtection" + fs
+				+ "numReceivedCounterattackProtection" + fs
+				+ "numAttackRetaliation" + fs + "numReceivedAttackRetaliation"
+				+ fs + "numCounterattackRetaliation" + fs
+				+ "numReceivedCounterattackRetaliation" + fs
+				+ "totalLostFightProtection" + fs + "totalLostFightRetaliation"
+				+ fs + "numExtortionReceived" + fs + "totalExtortionReceived"
+				+ fs + "numPunishment" + fs + "totalLostPunishment";
 
 		return str;
 	}
@@ -60,136 +74,182 @@ public class OutputExtorter extends OutputAbstract {
 
 		str += this.type + fs + this.id + fs + this.wealth + fs
 				+ this.numTargets + fs + this.numExtortion + fs
-				+ this.totalExtortion + fs + this.numHelpRequested + fs
-				+ this.numHelpProvided + fs + this.numRetaliation + fs
-				+ this.numReceivedRetaliation + fs + this.numCounterattack + fs
-				+ this.numReceivedCounterattack + fs + this.totalLostFight + fs
+				+ this.totalExtortion + fs + this.numProtectionRequested + fs
+				+ this.numProtectionProvided + fs + this.numAttackProtection
+				+ fs + this.numReceivedAttackProtection + fs
+				+ this.numCounterattackProtection + fs
+				+ this.numReceivedCounterattackProtection + fs
+				+ this.numAttackRetaliation + fs
+				+ this.numReceivedAttackRetaliation + fs
+				+ this.numCounterattackRetaliation + fs
+				+ this.numReceivedCounterattackRetaliation + fs
+				+ this.totalLostFightProtection + fs
+				+ this.totalLostFightRetaliation + fs
 				+ this.numExtortionReceived + fs + this.totalExtortionReceived
 				+ fs + this.numPunishment + fs + this.totalLostPunishment;
 
 		return str;
 	}
 
-	public synchronized double getWealth() {
+	public double getWealth() {
 		return wealth;
 	}
 
-	public synchronized void setWealth(double wealth) {
+	public void setWealth(double wealth) {
 		this.wealth = wealth;
 	}
 
-	public synchronized int getNumTargets() {
+	public int getNumTargets() {
 		return numTargets;
 	}
 
-	public synchronized void setNumTargets(int numTargets) {
+	public void setNumTargets(int numTargets) {
 		this.numTargets = numTargets;
 	}
 
-	public synchronized int getNumExtortion() {
+	public int getNumExtortion() {
 		return numExtortion;
 	}
 
-	public synchronized void setNumExtortion(int numExtortion) {
+	public void setNumExtortion(int numExtortion) {
 		this.numExtortion = numExtortion;
 	}
 
-	public synchronized double getTotalExtortion() {
+	public double getTotalExtortion() {
 		return totalExtortion;
 	}
 
-	public synchronized void setTotalExtortion(double totalExtortion) {
+	public void setTotalExtortion(double totalExtortion) {
 		this.totalExtortion = totalExtortion;
 	}
 
-	public synchronized int getNumHelpRequested() {
-		return numHelpRequested;
+	public int getNumProtectionRequested() {
+		return numProtectionRequested;
 	}
 
-	public synchronized void setNumHelpRequested(int numHelpRequested) {
-		this.numHelpRequested = numHelpRequested;
+	public void setNumProtectionRequested(int numHelpRequested) {
+		this.numProtectionRequested = numHelpRequested;
 	}
 
-	public synchronized int getNumHelpProvided() {
-		return numHelpProvided;
+	public int getNumProtectionProvided() {
+		return numProtectionProvided;
 	}
 
-	public synchronized void setNumHelpProvided(int numHelpProvided) {
-		this.numHelpProvided = numHelpProvided;
+	public void setNumProtectionProvided(int numProtectionProvided) {
+		this.numProtectionProvided = numProtectionProvided;
 	}
 
-	public synchronized int getNumRetaliation() {
-		return numRetaliation;
+	public int getNumAttackProtection() {
+		return numAttackProtection;
 	}
 
-	public synchronized void setNumRetaliation(int numRetaliation) {
-		this.numRetaliation = numRetaliation;
+	public void setNumAttackProtection(int numAttackProtection) {
+		this.numAttackProtection = numAttackProtection;
 	}
 
-	public synchronized int getNumReceivedRetaliation() {
-		return numReceivedRetaliation;
+	public int getNumReceivedAttackProtection() {
+		return numReceivedAttackProtection;
 	}
 
-	public synchronized void setNumReceivedRetaliation(
-			int numReceivedRetaliation) {
-		this.numReceivedRetaliation = numReceivedRetaliation;
+	public void setNumReceivedAttackProtection(int numReceivedAttackProtection) {
+		this.numReceivedAttackProtection = numReceivedAttackProtection;
 	}
 
-	public synchronized int getNumCounterattack() {
-		return numCounterattack;
+	public int getNumCounterattackProtection() {
+		return numCounterattackProtection;
 	}
 
-	public synchronized void setNumCounterattack(int numCounterattack) {
-		this.numCounterattack = numCounterattack;
+	public void setNumCounterattackProtection(int numCounterattackProtection) {
+		this.numCounterattackProtection = numCounterattackProtection;
 	}
 
-	public synchronized int getNumReceivedCounterattack() {
-		return numReceivedCounterattack;
+	public int getNumReceivedCounterattackProtection() {
+		return numReceivedCounterattackProtection;
 	}
 
-	public synchronized void setNumReceivedCounterattack(
-			int numReceivedCounterattack) {
-		this.numReceivedCounterattack = numReceivedCounterattack;
+	public void setNumReceivedCounterattackProtection(
+			int numReceivedCounterattackProtection) {
+		this.numReceivedCounterattackProtection = numReceivedCounterattackProtection;
 	}
 
-	public synchronized double getTotalLostFight() {
-		return totalLostFight;
+	public int getNumAttackRetaliation() {
+		return numAttackRetaliation;
 	}
 
-	public synchronized void setTotalLostFight(double totalLostFight) {
-		this.totalLostFight = totalLostFight;
+	public void setNumAttackRetaliation(int numAttackRetaliation) {
+		this.numAttackRetaliation = numAttackRetaliation;
 	}
 
-	public synchronized double getTotalLostPunishment() {
+	public int getNumReceivedAttackRetaliation() {
+		return numReceivedAttackRetaliation;
+	}
+
+	public void setNumReceivedAttackRetaliation(int numReceivedAttackRetaliation) {
+		this.numReceivedAttackRetaliation = numReceivedAttackRetaliation;
+	}
+
+	public int getNumCounterattackRetaliation() {
+		return numCounterattackRetaliation;
+	}
+
+	public void setNumCounterattackRetaliation(int numCounterattackRetaliation) {
+		this.numCounterattackRetaliation = numCounterattackRetaliation;
+	}
+
+	public int getNumReceivedCounterattackRetaliation() {
+		return numReceivedCounterattackRetaliation;
+	}
+
+	public void setNumReceivedCounterattackRetaliation(
+			int numReceivedCounterattackRetaliation) {
+		this.numReceivedCounterattackRetaliation = numReceivedCounterattackRetaliation;
+	}
+
+	public double getTotalLostFightProtection() {
+		return totalLostFightProtection;
+	}
+
+	public void setTotalLostFightProtection(double totalLostFightProtection) {
+		this.totalLostFightProtection = totalLostFightProtection;
+	}
+
+	public double getTotalLostFightRetaliation() {
+		return totalLostFightRetaliation;
+	}
+
+	public void setTotalLostFightRetaliation(double totalLostFightRetaliation) {
+		this.totalLostFightRetaliation = totalLostFightRetaliation;
+	}
+
+	public double getTotalLostPunishment() {
 		return totalLostPunishment;
 	}
 
-	public synchronized void setTotalLostPunishment(double totalLostPunishment) {
+	public void setTotalLostPunishment(double totalLostPunishment) {
 		this.totalLostPunishment = totalLostPunishment;
 	}
 
-	public synchronized int getNumExtortionReceived() {
+	public int getNumExtortionReceived() {
 		return numExtortionReceived;
 	}
 
-	public synchronized void setNumExtortionReceived(int numExtortionReceived) {
+	public void setNumExtortionReceived(int numExtortionReceived) {
 		this.numExtortionReceived = numExtortionReceived;
 	}
 
-	public synchronized double getTotalExtortionReceived() {
+	public double getTotalExtortionReceived() {
 		return totalExtortionReceived;
 	}
 
-	public synchronized void setTotalExtortionReceived(
-			double totalExtortionReceived) {
+	public void setTotalExtortionReceived(double totalExtortionReceived) {
 		this.totalExtortionReceived = totalExtortionReceived;
 	}
 
-	public synchronized int getNumPunishment() {
+	public int getNumPunishment() {
 		return numPunishment;
 	}
 
-	public synchronized void setNumPunishment(int numPunishment) {
+	public void setNumPunishment(int numPunishment) {
 		this.numPunishment = numPunishment;
 	}
 }

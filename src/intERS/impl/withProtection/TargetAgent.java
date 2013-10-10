@@ -1,6 +1,7 @@
-package intERS.agents.target;
+package intERS.impl.withProtection;
 
-import intERS.agents.extorter.ExtorterAbstract;
+import intERS.agents.ExtorterAbstract;
+import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.TargetConf;
 import intERS.utils.Sort;
 
@@ -13,19 +14,13 @@ import java.util.Queue;
 public class TargetAgent extends TargetAbstract {
 
 	public TargetAgent(Map<Integer, ExtorterAbstract> extorters,
-			Map<Integer, TargetAbstract> targets, int id, TargetConf targetConf) {
+			Map<Integer, TargetAbstract> targets, Integer id, TargetConf targetConf) {
 		super(extorters, targets, id, targetConf);
 	}
 
 	@Override
-	public void decideAskForHelp() {
+	public void decideAskForProtection() {
 		if (!this.extortions.isEmpty()) {
-
-			/**
-			 * System.out.print("TARGET " + this.id + "["); for(Integer extorter
-			 * : extortions.keySet()){ System.out.print(extorter + ";"); }
-			 * System.out.println("]");
-			 **/
 
 			// Output attributes
 			int numPaid = 0;
@@ -137,14 +132,14 @@ public class TargetAgent extends TargetAbstract {
 						&& ((this.targetConf.getExtorterPerTarget() <= 0) || ((this.targetConf
 								.getExtorterPerTarget() > 0) && (numPaid < this.targetConf
 								.getExtorterPerTarget())))) {
-					this.extortersAskHelp.add(extorterId);
+					this.extortersAskProtection.add(extorterId);
 					availableIncome -= extortion;
 
 					// Output
 					numPaid++;
 					totalPaid += extortion;
 				} else {
-					this.extortersAskHelpAgainst.add(extorterId);
+					this.extortersAskProtectionAgainst.add(extorterId);
 
 					// Output
 					numNotPaid++;
@@ -162,7 +157,8 @@ public class TargetAgent extends TargetAbstract {
 
 	@Override
 	public void decideToPay() {
-		this.extortersToPay = new ArrayList<Integer>(this.extortersAskHelp);
+		this.extortersToPay = new ArrayList<Integer>(
+				this.extortersAskProtection);
 	}
 
 	@Override

@@ -18,22 +18,28 @@ public class ScenarioConf {
 
 	private final static String SCENARIO = "scenario";
 	private final static String STOP_AT = "stopAt";
-	// Prison
-	private final static String PRISON_PROBABILITY = "probability";
-	private final static String PRISON_ROUNDS = "rounds";
+	// State
+	private final static String STATE = "state";
+	private final static String STATE_CLASS = "stateClass";
+	private final static String STATE_PRISON_PROBABILITY = "prisonProbability";
+	private final static String STATE_PRISON_ROUNDS = "prisonRounds";
 	// Target
 	private final static String TARGET = "target";
+	private final static String TARGET_CLASS = "targetClass";
 	private final static String TARGET_TYPE = "targetType";
 	private final static String TARGET_NUMBER = "numberOfTargets";
 	private final static String TARGET_EXTORTERS = "extorterPerTarget";
 	private final static String TARGET_MINIMUM_INCOME = "minimumIncome";
 	private final static String TARGET_MAXIMUM_INCOME = "maximumIncome";
+	private final static String TARGET_MINIMUM_PUBLISHED_INCOME = "minimumIncomeVariation";
+	private final static String TARGET_MAXIMUM_PUBLISHED_INCOME = "maximumIncomeVariation";
 	private final static String TARGET_MINIMUM_EXTORTION = "minimumExtortion";
 	private final static String TARGET_MAXIMUM_EXTORTION = "maximumExtortion";
 	private final static String TARGET_MEMORY_LENGTH = "memoryLength";
 	// Extorter
 	private final static String TARGET_PER_EXTORTERS = "targetPerExtorter";
 	private final static String EXTORTER = "extorter";
+	private final static String EXTORTER_CLASS = "extorterClass";
 	private final static String EXTORTER_TYPE = "extorterType";
 	private final static String EXTORTER_ENLARGEMENT_PROBABILITY = "enlargementProbability";
 	private final static String EXTORTER_NUMBER = "numberOfExtorters";
@@ -54,9 +60,8 @@ public class ScenarioConf {
 	// Scenario
 	private String stopAt;
 
-	// Prison information
-	private double prisonProbability;
-	private int prisonRounds;
+	// State information
+	private StateConf state;
 
 	// Target information
 	private List<TargetConf> targets;
@@ -68,12 +73,14 @@ public class ScenarioConf {
 	public ScenarioConf() {
 		this.extorters = new ArrayList<ExtorterConf>();
 		this.targets = new ArrayList<TargetConf>();
+		this.state = new StateConf();
 	}
 
 	public static ScenarioConf scenarioParser(String scenarioFilename) {
 		ScenarioConf scenario = null;
 		ExtorterConf extorter = null;
 		TargetConf target = null;
+		StateConf state = null;
 
 		try {
 			// First create a new XMLInputFactory
@@ -105,25 +112,44 @@ public class ScenarioConf {
 						scenario.setStopAt(event.asCharacters().getData());
 						continue;
 
+						// Create a State
+					} else if (startElement.getName().getLocalPart() == (STATE)) {
+						state = new StateConf();
+						continue;
+
+						// Set observerClass attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(STATE_CLASS)) {
+						event = eventReader.nextEvent();
+						state.setStateClass(event.asCharacters().getData());
+						continue;
+
 						// Set prisonProbability attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(PRISON_PROBABILITY)) {
+							.equals(STATE_PRISON_PROBABILITY)) {
 						event = eventReader.nextEvent();
-						scenario.setPrisonProbability(new Double(event
+						state.setPrisonProbability(new Double(event
 								.asCharacters().getData()));
 						continue;
 
 						// Set prisonRounds attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(PRISON_ROUNDS)) {
+							.equals(STATE_PRISON_ROUNDS)) {
 						event = eventReader.nextEvent();
-						scenario.setPrisonRounds(new Integer(event
-								.asCharacters().getData()));
+						state.setPrisonRounds(new Integer(event.asCharacters()
+								.getData()));
 						continue;
 
 						// Create a Target
 					} else if (startElement.getName().getLocalPart() == (TARGET)) {
 						target = new TargetConf();
+						continue;
+
+						// Set targetClass attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(TARGET_CLASS)) {
+						event = eventReader.nextEvent();
+						target.setTargetClass(event.asCharacters().getData());
 						continue;
 
 						// Set targetType attribute
@@ -165,6 +191,22 @@ public class ScenarioConf {
 								.getData()));
 						continue;
 
+						// Set MinIncomeVariation attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(TARGET_MINIMUM_PUBLISHED_INCOME)) {
+						event = eventReader.nextEvent();
+						target.setMinIncomeVariation(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set MaxIncomeVariation attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(TARGET_MAXIMUM_PUBLISHED_INCOME)) {
+						event = eventReader.nextEvent();
+						target.setMaxIncomeVariation(new Double(event
+								.asCharacters().getData()));
+						continue;
+
 						// Set MinExtortion attribute
 					} else if (event.asStartElement().getName().getLocalPart()
 							.equals(TARGET_MINIMUM_EXTORTION)) {
@@ -200,6 +242,14 @@ public class ScenarioConf {
 						// Create a Extorter
 					} else if (startElement.getName().getLocalPart() == (EXTORTER)) {
 						extorter = new ExtorterConf();
+
+						// Set extorterClass attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_CLASS)) {
+						event = eventReader.nextEvent();
+						extorter.setExtorterClass(event.asCharacters()
+								.getData());
+						continue;
 
 						// Set extorterType attribute
 					} else if (event.asStartElement().getName().getLocalPart()
@@ -353,6 +403,8 @@ public class ScenarioConf {
 						scenario.addExtorter(extorter);
 					} else if (endElement.getName().getLocalPart() == (TARGET)) {
 						scenario.addTarget(target);
+					} else if (endElement.getName().getLocalPart() == (STATE)) {
+						scenario.setState(state);
 					}
 				}
 			}
@@ -379,20 +431,12 @@ public class ScenarioConf {
 		this.stopAt = stopAt;
 	}
 
-	public double getPrisonProbability() {
-		return this.prisonProbability;
+	public StateConf getState() {
+		return this.state;
 	}
 
-	private void setPrisonProbability(double prisonProbability) {
-		this.prisonProbability = prisonProbability;
-	}
-
-	public int getPrisonRounds() {
-		return this.prisonRounds;
-	}
-
-	private void setPrisonRounds(int prisonRounds) {
-		this.prisonRounds = prisonRounds;
+	public void setState(StateConf state) {
+		this.state = state;
 	}
 
 	public List<TargetConf> getTargets() {
@@ -423,10 +467,7 @@ public class ScenarioConf {
 	public String toString() {
 		String str = new String();
 
-		str += "PRISON\n";
-		str += "Prison Probability...........: [" + this.prisonProbability
-				+ "]\n";
-		str += "Prison Rounds................: [" + this.prisonRounds + "]\n";
+		str += state.toString();
 
 		for (TargetConf target : this.targets) {
 			str += target.toString();

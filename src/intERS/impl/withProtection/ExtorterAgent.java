@@ -1,6 +1,7 @@
-package intERS.agents.extorter;
+package intERS.impl.withProtection;
 
-import intERS.agents.target.TargetAbstract;
+import intERS.agents.ExtorterAbstract;
+import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.ExtorterConf;
 
 import java.util.ArrayList;
@@ -58,7 +59,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 	}
 
 	@Override
-	public void decideToRetaliate() {
+	public void decideToProtect() {
 		List<Integer> retaliateList;
 		List<Integer> extortersList;
 		ExtorterAbstract extorter;
@@ -68,12 +69,12 @@ public class ExtorterAgent extends ExtorterAbstract {
 		double opWealth;
 		double opStrength;
 		double myStrength;
-		for (Integer targetId : this.helpRequested.keySet()) {
-			extortersList = this.helpRequested.get(targetId);
+		for (Integer targetId : this.protectionRequested.keySet()) {
+			extortersList = this.protectionRequested.get(targetId);
 
 			for (Integer extorterId : extortersList) {
-				if (this.retaliate.containsKey(extorterId)) {
-					retaliateList = this.retaliate.get(extorterId);
+				if (this.attackProtection.containsKey(extorterId)) {
+					retaliateList = this.attackProtection.get(extorterId);
 					if (retaliateList == null) {
 						retaliateList = new ArrayList<Integer>();
 					}
@@ -83,9 +84,9 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 				if (!retaliateList.contains(targetId)) {
 					// Attack anyway
-					if (RandomHelper.nextDouble() <= this.retaliatePropensity) {
+					if (RandomHelper.nextDouble() <= this.protectionPropensity) {
 						retaliateList.add(targetId);
-						this.retaliate.put(extorterId, retaliateList);
+						this.attackProtection.put(extorterId, retaliateList);
 						// Rational decision to attack
 					} else {
 						extorter = this.extorters.get(extorterId);
@@ -106,7 +107,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 						// If I am stronger attack, otherwise do not
 						if (opStrength < myStrength) {
 							retaliateList.add(targetId);
-							this.retaliate.put(extorterId, retaliateList);
+							this.attackProtection.put(extorterId, retaliateList);
 						}
 					}
 				}
@@ -115,7 +116,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 	}
 
 	@Override
-	public void decideToCounterattack() {
+	public void decideToCounterattackProtection() {
 		ExtorterAbstract extorter;
 		int maxNumExtorted;
 		double maxWealth;
@@ -123,10 +124,10 @@ public class ExtorterAgent extends ExtorterAbstract {
 		double opWealth;
 		double opStrength;
 		double myStrength;
-		for (Integer extorterId : this.retaliation.keySet()) {
+		for (Integer extorterId : this.protection.keySet()) {
 			// Counterattack anyway
 			if (RandomHelper.nextDouble() <= this.counterattackPropensity) {
-				this.counterattack.add(extorterId);
+				this.counterattackProtection.add(extorterId);
 				// Rational decision to counterattack
 			} else {
 				extorter = this.extorters.get(extorterId);
@@ -145,44 +146,27 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 				// If I am stronger attack, otherwise do not
 				if (opStrength < myStrength) {
-					this.counterattack.add(extorterId);
+					this.counterattackProtection.add(extorterId);
 				}
 			}
 		}
 	}
 
 	@Override
-	public void decideToPunish() {
+	public void decideToRetaliate() {
+	}
 
-		/**
-		 * System.out.println("====================== CYCLE " + this.cycle);
-		 * System.out.println("MY ID " + this.id);
-		 * System.out.print("   Extorted: "); for (Integer extort :
-		 * this.extorted.keySet()) { System.out.print(extort + " "); }
-		 * System.out.println(); System.out.print("   Requested Help: "); for
-		 * (Integer help : this.helpRequested.keySet()) { System.out.print(help
-		 * + " ["); for (Integer against : this.helpRequested.get(help)) {
-		 * System.out.print(against + ";"); } System.out.println("]"); }
-		 * System.out.println(); System.out.print("   Attacked: "); for (Integer
-		 * attack : this.retaliate.keySet()) { System.out.print(attack + " "); }
-		 * System.out.println(); System.out.print("   Received Attack: "); for
-		 * (Integer wasAttacked : this.retaliation.keySet()) {
-		 * System.out.print(wasAttacked + " ["); for (Integer because :
-		 * this.retaliation.get(wasAttacked)) { System.out.print(because + ";");
-		 * } System.out.println("]"); } System.out.println();
-		 * System.out.print("   I Counterattack: "); for (Integer ca :
-		 * this.counterattack) { System.out.print(ca + " "); }
-		 * System.out.println(); System.out.print("   I was Counterattacked: ");
-		 * for (Integer ca : this.counterattacked) { System.out.print(ca + " ");
-		 * } System.out.println(); System.out.print("   Paid: "); for (Integer
-		 * paid : this.paid.keySet()) { System.out.print(paid + " "); }
-		 * System.out.println();
-		 **/
+	@Override
+	public void decideToCounterattackRetaliation() {
+	}
+
+	@Override
+	public void decideToPunish() {
 
 		Map<Integer, Set<Integer>> attackedBecauseTarget = new Hashtable<Integer, Set<Integer>>();
 		Set<Integer> otherExtorters;
-		for (Integer extorterId : this.retaliate.keySet()) {
-			for (Integer targetId : this.retaliate.get(extorterId)) {
+		for (Integer extorterId : this.attackProtection.keySet()) {
+			for (Integer targetId : this.attackProtection.get(extorterId)) {
 
 				if (attackedBecauseTarget.containsKey(targetId)) {
 					otherExtorters = attackedBecauseTarget.get(targetId);
@@ -197,8 +181,8 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 		Map<Integer, Set<Integer>> wasAttackedBecauseTarget = new Hashtable<Integer, Set<Integer>>();
 		Set<Integer> extortersThatAttacked;
-		for (Integer extorterId : this.retaliation.keySet()) {
-			for (Integer targetId : this.retaliation.get(extorterId)) {
+		for (Integer extorterId : this.protection.keySet()) {
+			for (Integer targetId : this.protection.get(extorterId)) {
 
 				if (wasAttackedBecauseTarget.containsKey(targetId)) {
 					extortersThatAttacked = wasAttackedBecauseTarget
@@ -216,8 +200,8 @@ public class ExtorterAgent extends ExtorterAbstract {
 		boolean isCounterattackedBecauseTarget;
 		for (Integer targetId : this.extorted.keySet()) {
 
-			// Extorter was Not Asked For Help and Was Not Attacked
-			if ((!this.helpRequested.containsKey(targetId))
+			// Extorter was Not Asked For Protection and Was Not Attacked
+			if ((!this.protectionRequested.containsKey(targetId))
 					&& (!wasAttackedBecauseTarget.containsKey(targetId))) {
 				if (!this.paid.containsKey(targetId)) {
 					this.punishments.put(targetId, 0.0);
@@ -225,22 +209,24 @@ public class ExtorterAgent extends ExtorterAbstract {
 					// System.out.println("(1) " + this.id + " PUNISHING "
 					// + targetId);
 				}
-				// Extorter was Asked for Help
-			} else if (this.helpRequested.containsKey(targetId)) {
+				// Extorter was Asked for Protection
+			} else if (this.protectionRequested.containsKey(targetId)) {
 
 				// Attacked
 				if (attackedBecauseTarget.containsKey(targetId)) {
 					attackedExtorters = attackedBecauseTarget.get(targetId);
 
-					// Counterattacked because of this Target Request Help?
+					// Counterattacked because of this Target Request
+					// Protection?
 					isCounterattackedBecauseTarget = false;
 					for (Integer extorterId : attackedExtorters) {
-						if (this.counterattacked.contains(extorterId)) {
+						if (this.counterattackedProtection.contains(extorterId)) {
 							isCounterattackedBecauseTarget = true;
 						}
 					}
 
-					// Yes, Counterattacked because of this Target Request Help
+					// Yes, Counterattacked because of this Target Request
+					// Protection
 					if (isCounterattackedBecauseTarget) {
 						if (!this.paid.containsKey(targetId)) {
 							// System.out.println("(2) " + this.id +
@@ -250,9 +236,8 @@ public class ExtorterAgent extends ExtorterAbstract {
 							this.punishments.put(targetId, 0.0);
 						}
 
-						// Was Not Counterattacked because of this Target
-						// Request
-						// Help
+						// Was Not Counterattacked because this Target
+						// Request Protection
 					} else {
 						if (!this.paid.containsKey(targetId)) {
 							// System.out.println("(3) " + this.id +
@@ -263,7 +248,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 						}
 					}
 
-					// Did not Attacked
+					// Did not Attack
 				} else {
 					if (!this.paid.containsKey(targetId)) {
 						if (RandomHelper.nextDouble() < this.tolerance) {
@@ -284,7 +269,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 			counterattackedAll = true;
 			for (Integer extorterId : attackedExtorters) {
-				if (!this.counterattack.contains(extorterId)) {
+				if (!this.counterattackProtection.contains(extorterId)) {
 					counterattackedAll = false;
 				}
 			}
@@ -307,16 +292,5 @@ public class ExtorterAgent extends ExtorterAbstract {
 				}
 			}
 		}
-
-		/**
-		 * System.out.println(); System.out.print("   Punished: "); for (Integer
-		 * punish : this.punishments.keySet()) { System.out.print(punish + " ");
-		 * } System.out.println();
-		 **/
-	}
-
-	@Override
-	public void receivePayment(int id, double extortion) {
-		super.receivePayment(id, extortion);
 	}
 }

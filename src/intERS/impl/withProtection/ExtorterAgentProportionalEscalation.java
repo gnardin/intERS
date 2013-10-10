@@ -1,8 +1,7 @@
-package intERS.agents.extorter.punishment;
+package intERS.impl.withProtection;
 
-import intERS.agents.extorter.ExtorterAbstract;
-import intERS.agents.extorter.extortion.ExtorterAgentProportional;
-import intERS.agents.target.TargetAbstract;
+import intERS.agents.ExtorterAbstract;
+import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.ExtorterConf;
 
 import java.util.HashMap;
@@ -25,7 +24,7 @@ public class ExtorterAgentProportionalEscalation extends
 	public ExtorterAgentProportionalEscalation(
 			Map<Integer, ExtorterAbstract> extorters,
 			Map<Integer, TargetAbstract> targets, Set<Integer> initialTargets,
-			int id, ExtorterConf extorterConf) {
+			Integer id, ExtorterConf extorterConf) {
 		super(extorters, targets, initialTargets, id, extorterConf);
 
 		this.targetBalance = new HashMap<Integer, Integer>();

@@ -14,11 +14,11 @@ public class BatchHeterogeneous {
 
 	public static void main(String[] args) {
 
-		String simulationXML = "/data/workspace/repast/intERS/conf/simulation.xml";
-		String simulationXSD = "/data/workspace/repast/intERS/conf/simulation.xsd";
-		String scenarioXML = "/data/workspace/repast/intERS/conf/scenario.xml";
-		String newSimulationXML = "/data/workspace/repast/intERS/conf/newSimulation.xml";
-		String newScenarioXML = "/data/workspace/repast/intERS/conf/newScenario.xml";
+		String simulationXML = "/data/workspace/gloders/intERS/conf/simulation.xml";
+		String simulationXSD = "/data/workspace/gloders/intERS/conf/simulation.xsd";
+		String scenarioXML = "/data/workspace/gloders/intERS/conf/scenario.xml";
+		String batchSimulationXML = "/data/workspace/gloders/intERS/conf/batchSimulation.xml";
+		String batchScenarioXML = "/data/workspace/gloders/intERS/conf/batchScenario.xml";
 
 		String tolerance[] = { "80" };
 		String enlargement[] = { "10", "40" };
@@ -40,7 +40,7 @@ public class BatchHeterogeneous {
 						try {
 							// SIMULATION XML
 							readFile = Paths.get(simulationXML);
-							writeFile = Paths.get(newSimulationXML);
+							writeFile = Paths.get(batchSimulationXML);
 
 							reader = Files.newBufferedReader(readFile,
 									Charset.defaultCharset());
@@ -50,7 +50,9 @@ public class BatchHeterogeneous {
 							numLine = 1;
 							while ((line = reader.readLine()) != null) {
 								if (numLine == 209) {
-									line = "<xmlFilename>./conf/newScenario.xml</xmlFilename>";
+									line = "<xmlFilename>./conf/"
+											+ batchScenarioXML
+											+ "</xmlFilename>";
 								}
 
 								if (numLine == 212) {
@@ -76,7 +78,7 @@ public class BatchHeterogeneous {
 
 							// SCENARIO XML
 							readFile = Paths.get(scenarioXML);
-							writeFile = Paths.get(newScenarioXML);
+							writeFile = Paths.get(batchScenarioXML);
 
 							reader = Files.newBufferedReader(readFile,
 									Charset.defaultCharset());
@@ -128,7 +130,7 @@ public class BatchHeterogeneous {
 							writer.close();
 
 							String[] arguments = new String[] {
-									newSimulationXML, simulationXSD };
+									batchSimulationXML, simulationXSD };
 
 							IntERS.main(arguments);
 						} catch (IOException e) {

@@ -1,57 +1,54 @@
-package intERS.agents.observer;
+package intERS.agents;
 
-import intERS.agents.extorter.ExtorterAbstract;
-import intERS.agents.target.TargetAbstract;
+import intERS.agents.ExtorterAbstract;
+import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.ScenarioConf;
 import intERS.output.OutputObserver;
 import intERS.output.OutputRecorder;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
-
 import repast.simphony.context.Context;
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.schedule.ScheduledMethod;
-import repast.simphony.random.RandomHelper;
 
-public class Observer {
+public abstract class StateAbstract {
 
-	private int id;
+	protected int id;
 
-	private Context<Object> context;
+	protected Context<Object> context;
 
-	private Map<Integer, ExtorterAbstract> extorters;
+	protected Map<Integer, ExtorterAbstract> extorters;
 
-	private List<String> extorterTypes;
+	protected List<String> extorterTypes;
 
-	private Map<Integer, ExtorterAbstract> imprisoned;
+	protected Map<Integer, ExtorterAbstract> imprisoned;
 
-	private int imprisonedTotal;
+	protected int imprisonedTotal;
 
-	private OutputRecorder outputRecorder;
+	protected OutputRecorder outputRecorder;
 
-	private double prisonProbability;
+	protected double prisonProbability;
 
-	private int prisonRounds;
+	protected int prisonRounds;
 
-	private Map<Integer, Integer> remainedRounds;
+	protected Map<Integer, Integer> remainedRounds;
 
-	private ScenarioConf scenarioConf;
+	protected ScenarioConf scenarioConf;
 
-	private Map<Integer, TargetAbstract> targets;
+	protected Map<Integer, TargetAbstract> targets;
 
-	private List<String> targetTypes;
+	protected List<String> targetTypes;
 
-	public Observer(ScenarioConf scenarioConf, Context<Object> context,
+	public StateAbstract(ScenarioConf scenarioConf, Context<Object> context,
 			Map<Integer, ExtorterAbstract> extorters,
-			Map<Integer, TargetAbstract> targets, int id,
-			double prisonProbability, int prisonRounds) {
+			Map<Integer, TargetAbstract> targets, Integer id,
+			Double prisonProbability, Integer prisonRounds) {
 		this.id = id;
 		this.scenarioConf = scenarioConf;
 		this.context = context;
@@ -146,50 +143,10 @@ public class Observer {
 		}
 	}
 
-	@ScheduledMethod(start = 1.95, interval = 1)
-	public void decideToArrestRelease() {
+	@ScheduledMethod(start = 1.98, interval = 1)
+	public abstract void decideToArrestRelease();
 
-		// Determine the Extorters to arrest
-		ExtorterAbstract extorter;
-		Collection<ExtorterAbstract> removeFromContext = new ArrayList<ExtorterAbstract>();
-		for (Integer extorterId : this.extorters.keySet()) {
-			if (RandomHelper.nextDouble() < this.prisonProbability) {
-				extorter = this.extorters.get(extorterId);
-
-				this.imprisoned.put(extorterId, extorter);
-				this.remainedRounds.put(extorterId, this.prisonRounds);
-				removeFromContext.add(extorter);
-
-				this.imprisonedTotal++;
-			}
-		}
-		this.context.removeAll(removeFromContext);
-
-		// Determine the Extorters to release from prison
-		int rounds;
-		Collection<Integer> removeFromPrison = new ArrayList<Integer>();
-		for (Integer extorterId : this.remainedRounds.keySet()) {
-			rounds = this.remainedRounds.get(extorterId) - 1;
-			if (rounds < 0) {
-				// Release from prison
-				removeFromPrison.add(extorterId);
-				// Put it back to the simulation
-				extorter = this.imprisoned.get(extorterId);
-				this.context.add(extorter);
-
-				this.imprisonedTotal--;
-			} else {
-				this.remainedRounds.put(extorterId, rounds);
-			}
-		}
-
-		for (Integer extorterId : removeFromPrison) {
-			this.imprisoned.remove(extorterId);
-			this.remainedRounds.remove(extorterId);
-		}
-	}
-
-	@ScheduledMethod(start = 1.95, interval = 1)
+	@ScheduledMethod(start = 1.99, interval = 1)
 	public void endCycle() {
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount() + 1;
@@ -228,8 +185,7 @@ public class Observer {
 				output.setNumTargetsExtorted(type, num + 1);
 
 				num = output.getNumTargetExtortions(type);
-				output.setNumTargetExtorions(type, num
-						+ numExtortions);
+				output.setNumTargetExtorions(type, num + numExtortions);
 			}
 		}
 

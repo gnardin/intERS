@@ -1,14 +1,9 @@
 package intERS.main;
 
-import intERS.agents.extorter.ExtorterAbstract;
-import intERS.agents.extorter.ExtorterAgent;
-import intERS.agents.extorter.punishment.ExtorterAgentProportionalEscalation;
-import intERS.agents.extorter.punishment.ExtorterAgentProportionalProportional;
-import intERS.agents.observer.Observer;
-import intERS.agents.target.TargetAbstract;
-import intERS.agents.target.TargetAgent;
+import intERS.agents.ExtorterAbstract;
+import intERS.agents.StateAbstract;
+import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.ExtorterConf;
-import intERS.conf.scenario.ExtorterConf.PunishmentType;
 import intERS.conf.scenario.ScenarioConf;
 import intERS.conf.scenario.TargetConf;
 import intERS.conf.simulation.OutputConf;
@@ -16,6 +11,8 @@ import intERS.output.OutputRecorder;
 import intERS.utils.XML;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
@@ -24,7 +21,6 @@ import java.util.Set;
 
 import net.sourceforge.jeval.EvaluationException;
 import net.sourceforge.jeval.Evaluator;
-
 import repast.simphony.context.Context;
 import repast.simphony.context.ContextEvent;
 import repast.simphony.context.ContextListener;
@@ -108,13 +104,36 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		List<TargetConf> targetsScenario = scenario.getTargets();
 
 		int id = 1;
-		for (TargetConf targetConf : targetsScenario) {
-			for (int i = 0; i < targetConf.getNumberTargets(); i++) {
-				context.add(new TargetAgent(this.extorters, this.targets, id,
-						targetConf));
+		try {
+			TargetAbstract target;
+			for (TargetConf targetConf : targetsScenario) {
 
-				id++;
+				@SuppressWarnings("unchecked")
+				Class<TargetAbstract> tClass = (Class<TargetAbstract>) Class
+						.forName(targetConf.getTargetClass());
+
+				Constructor<TargetAbstract> tConstructor = tClass
+						.getDeclaredConstructor(Map.class, Map.class,
+								Integer.class, TargetConf.class);
+
+				for (int i = 0; i < targetConf.getNumberTargets(); i++) {
+					target = tConstructor.newInstance(this.extorters,
+							this.targets, id, targetConf);
+					context.add(target);
+
+					id++;
+				}
 			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
 		}
 
 		// Calculate the number of Targets per Extorter
@@ -146,46 +165,80 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		Set<Integer> initialTargets;
 		ExtorterAbstract extorter;
 		id = 1;
-		for (ExtorterConf extorterConf : extortersScenario) {
+		try {
+			for (ExtorterConf extorterConf : extortersScenario) {
 
-			numExtorters = extorterConf.getNumberExtorters();
-			for (int i = 0; i < numExtorters; i++) {
+				@SuppressWarnings("unchecked")
+				Class<ExtorterAbstract> eClass = (Class<ExtorterAbstract>) Class
+						.forName(extorterConf.getExtorterClass());
 
-				// Create list of initial Targets per Extorter
-				initialTargets = new HashSet<Integer>();
-				int targetId;
-				while (initialTargets.size() < targetsPerExtorter) {
-					targetId = RandomHelper.nextIntFromTo(0, (numTargets - 1));
-					initialTargets.add(targetId);
-				}
+				Constructor<ExtorterAbstract> eConstructor = eClass
+						.getDeclaredConstructor(Map.class, Map.class,
+								Set.class, Integer.class, ExtorterConf.class);
 
-				if (extorterConf.getPunishmentType().equals(
-						PunishmentType.PROPORTIONAL)) {
+				numExtorters = extorterConf.getNumberExtorters();
+				for (int i = 0; i < numExtorters; i++) {
 
-					extorter = new ExtorterAgentProportionalProportional(
-							this.extorters, this.targets, initialTargets, id,
-							extorterConf);
+					// Create list of initial Targets per Extorter
+					initialTargets = new HashSet<Integer>();
+					int targetId;
+					while (initialTargets.size() < targetsPerExtorter) {
+						targetId = RandomHelper.nextIntFromTo(0,
+								(numTargets - 1));
+						initialTargets.add(targetId);
+					}
+
+					extorter = eConstructor.newInstance(this.extorters,
+							this.targets, initialTargets, id, extorterConf);
+
+					// extorter = new ExtorterAgentProportionalProportional(
+					// this.extorters, this.targets, initialTargets, id,
+					// extorterConf);
 					this.extorters.put(id, extorter);
 					context.add(extorter);
 
-				} else if (extorterConf.getPunishmentType().equals(
-						PunishmentType.ESCALATION)) {
-
-					extorter = new ExtorterAgentProportionalEscalation(
-							this.extorters, this.targets, initialTargets, id,
-							extorterConf);
-					this.extorters.put(id, extorter);
-					context.add(extorter);
+					id++;
 				}
-
-				id++;
 			}
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
 		}
 
-		// Create a Police
-		context.add(new Observer(scenario, context, this.extorters,
-				this.targets, 1, scenario.getPrisonProbability(), scenario
-						.getPrisonRounds()));
+		// Create a State
+		try {
+			@SuppressWarnings("unchecked")
+			Class<StateAbstract> sClass = (Class<StateAbstract>) Class
+					.forName(scenario.getState().getStateClass());
+
+			Constructor<StateAbstract> sConstructor = sClass
+					.getDeclaredConstructor(ScenarioConf.class, Context.class,
+							Map.class, Map.class, Integer.class, Double.class,
+							Integer.class);
+
+			StateAbstract state = sConstructor.newInstance(scenario, context,
+					this.extorters, this.targets, 1, scenario.getState()
+							.getPrisonProbability(), scenario.getState()
+							.getPrisonRounds());
+			context.add(state);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		}
 
 		// Schedule the output writing
 		ISchedule schedule = RunEnvironment.getInstance().getCurrentSchedule();
@@ -224,17 +277,17 @@ class ContextUpdate implements ContextListener<Object> {
 		if (event.getType().equals(ContextEvent.REMOVED)) {
 			Object obj = event.getTarget();
 			if (obj instanceof ExtorterAbstract) {
-				this.extorters.remove(((ExtorterAgent) obj).getId());
+				this.extorters.remove(((ExtorterAbstract) obj).getId());
 			} else if (obj instanceof TargetAbstract) {
-				this.targets.remove(((TargetAgent) obj).getId());
+				this.targets.remove(((TargetAbstract) obj).getId());
 			}
 		} else if (event.getType().equals(ContextEvent.ADDED)) {
 			Object obj = event.getTarget();
 			if (obj instanceof ExtorterAbstract) {
-				ExtorterAgent extorter = (ExtorterAgent) obj;
+				ExtorterAbstract extorter = (ExtorterAbstract) obj;
 				this.extorters.put(extorter.getId(), extorter);
 			} else if (obj instanceof TargetAbstract) {
-				TargetAgent target = (TargetAgent) obj;
+				TargetAbstract target = (TargetAbstract) obj;
 				this.targets.put(target.getId(), target);
 			}
 		}

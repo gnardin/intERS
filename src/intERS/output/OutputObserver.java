@@ -8,7 +8,7 @@ public class OutputObserver extends OutputAbstract {
 
 	private Map<String, Integer> targetsAlive;
 	private Map<String, Integer> targetsExtorted;
-	private Map<String, Integer> targesExtortion;
+	private Map<String, Integer> targetsExtortion;
 	private Map<String, Integer> extortersFree;
 	private Map<String, Integer> extortersImprisoned;
 
@@ -19,7 +19,7 @@ public class OutputObserver extends OutputAbstract {
 		this.targetsExtorted = new Hashtable<String, Integer>();
 		this.extortersFree = new Hashtable<String, Integer>();
 		this.extortersImprisoned = new Hashtable<String, Integer>();
-		this.targesExtortion = new Hashtable<String, Integer>();
+		this.targetsExtortion = new Hashtable<String, Integer>();
 	}
 
 	@Override
@@ -39,7 +39,7 @@ public class OutputObserver extends OutputAbstract {
 			str += "TE" + type + fs;
 		}
 
-		map = new TreeMap<String, Integer>(this.targesExtortion);
+		map = new TreeMap<String, Integer>(this.targetsExtortion);
 		for (String type : map.keySet()) {
 			str += "NE" + type + fs;
 		}
@@ -85,7 +85,7 @@ public class OutputObserver extends OutputAbstract {
 		}
 
 		int numExtortersPerTargetExtorted = 0;
-		map = new TreeMap<String, Integer>(this.targesExtortion);
+		map = new TreeMap<String, Integer>(this.targetsExtortion);
 		for (String type : map.keySet()) {
 			numExtortersPerTargetExtorted = map.get(type);
 
@@ -119,7 +119,7 @@ public class OutputObserver extends OutputAbstract {
 		return str;
 	}
 
-	public synchronized int getNumTotalTargets() {
+	public int getNumTotalTargets() {
 		int num = 0;
 		for (Integer numTargets : this.targetsAlive.values()) {
 			num += numTargets;
@@ -127,7 +127,7 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized int getNumTypeTargetsAlive(String type) {
+	public int getNumTypeTargetsAlive(String type) {
 		int num = 0;
 		if (this.targetsAlive.containsKey(type)) {
 			num = this.targetsAlive.get(type);
@@ -136,11 +136,11 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized void setNumTargetsAlive(String type, int numTargets) {
+	public void setNumTargetsAlive(String type, int numTargets) {
 		this.targetsAlive.put(type, numTargets);
 	}
 
-	public synchronized int getNumTypeTargetsExtorted(String type) {
+	public int getNumTypeTargetsExtorted(String type) {
 		int num = 0;
 		if (this.targetsExtorted.containsKey(type)) {
 			num = this.targetsExtorted.get(type);
@@ -149,25 +149,24 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized void setNumTargetsExtorted(String type, int numTargets) {
+	public void setNumTargetsExtorted(String type, int numTargets) {
 		this.targetsExtorted.put(type, numTargets);
 	}
 
-	public synchronized int getNumTargetExtortions(String type) {
+	public int getNumTargetExtortions(String type) {
 		int num = 0;
-		if (this.targesExtortion.containsKey(type)) {
-			num = this.targesExtortion.get(type);
+		if (this.targetsExtortion.containsKey(type)) {
+			num = this.targetsExtortion.get(type);
 		}
 
 		return num;
 	}
 
-	public synchronized void setNumTargetExtorions(String type,
-			int numExtortions) {
-		this.targesExtortion.put(type, numExtortions);
+	public void setNumTargetExtorions(String type, int numExtortions) {
+		this.targetsExtortion.put(type, numExtortions);
 	}
 
-	public synchronized int getNumTotalExtortersFree() {
+	public int getNumTotalExtortersFree() {
 		int num = 0;
 		for (Integer numExtorters : this.extortersFree.values()) {
 			num += numExtorters;
@@ -175,7 +174,7 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized int getNumTypeExtortersFree(String type) {
+	public int getNumTypeExtortersFree(String type) {
 		int num = 0;
 		if (this.extortersFree.containsKey(type)) {
 			num = this.extortersFree.get(type);
@@ -184,12 +183,11 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized void setNumExtortersFree(String type,
-			int numExtortersFree) {
+	public void setNumExtortersFree(String type, int numExtortersFree) {
 		this.extortersFree.put(type, numExtortersFree);
 	}
 
-	public synchronized int getNumTotalExtortersImprisoned() {
+	public int getNumTotalExtortersImprisoned() {
 		int num = 0;
 		for (Integer numExtorters : this.extortersImprisoned.values()) {
 			num += numExtorters;
@@ -197,7 +195,7 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized int getNumTypeExtortersImprisoned(String type) {
+	public int getNumTypeExtortersImprisoned(String type) {
 		int num = 0;
 		if (this.extortersImprisoned.containsKey(type)) {
 			num = this.extortersImprisoned.get(type);
@@ -206,7 +204,7 @@ public class OutputObserver extends OutputAbstract {
 		return num;
 	}
 
-	public synchronized void setNumExtortersImprisoned(String type,
+	public void setNumExtortersImprisoned(String type,
 			int numExtortersImprisoned) {
 		this.extortersImprisoned.put(type, numExtortersImprisoned);
 	}

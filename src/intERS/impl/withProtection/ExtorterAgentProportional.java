@@ -1,8 +1,7 @@
-package intERS.agents.extorter.extortion;
+package intERS.impl.withProtection;
 
-import intERS.agents.extorter.ExtorterAbstract;
-import intERS.agents.extorter.ExtorterAgent;
-import intERS.agents.target.TargetAbstract;
+import intERS.agents.ExtorterAbstract;
+import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.ExtorterConf;
 
 import java.util.Map;
@@ -14,7 +13,7 @@ public class ExtorterAgentProportional extends ExtorterAgent {
 
 	public ExtorterAgentProportional(Map<Integer, ExtorterAbstract> extorters,
 			Map<Integer, TargetAbstract> targets, Set<Integer> initialTargets,
-			int id, ExtorterConf extorterConf) {
+			Integer id, ExtorterConf extorterConf) {
 		super(extorters, targets, initialTargets, id, extorterConf);
 
 		if (extorterConf.getExtortion() > 0) {

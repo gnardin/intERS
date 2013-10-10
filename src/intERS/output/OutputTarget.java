@@ -6,8 +6,8 @@ public class OutputTarget extends OutputAbstract {
 	private double income;
 	private int numExtortion;
 	private double totalExtortion;
-	private int numHelpRequested;
-	private int numHelpReceived;
+	private int numProtectionRequested;
+	private int numProtectionReceived;
 	private int numPaid;
 	private double totalPaid;
 	private int numNotPaid;
@@ -22,8 +22,8 @@ public class OutputTarget extends OutputAbstract {
 		this.income = 0;
 		this.numExtortion = 0;
 		this.totalExtortion = 0;
-		this.numHelpRequested = 0;
-		this.numHelpReceived = 0;
+		this.numProtectionRequested = 0;
+		this.numProtectionReceived = 0;
 		this.numPaid = 0;
 		this.totalPaid = 0;
 		this.numNotPaid = 0;
@@ -38,9 +38,10 @@ public class OutputTarget extends OutputAbstract {
 
 		str += "type" + fs + "id" + fs + "wealth" + fs + "income" + fs
 				+ "numExtortion" + fs + "totalExtortion" + fs
-				+ "numHelpRequested" + fs + "numHelpReceived" + fs + "numPaid"
-				+ fs + "totalPaid" + fs + "numNotPaid" + fs + "totalNotPaid"
-				+ fs + "numPunishment" + fs + "totalPunishment";
+				+ "numProtectionRequested" + fs + "numProtectionReceived" + fs
+				+ "numPaid" + fs + "totalPaid" + fs + "numNotPaid" + fs
+				+ "totalNotPaid" + fs + "numPunishment" + fs
+				+ "totalPunishment";
 
 		return str;
 	}
@@ -51,107 +52,107 @@ public class OutputTarget extends OutputAbstract {
 
 		str += this.type + fs + this.id + fs + this.wealth + fs + this.income
 				+ fs + this.numExtortion + fs + this.totalExtortion + fs
-				+ this.numHelpRequested + fs + this.numHelpReceived + fs
-				+ this.numPaid + fs + this.totalPaid + fs + this.numNotPaid
-				+ fs + this.totalNotPaid + fs + this.numPunishment + fs
-				+ this.totalPunishment;
+				+ this.numProtectionRequested + fs + this.numProtectionReceived
+				+ fs + this.numPaid + fs + this.totalPaid + fs
+				+ this.numNotPaid + fs + this.totalNotPaid + fs
+				+ this.numPunishment + fs + this.totalPunishment;
 
 		return str;
 	}
 
-	public synchronized double getWealth() {
+	public double getWealth() {
 		return wealth;
 	}
 
-	public synchronized void setWealth(double wealth) {
+	public void setWealth(double wealth) {
 		this.wealth = wealth;
 	}
 
-	public synchronized double getIncome() {
+	public double getIncome() {
 		return income;
 	}
 
-	public synchronized void setIncome(double income) {
+	public void setIncome(double income) {
 		this.income = income;
 	}
 
-	public synchronized int getNumPunishment() {
+	public int getNumPunishment() {
 		return numPunishment;
 	}
 
-	public synchronized void setNumPunishment(int numPunishment) {
+	public void setNumPunishment(int numPunishment) {
 		this.numPunishment = numPunishment;
 	}
 
-	public synchronized double getTotalPunishment() {
+	public double getTotalPunishment() {
 		return totalPunishment;
 	}
 
-	public synchronized void setTotalPunishment(double totalPunishment) {
+	public void setTotalPunishment(double totalPunishment) {
 		this.totalPunishment = totalPunishment;
 	}
 
-	public synchronized int getNumHelpRequested() {
-		return numHelpRequested;
+	public int getNumProtectionRequested() {
+		return numProtectionRequested;
 	}
 
-	public synchronized void setNumHelpRequested(int numHelpRequested) {
-		this.numHelpRequested = numHelpRequested;
+	public void setNumProtectionRequested(int numProtectionRequested) {
+		this.numProtectionRequested = numProtectionRequested;
 	}
 
-	public synchronized int getNumHelpReceived() {
-		return numHelpReceived;
+	public int getNumProtectionReceived() {
+		return numProtectionReceived;
 	}
 
-	public synchronized void setNumHelpReceived(int numHelpReceived) {
-		this.numHelpReceived = numHelpReceived;
+	public void setNumProtectionReceived(int numProtectionReceived) {
+		this.numProtectionReceived = numProtectionReceived;
 	}
 
-	public synchronized int getNumExtortion() {
+	public int getNumExtortion() {
 		return numExtortion;
 	}
 
-	public synchronized void setNumExtortion(int numExtortion) {
+	public void setNumExtortion(int numExtortion) {
 		this.numExtortion = numExtortion;
 	}
 
-	public synchronized double getTotalExtortion() {
+	public double getTotalExtortion() {
 		return totalExtortion;
 	}
 
-	public synchronized void setTotalExtortion(double totalExtortion) {
+	public void setTotalExtortion(double totalExtortion) {
 		this.totalExtortion = totalExtortion;
 	}
 
-	public synchronized int getNumPaid() {
+	public int getNumPaid() {
 		return numPaid;
 	}
 
-	public synchronized void setNumPaid(int numPaid) {
+	public void setNumPaid(int numPaid) {
 		this.numPaid = numPaid;
 	}
 
-	public synchronized double getTotalPaid() {
+	public double getTotalPaid() {
 		return totalPaid;
 	}
 
-	public synchronized void setTotalPaid(double totalPaid) {
+	public void setTotalPaid(double totalPaid) {
 		this.totalPaid = totalPaid;
 	}
 
-	public synchronized int getNumNotPaid() {
+	public int getNumNotPaid() {
 		return numNotPaid;
 	}
 
-	public synchronized void setNumNotPaid(int numNotPaid) {
+	public void setNumNotPaid(int numNotPaid) {
 		this.numNotPaid = numNotPaid;
 	}
 
-	public synchronized double getTotalNotPaid() {
+	public double getTotalNotPaid() {
 		return totalNotPaid;
 	}
 
-	public synchronized void setTotalNotPaid(double totalNotPaid) {
+	public void setTotalNotPaid(double totalNotPaid) {
 		this.totalNotPaid = totalNotPaid;
 	}
 }
