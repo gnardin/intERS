@@ -15,10 +15,12 @@ public class DataSummaryTarget implements DataSummaryInterface {
 	private enum FIELDS_INPUT {
 		CYCLE("cycle"), TYPE("type"), ID("id"), WEALTH("wealth"), INCOME(
 				"income"), NUM_EXTORTION("numExtortion"), TOTAL_EXTORTION(
-				"totalExtortion"), NUM_HELP_REQUESTED("numHelpRequested"), NUM_HELP_RECEIVED(
-				"numHelpReceived"), NUM_PAID("numPaid"), TOTAL_PAID("totalPaid"), NUM_NOT_PAID(
-				"numNotPaid"), TOTAL_NOT_PAID("totalNotPaid"), NUM_PUNISHMENT(
-				"numPunishment"), TOTAL_PUNISHMENT("totalPunishment");
+				"totalExtortion"), NUM_PROTECTION_REQUESTED(
+				"numProtectionRequested"), NUM_PROTECTION_RECEIVED(
+				"numProtectionReceived"), NUM_PAID("numPaid"), TOTAL_PAID(
+				"totalPaid"), NUM_NOT_PAID("numNotPaid"), TOTAL_NOT_PAID(
+				"totalNotPaid"), NUM_PUNISHMENT("numPunishment"), TOTAL_PUNISHMENT(
+				"totalPunishment");
 
 		private final String header;
 
@@ -33,9 +35,10 @@ public class DataSummaryTarget implements DataSummaryInterface {
 
 	private enum FIELDS_OUTPUT {
 		CYCLE("cycle"), TYPE("type"), WEALTH("wealth"), INCOME("income"), NUM_EXTORTION(
-				"numExtortion"), TOTAL_EXTORTION("totalExtortion"), NUM_HELP_REQUESTED(
-				"numHelpRequested"), NUM_HELP_RECEIVED("numHelpReceived"), NUM_PAID(
-				"numPaid"), TOTAL_PAID("totalPaid"), NUM_NOT_PAID("numNotPaid"), TOTAL_NOT_PAID(
+				"numExtortion"), TOTAL_EXTORTION("totalExtortion"), NUM_PROTECTION_REQUESTED(
+				"numProtectionRequested"), NUM_PROTECTION_RECEIVED(
+				"numProtectionReceived"), NUM_PAID("numPaid"), TOTAL_PAID(
+				"totalPaid"), NUM_NOT_PAID("numNotPaid"), TOTAL_NOT_PAID(
 				"totalNotPaid"), NUM_PUNISHMENT("numPunishment"), TOTAL_PUNISHMENT(
 				"totalPunishment"), SUCCESSFUL_PROTECTION(
 				"successfulProtection"), REQUESTED_PROTECTION(
@@ -162,10 +165,10 @@ public class DataSummaryTarget implements DataSummaryInterface {
 					int extra_index = this.numFields;
 					// PROTECTION SUCCESSFULL
 					if (Double
-							.parseDouble(tokens[FIELDS_INPUT.NUM_HELP_REQUESTED
+							.parseDouble(tokens[FIELDS_INPUT.NUM_PROTECTION_REQUESTED
 									.ordinal()]) > 0.0) {
 						if ((Double
-								.parseDouble(tokens[FIELDS_INPUT.NUM_HELP_RECEIVED
+								.parseDouble(tokens[FIELDS_INPUT.NUM_PROTECTION_RECEIVED
 										.ordinal()]) > 0.0)
 								&& (Double
 										.parseDouble(tokens[FIELDS_INPUT.NUM_PUNISHMENT

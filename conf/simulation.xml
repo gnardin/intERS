@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="simulation.xsd">
-	<numberOfRuns>2</numberOfRuns>
+	<numberOfRuns>30</numberOfRuns>
 	<randomSeeds>
 		<seed>690659</seed>
 		<seed>69236</seed>
@@ -209,7 +209,7 @@
 	<xmlFilename>./conf/scenario.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-		<directory>./output</directory>
+		<directory>./output/withoutProtection</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>

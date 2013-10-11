@@ -45,9 +45,12 @@ public class ScenarioConf {
 	private final static String EXTORTER_NUMBER = "numberOfExtorters";
 	private final static String EXTORTER_INITIAL_WEALTH = "initialWealth";
 	private final static String EXTORTER_TOLERANCE = "tolerance";
-	private final static String EXTORTER_RETALIATION = "retaliation";
-	private final static String EXTORTER_COUNTERATTACK = "counterattack";
-	private final static String EXTORTER_COST_FIGHT = "costOfFight";
+	private final static String EXTORTER_ATTACK_PROTECTION = "attackProtection";
+	private final static String EXTORTER_COUNTERATTACK_PROTECTION = "counterattackProtection";
+	private final static String EXTORTER_COST_FIGHT_PROTECTION = "costOfFightProtection";
+	private final static String EXTORTER_ATTACK_RETALIATION = "attackRetaliation";
+	private final static String EXTORTER_COUNTERATTACK_RETALIATION = "counterattackRetaliation";
+	private final static String EXTORTER_COST_FIGHT_RETALIATION = "costOfFightRetaliation";
 	private final static String EXTORTER_EXTORTION_TYPE = "extortionType";
 	private final static String EXTORTER_EXTORTION = "extortion";
 	private final static String EXTORTER_PUNISHMENT_TYPE = "punishmentType";
@@ -290,28 +293,52 @@ public class ScenarioConf {
 								.getData()));
 						continue;
 
-						// Set retaliation attribute
+						// Set attackProtection attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_RETALIATION)) {
+							.equals(EXTORTER_ATTACK_PROTECTION)) {
 						event = eventReader.nextEvent();
-						extorter.setRetaliation(new Double(event.asCharacters()
-								.getData()));
-						continue;
-
-						// Set counterattack attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_COUNTERATTACK)) {
-						event = eventReader.nextEvent();
-						extorter.setCounterattack(new Double(event
+						extorter.setAttackProtection(new Double(event
 								.asCharacters().getData()));
 						continue;
 
-						// Set costFight attribute
+						// Set counterattackProtection attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_COST_FIGHT)) {
+							.equals(EXTORTER_COUNTERATTACK_PROTECTION)) {
 						event = eventReader.nextEvent();
-						extorter.setCostFight(new Double(event.asCharacters()
-								.getData()));
+						extorter.setCounterattackProtection(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set costFightProtection attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_COST_FIGHT_PROTECTION)) {
+						event = eventReader.nextEvent();
+						extorter.setCostFightProtection(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set attackRetaliation attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_ATTACK_RETALIATION)) {
+						event = eventReader.nextEvent();
+						extorter.setAttackRetaliation(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set counterattackRetaliation attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_COUNTERATTACK_RETALIATION)) {
+						event = eventReader.nextEvent();
+						extorter.setCounterattackRetaliation(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set costFightRetaliation attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_COST_FIGHT_RETALIATION)) {
+						event = eventReader.nextEvent();
+						extorter.setCostFightRetaliation(new Double(event
+								.asCharacters().getData()));
 						continue;
 
 						// Set extortionType attribute

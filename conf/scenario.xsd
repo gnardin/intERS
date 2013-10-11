@@ -98,9 +98,12 @@
 										<element name="numberOfExtorters" type="positiveInteger" />
 										<element name="initialWealth" type="decimal" />
 										<element name="tolerance" type="decimal" />
-										<element name="retaliation" type="decimal" />
-										<element name="counterattack" type="decimal" />
-										<element name="costOfFight" type="string" />
+										<element name="attackProtection" type="decimal" />
+										<element name="counterattackProtection" type="decimal" />
+										<element name="costOfFightProtection" type="string" />
+										<element name="attackRetaliation" type="decimal" />
+										<element name="counterattackRetaliation" type="decimal" />
+										<element name="costOfFightRetaliation" type="string" />
 										<element name="extortionType">
 											<simpleType>
 												<restriction base="string">

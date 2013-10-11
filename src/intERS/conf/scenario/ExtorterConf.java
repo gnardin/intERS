@@ -16,9 +16,12 @@ public class ExtorterConf {
 	private int number;
 	private double initialWealth;
 	private double tolerance;
-	private double retaliation;
-	private double counterattack;
-	private double costFight;
+	private double attackProtection;
+	private double counterattackProtection;
+	private double costFightProtection;
+	private double attackRetaliation;
+	private double counterattackRetaliation;
+	private double costFightRetaliation;
 	private double costPunish;
 
 	// Extortion
@@ -80,20 +83,36 @@ public class ExtorterConf {
 		this.tolerance = tolerance;
 	}
 
-	public double getRetaliation() {
-		return this.retaliation;
+	public double getAttackProtection() {
+		return this.attackProtection;
 	}
 
-	public void setRetaliation(double retaliation) {
-		this.retaliation = retaliation;
+	public void setAttackProtection(double attackProtection) {
+		this.attackProtection = attackProtection;
 	}
 
-	public double getCounterattack() {
-		return this.counterattack;
+	public double getCounterattackProtection() {
+		return this.counterattackProtection;
 	}
 
-	public void setCounterattack(double counterattack) {
-		this.counterattack = counterattack;
+	public void setCounterattackProtection(double counterattackProtection) {
+		this.counterattackProtection = counterattackProtection;
+	}
+
+	public double getAttackRetaliation() {
+		return this.attackRetaliation;
+	}
+
+	public void setAttackRetaliation(double attackRetaliation) {
+		this.attackRetaliation = attackRetaliation;
+	}
+
+	public double getCounterattackRetaliation() {
+		return this.counterattackRetaliation;
+	}
+
+	public void setCounterattackRetaliation(double counterattackRetaliation) {
+		this.counterattackRetaliation = counterattackRetaliation;
 	}
 
 	public ExtortionType getExtortionType() {
@@ -120,12 +139,20 @@ public class ExtorterConf {
 		this.punishmentType = punishmentType;
 	}
 
-	public double getCostFight() {
-		return this.costFight;
+	public double getCostFightProtection() {
+		return this.costFightProtection;
 	}
 
-	public void setCostFight(double costFight) {
-		this.costFight = costFight;
+	public void setCostFightProtection(double costFightProtection) {
+		this.costFightProtection = costFightProtection;
+	}
+
+	public double getCostFightRetaliation() {
+		return this.costFightRetaliation;
+	}
+
+	public void setCostFightRetaliation(double costFightRetaliation) {
+		this.costFightRetaliation = costFightRetaliation;
 	}
 
 	public double getCostPunish() {
@@ -180,14 +207,23 @@ public class ExtorterConf {
 		str += "Number of Targets............: [" + this.number + "]\n";
 		str += "Initial Wealth...............: [" + this.initialWealth + "]\n";
 		str += "Tolerance....................: [" + this.tolerance + "]\n";
-		str += "Retaliation..................: [" + this.retaliation + "]\n";
-		str += "Counterattack................: [" + this.counterattack + "]\n";
+		str += "Attack Protection............: [" + this.attackProtection
+				+ "]\n";
+		str += "Counterattack Protection.....: ["
+				+ this.counterattackProtection + "]\n";
+		str += "Attack Retaliation...........: [" + this.attackRetaliation
+				+ "]\n";
+		str += "Counterattack Retaliation....: ["
+				+ this.counterattackRetaliation + "]\n";
 		str += "Extortion Type...............: [" + this.extortionType.name()
 				+ "]\n";
 		str += "Extortion Value..............: [" + this.extortion + "]\n";
 		str += "Punishment Type..............: [" + this.punishmentType.name()
 				+ "]\n";
-		str += "Cost to Fight................: [" + this.costFight + "]\n";
+		str += "Cost to Fight Protection.....: [" + this.costFightProtection
+				+ "]\n";
+		str += "Cost to Fight Retaliation....: [" + this.costFightRetaliation
+				+ "]\n";
 		str += "Cost to Punish...............: [" + this.costPunish + "]\n";
 		if ((this.punishmentType.equals(PunishmentType.FIXED))
 				|| (this.punishmentType.equals(PunishmentType.PROPORTIONAL))) {

@@ -60,7 +60,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 	@Override
 	public void decideToProtect() {
-		List<Integer> retaliateList;
+		List<Integer> protectionList;
 		List<Integer> extortersList;
 		ExtorterAbstract extorter;
 		int maxNumExtorted;
@@ -74,19 +74,20 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 			for (Integer extorterId : extortersList) {
 				if (this.attackProtection.containsKey(extorterId)) {
-					retaliateList = this.attackProtection.get(extorterId);
-					if (retaliateList == null) {
-						retaliateList = new ArrayList<Integer>();
+					if (this.attackProtection.containsKey(extorterId)) {
+						protectionList = this.attackProtection.get(extorterId);
+					} else {
+						protectionList = new ArrayList<Integer>();
 					}
 				} else {
-					retaliateList = new ArrayList<Integer>();
+					protectionList = new ArrayList<Integer>();
 				}
 
-				if (!retaliateList.contains(targetId)) {
-					// Attack anyway
-					if (RandomHelper.nextDouble() <= this.protectionPropensity) {
-						retaliateList.add(targetId);
-						this.attackProtection.put(extorterId, retaliateList);
+				if (!protectionList.contains(targetId)) {
+					// Attack Protection anyway
+					if (RandomHelper.nextDouble() <= this.attackProtectionPropensity) {
+						protectionList.add(targetId);
+						this.attackProtection.put(extorterId, protectionList);
 						// Rational decision to attack
 					} else {
 						extorter = this.extorters.get(extorterId);
@@ -104,10 +105,11 @@ public class ExtorterAgent extends ExtorterAbstract {
 						myStrength = ((double) this.extorted.size() / maxNumExtorted)
 								+ (this.wealth / maxWealth);
 
-						// If I am stronger attack, otherwise do not
+						// If I am stronger attack protection, otherwise do not
 						if (opStrength < myStrength) {
-							retaliateList.add(targetId);
-							this.attackProtection.put(extorterId, retaliateList);
+							protectionList.add(targetId);
+							this.attackProtection.put(extorterId,
+									protectionList);
 						}
 					}
 				}
@@ -126,7 +128,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 		double myStrength;
 		for (Integer extorterId : this.protection.keySet()) {
 			// Counterattack anyway
-			if (RandomHelper.nextDouble() <= this.counterattackPropensity) {
+			if (RandomHelper.nextDouble() <= this.counterattackProtectionPropensity) {
 				this.counterattackProtection.add(extorterId);
 				// Rational decision to counterattack
 			} else {

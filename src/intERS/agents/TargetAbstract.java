@@ -307,7 +307,7 @@ public abstract class TargetAbstract {
 			}
 		}
 
-		for (Integer extorterId : this.extorters.keySet()) {
+		for (Integer extorterId : this.extortions.keySet()) {
 			extorter = this.extorters.get(extorterId);
 			extorter.receivePayment(this.id, payments);
 		}
