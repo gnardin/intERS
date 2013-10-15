@@ -1,4 +1,4 @@
-package intERS.impl.withoutProtection;
+package intERS.impl.withoutProtectionPunish;
 
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;
@@ -209,24 +209,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 						this.output.setNumRunawayRetaliation(this.output
 								.getNumRunawayRetaliation() + 1);
-					}
-				}
-			}
-		}
-
-		for (Integer extorterId : this.extortersPaid.keySet()) {
-
-			// If I did not attack and I did not receive extortion payment
-			// there is a probability I will punish the Target
-			if ((!this.attackRetaliation.contains(extorterId))
-					&& (!this.extortersPaid.containsKey(this.id))) {
-
-				targets = this.extortersPaid.get(extorterId);
-				for (Integer targetId : targets.keySet()) {
-					if (RandomHelper.nextDouble() < this.tolerance) {
-						if (!this.punishments.containsKey(targetId)) {
-							this.punishments.put(targetId, 0.0);
-						}
 					}
 				}
 			}

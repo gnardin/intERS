@@ -3,6 +3,53 @@
 	xsi:noNamespaceSchemaLocation="simulation.xsd">
 	<numberOfRuns>30</numberOfRuns>
 	<randomSeeds>
+		<seed>169868</seed>
+		<seed>264938</seed>
+		<seed>952330</seed>
+		<seed>784304</seed>
+		<seed>349822</seed>
+		<seed>794420</seed>
+		<seed>627685</seed>
+		<seed>809965</seed>
+		<seed>433048</seed>
+		<seed>618492</seed>
+		<seed>404017</seed>
+		<seed>143477</seed>
+		<seed>440910</seed>
+		<seed>958559</seed>
+		<seed>376096</seed>
+		<seed>620606</seed>
+		<seed>529685</seed>
+		<seed>623491</seed>
+		<seed>323362</seed>
+		<seed>114713</seed>
+		<seed>250453</seed>
+		<seed>383124</seed>
+		<seed>845896</seed>
+		<seed>175638</seed>
+		<seed>418133</seed>
+		<seed>796957</seed>
+		<seed>948785</seed>
+		<seed>964121</seed>
+		<seed>463313</seed>
+		<seed>590965</seed>
+		<seed>238052</seed>
+		<seed>633181</seed>
+		<seed>855904</seed>
+		<seed>190382</seed>
+		<seed>417486</seed>
+		<seed>205726</seed>
+		<seed>984803</seed>
+		<seed>45171</seed>
+		<seed>15691</seed>
+		<seed>417851</seed>
+		<seed>663664</seed>
+		<seed>419709</seed>
+		<seed>561328</seed>
+		<seed>104574</seed>
+		<seed>378269</seed>
+		<seed>937425</seed>
+		<seed>725181</seed>
 		<seed>690659</seed>
 		<seed>69236</seed>
 		<seed>413566</seed>
@@ -150,53 +197,6 @@
 		<seed>666356</seed>
 		<seed>642180</seed>
 		<seed>273930</seed>
-		<seed>169868</seed>
-		<seed>264938</seed>
-		<seed>952330</seed>
-		<seed>784304</seed>
-		<seed>349822</seed>
-		<seed>794420</seed>
-		<seed>627685</seed>
-		<seed>809965</seed>
-		<seed>433048</seed>
-		<seed>618492</seed>
-		<seed>404017</seed>
-		<seed>143477</seed>
-		<seed>440910</seed>
-		<seed>958559</seed>
-		<seed>376096</seed>
-		<seed>620606</seed>
-		<seed>529685</seed>
-		<seed>623491</seed>
-		<seed>323362</seed>
-		<seed>114713</seed>
-		<seed>250453</seed>
-		<seed>383124</seed>
-		<seed>845896</seed>
-		<seed>175638</seed>
-		<seed>418133</seed>
-		<seed>796957</seed>
-		<seed>948785</seed>
-		<seed>964121</seed>
-		<seed>463313</seed>
-		<seed>590965</seed>
-		<seed>238052</seed>
-		<seed>633181</seed>
-		<seed>855904</seed>
-		<seed>190382</seed>
-		<seed>417486</seed>
-		<seed>205726</seed>
-		<seed>984803</seed>
-		<seed>45171</seed>
-		<seed>15691</seed>
-		<seed>417851</seed>
-		<seed>663664</seed>
-		<seed>419709</seed>
-		<seed>561328</seed>
-		<seed>104574</seed>
-		<seed>378269</seed>
-		<seed>937425</seed>
-		<seed>725181</seed>
 		<seed>907954</seed>
 		<seed>560917</seed>
 		<seed>48543</seed>
@@ -206,10 +206,10 @@
 		<seed>868564</seed>
 	</randomSeeds>
 	<rsDirectory>./intERS.rs</rsDirectory>
-<xmlFilename>./conf/newScenario.xml</xmlFilename>
+<xmlFilename>./conf/batchScenario.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-<directory>./output/En40_To80/Ex50-100_Pu50-100_En40_To80/LL-LH-HL-HH</directory>
+<directory>./output/withoutProtection/En80_To80/Ex10-20_Pu40-80_En80_To80/LL-LH-HL-HH</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>
@@ -218,5 +218,8 @@
 		<writeEvery>50</writeEvery>
 		<filePrefixAvg>cAvg</filePrefixAvg>
 		<filePrefixSum>cSum</filePrefixSum>
+		<classExtorterStat>intERS.statistics.DataSummaryGeneric</classExtorterStat>
+		<classObserverStat>intERS.statistics.DataSummaryGeneric</classObserverStat>
+		<classTargetStat>intERS.statistics.DataSummaryTarget</classTargetStat>
 	</output>
 </simulation>

@@ -14,18 +14,24 @@ public class BatchHeterogeneous {
 
 	public static void main(String[] args) {
 
-		String simulationXML = "/data/workspace/gloders/intERS/conf/simulation.xml";
-		String simulationXSD = "/data/workspace/gloders/intERS/conf/simulation.xsd";
-		String scenarioXML = "/data/workspace/gloders/intERS/conf/scenario.xml";
-		String batchSimulationXML = "/data/workspace/gloders/intERS/conf/batchSimulation.xml";
-		String batchScenarioXML = "/data/workspace/gloders/intERS/conf/batchScenario.xml";
+		String confDir = "/data/workspace/gloders/intERS/conf/";
+		String outDir = "./output/withProtection";
+		String simulationXML = "simulation.xml";
+		String simulationXSD = "simulation.xsd";
+		String scenarioXML = "scenario.xml";
+		String batchSimulationXML = "batchSimulation.xml";
+		String batchScenarioXML = "batchScenario.xml";
 
-		String tolerance[] = { "80" };
-		String enlargement[] = { "10", "40" };
-		String punishment[][] = { { "20", "40" }, { "30", "60" },
-				{ "40", "80" }, { "50", "100" } };
-		String extortion[][] = { { "10", "20" }, { "20", "40" },
-				{ "30", "60" }, { "40", "80" }, { "50", "100" } };
+		String enlargement[] = { "10" };
+		String tolerance[] = { "40" };
+		String extortion[][] = { { "10", "20" } };
+		String punishment[][] = { { "40", "80" } };
+		// String enlargement[] = { "10", "40", "80" };
+		// String tolerance[] = { "10", "40", "80" };
+		// String extortion[][] = { { "10", "20" }, { "20", "40" },
+		// { "30", "60" }, { "40", "80" }, { "50", "100" } };
+		// String punishment[][] = { { "20", "40" }, { "30", "60" },
+		// { "40", "80" }, { "50", "100" } };
 
 		Path readFile;
 		Path writeFile;
@@ -39,8 +45,8 @@ public class BatchHeterogeneous {
 					for (int ex = 0; ex < extortion.length; ex++) {
 						try {
 							// SIMULATION XML
-							readFile = Paths.get(simulationXML);
-							writeFile = Paths.get(batchSimulationXML);
+							readFile = Paths.get(confDir + simulationXML);
+							writeFile = Paths.get(confDir + batchSimulationXML);
 
 							reader = Files.newBufferedReader(readFile,
 									Charset.defaultCharset());
@@ -56,7 +62,7 @@ public class BatchHeterogeneous {
 								}
 
 								if (numLine == 212) {
-									line = "<directory>./output/En"
+									line = "<directory>" + outDir + "/En"
 											+ enlargement[en] + "_To"
 											+ tolerance[to] + "/Ex"
 											+ extortion[ex][0] + "-"
@@ -77,8 +83,8 @@ public class BatchHeterogeneous {
 							writer.close();
 
 							// SCENARIO XML
-							readFile = Paths.get(scenarioXML);
-							writeFile = Paths.get(batchScenarioXML);
+							readFile = Paths.get(confDir + scenarioXML);
+							writeFile = Paths.get(confDir + batchScenarioXML);
 
 							reader = Files.newBufferedReader(readFile,
 									Charset.defaultCharset());
@@ -88,35 +94,35 @@ public class BatchHeterogeneous {
 							numLine = 1;
 							while ((line = reader.readLine()) != null) {
 
-								if ((numLine == 32) || (numLine == 47)
-										|| (numLine == 62) || (numLine == 77)) {
+								if ((numLine == 37) || (numLine == 56)
+										|| (numLine == 75) || (numLine == 94)) {
 									line = "<enlargementProbability>"
 											+ enlargement[en]
 											+ "</enlargementProbability>";
 								}
 
-								if ((numLine == 35) || (numLine == 50)
-										|| (numLine == 65) || (numLine == 80)) {
+								if ((numLine == 40) || (numLine == 59)
+										|| (numLine == 78) || (numLine == 97)) {
 									line = "<tolerance>" + tolerance[to]
 											+ "</tolerance>";
 								}
 
-								if ((numLine == 40) || (numLine == 55)) {
+								if ((numLine == 48) || (numLine == 67)) {
 									line = "<extortion>" + extortion[ex][0]
 											+ "</extortion>";
 								}
 
-								if ((numLine == 70) || (numLine == 85)) {
+								if ((numLine == 86) || (numLine == 105)) {
 									line = "<extortion>" + extortion[ex][1]
 											+ "</extortion>";
 								}
 
-								if ((numLine == 43) || (numLine == 73)) {
+								if ((numLine == 51) || (numLine == 89)) {
 									line = "<punishment>" + punishment[pu][0]
 											+ "</punishment>";
 								}
 
-								if ((numLine == 58) || (numLine == 88)) {
+								if ((numLine == 70) || (numLine == 108)) {
 									line = "<punishment>" + punishment[pu][1]
 											+ "</punishment>";
 								}
@@ -130,7 +136,8 @@ public class BatchHeterogeneous {
 							writer.close();
 
 							String[] arguments = new String[] {
-									batchSimulationXML, simulationXSD };
+									confDir + batchSimulationXML,
+									confDir + simulationXSD };
 
 							IntERS.main(arguments);
 						} catch (IOException e) {

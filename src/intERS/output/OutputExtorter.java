@@ -12,10 +12,12 @@ public class OutputExtorter extends OutputAbstract {
 	private int numReceivedAttackProtection;
 	private int numCounterattackProtection;
 	private int numReceivedCounterattackProtection;
+	private int numRunawayProtection;
 	private int numAttackRetaliation;
 	private int numReceivedAttackRetaliation;
 	private int numCounterattackRetaliation;
 	private int numReceivedCounterattackRetaliation;
+	private int numRunawayRetaliation;
 	private double totalLostFightProtection;
 	private double totalLostFightRetaliation;
 	private double totalLostPunishment;
@@ -36,10 +38,12 @@ public class OutputExtorter extends OutputAbstract {
 		this.numReceivedAttackProtection = 0;
 		this.numCounterattackProtection = 0;
 		this.numReceivedCounterattackProtection = 0;
+		this.numRunawayProtection = 0;
 		this.numAttackRetaliation = 0;
 		this.numReceivedAttackRetaliation = 0;
 		this.numCounterattackRetaliation = 0;
 		this.numReceivedCounterattackRetaliation = 0;
+		this.numRunawayRetaliation = 0;
 		this.totalLostFightProtection = 0;
 		this.totalLostFightRetaliation = 0;
 		this.totalLostPunishment = 0;
@@ -58,12 +62,14 @@ public class OutputExtorter extends OutputAbstract {
 				+ "numAttackProtection" + fs + "numReceivedAttackProtection"
 				+ fs + "numCounterattackProtection" + fs
 				+ "numReceivedCounterattackProtection" + fs
-				+ "numAttackRetaliation" + fs + "numReceivedAttackRetaliation"
-				+ fs + "numCounterattackRetaliation" + fs
+				+ "numRunawayProtection" + fs + "numAttackRetaliation" + fs
+				+ "numReceivedAttackRetaliation" + fs
+				+ "numCounterattackRetaliation" + fs
 				+ "numReceivedCounterattackRetaliation" + fs
-				+ "totalLostFightProtection" + fs + "totalLostFightRetaliation"
-				+ fs + "numExtortionReceived" + fs + "totalExtortionReceived"
-				+ fs + "numPunishment" + fs + "totalLostPunishment";
+				+ "numRunawayRetaliation" + fs + "totalLostFightProtection"
+				+ fs + "totalLostFightRetaliation" + fs
+				+ "numExtortionReceived" + fs + "totalExtortionReceived" + fs
+				+ "numPunishment" + fs + "totalLostPunishment";
 
 		return str;
 	}
@@ -79,10 +85,11 @@ public class OutputExtorter extends OutputAbstract {
 				+ fs + this.numReceivedAttackProtection + fs
 				+ this.numCounterattackProtection + fs
 				+ this.numReceivedCounterattackProtection + fs
-				+ this.numAttackRetaliation + fs
-				+ this.numReceivedAttackRetaliation + fs
+				+ this.numRunawayProtection + fs + this.numAttackRetaliation
+				+ fs + this.numReceivedAttackRetaliation + fs
 				+ this.numCounterattackRetaliation + fs
 				+ this.numReceivedCounterattackRetaliation + fs
+				+ this.numRunawayRetaliation + fs
 				+ this.totalLostFightProtection + fs
 				+ this.totalLostFightRetaliation + fs
 				+ this.numExtortionReceived + fs + this.totalExtortionReceived
@@ -172,6 +179,14 @@ public class OutputExtorter extends OutputAbstract {
 		this.numReceivedCounterattackProtection = numReceivedCounterattackProtection;
 	}
 
+	public int getNumRunawayProtection() {
+		return this.numRunawayProtection;
+	}
+
+	public void setNumRunawayProtection(int numRunawayProtection) {
+		this.numRunawayProtection = numRunawayProtection;
+	}
+
 	public int getNumAttackRetaliation() {
 		return numAttackRetaliation;
 	}
@@ -203,6 +218,14 @@ public class OutputExtorter extends OutputAbstract {
 	public void setNumReceivedCounterattackRetaliation(
 			int numReceivedCounterattackRetaliation) {
 		this.numReceivedCounterattackRetaliation = numReceivedCounterattackRetaliation;
+	}
+
+	public int getNumRunawayRetaliation() {
+		return this.numRunawayRetaliation;
+	}
+
+	public void setNumRunawayRetaliation(int numRunawayRetaliation) {
+		this.numRunawayRetaliation = numRunawayRetaliation;
 	}
 
 	public double getTotalLostFightProtection() {

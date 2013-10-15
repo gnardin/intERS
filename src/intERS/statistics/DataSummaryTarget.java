@@ -178,7 +178,7 @@ public class DataSummaryTarget implements DataSummaryInterface {
 
 						number[extra_index] += 1;
 
-						value[extra_index + 1] += 1;
+						value[extra_index + 1] += 1.0;
 						number[extra_index + 1] += 1;
 					}
 

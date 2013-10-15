@@ -21,20 +21,21 @@ pu <- as.numeric(args[4])
 ###
 ### Comment all those lines when using with Rscript
 ###
-#rm(list=ls())
-#en <- 10
-#to <- 10
-#ex <- 10
-#pu <- 30
+rm(list=ls())
+en <- 10
+to <- 40
+ex <- 10
+pu <- 40
 
 ###
 ### Raw simulation data output directory
 ###
 basePath <- "/data/workspace/gloders/intERS/output"
 
-outputPath <- paste(basePath,"/En",en,"_To",to,
-                    "/Ex",ex,"-",(ex*2),"_Pu",pu,"-",(pu*2),"_En",en,"_To",to,
-                    "/LL-LH-HL-HH", sep="")
+outputPath <- paste(basePath, "/withoutProtection", sep="")
+#outputPath <- paste(basePath,"/En",en,"_To",to,
+#                    "/Ex",ex,"-",(ex*2),"_Pu",pu,"-",(pu*2),"_En",en,"_To",to,
+#                    "/LL-LH-HL-HH", sep="")
         
 ###
 ### Images repository directory
@@ -150,7 +151,7 @@ if(oX <= NROW(observerAvg)){
   o <- observerAvg[oX:NROW(observerAvg), totalExtortersImprisoned := 0]
 }
 
-png(file=paste(imagePath,"/numberExtortersTotal",ext,".png", sep=""), width=800, height=600)
+png(file=paste(imagePath,"/numberExtortersTotal.png", sep=""), width=800, height=600)
 qplot(cycle, totalExtortersFree+totalExtortersImprisoned, data=o, geom = "line",
       ylim = c(minTotalExtortersY,maxTotalExtortersY),
       main="Total Number of Extorters", xlab="", ylab="Number")
@@ -407,6 +408,148 @@ dev.off()
 
 
 ###
+### EXTORTER RUNAWAY PROTECTION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numRunawayProtection := 0]
+  eLL <- eLL[iLL:NROW(eLL), numAttackProtection := 1]
+  eLL <- eLL[iLL:NROW(eLL), numReceivedAttackProtection := 1]
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackProtection := 1]
+  eLL <- eLL[iLL:NROW(eLL), numReceivedCounterattackProtection := 1]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numRunawayProtection := 0]
+  eLH <- eLH[iLH:NROW(eLH), numAttackProtection := 1]
+  eLH <- eLH[iLH:NROW(eLH), numReceivedAttackProtection := 1]
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackProtection := 1]
+  eLH <- eLH[iLH:NROW(eLH), numReceivedCounterattackProtection := 1]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numRunawayProtection := 0]
+  eHL <- eHL[iHL:NROW(eHL), numAttackProtection := 1]
+  eHL <- eHL[iHL:NROW(eHL), numReceivedAttackProtection := 1]
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackProtection := 1]
+  eHL <- eHL[iHL:NROW(eHL), numReceivedCounterattackProtection := 1]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numRunawayProtection := 0]
+  eHH <- eHH[iHH:NROW(eHH), numAttackProtection := 1]
+  eHH <- eHH[iHH:NROW(eHH), numReceivedAttackProtection := 1]
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackProtection := 1]
+  eHH <- eHH[iHH:NROW(eHH), numReceivedCounterattackProtection := 1]
+}
+
+minRunawayY <- floor(min(min(eLL[,numRunawayProtection],
+                             eHH[,numRunawayProtection]),
+                         min(eLH[,numRunawayProtection],
+                             eHL[,numRunawayProtection])))
+maxRunawayY <- ceiling(max(max(eLL[,numRunawayProtection],
+                               eHH[,numRunawayProtection]),
+                           max(eLH[,numRunawayProtection],
+                               eHL[,numRunawayProtection])))
+
+plotLL <- qplot(cycle, numRunawayProtection,
+                data=eLL, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="LL", xlab="", ylab="Number of Runaway Protection") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numRunawayProtection,
+                data=eLH, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="LH", xlab="", ylab="Number of Runaway Protection") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numRunawayProtection,
+                data=eHL, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="HL", xlab="", ylab="Number of Runaway Protection") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numRunawayProtection,
+                data=eHH, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="HH", xlab="", ylab="Number of Runaway Protection") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberRunawayProtection.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Extorters Number of Runaway Protection")
+dev.off()
+
+
+###
+### EXTORTER RUNAWAY RETALIATION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numRunawayRetaliation := 0]
+  eLL <- eLL[iLL:NROW(eLL), numAttackRetaliation := 1]
+  eLL <- eLL[iLL:NROW(eLL), numReceivedAttackRetaliation := 1]
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackRetaliation := 1]
+  eLL <- eLL[iLL:NROW(eLL), numReceivedCounterattackRetaliation := 1]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numRunawayRetaliation := 0]
+  eLH <- eLH[iLH:NROW(eLH), numAttackRetaliation := 1]
+  eLH <- eLH[iLH:NROW(eLH), numReceivedAttackRetaliation := 1]
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackRetaliation := 1]
+  eLH <- eLH[iLH:NROW(eLH), numReceivedCounterattackRetaliation := 1]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numRunawayRetaliation := 0]
+  eHL <- eHL[iHL:NROW(eHL), numAttackRetaliation := 1]
+  eHL <- eHL[iHL:NROW(eHL), numReceivedAttackRetaliation := 1]
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackRetaliation := 1]
+  eHL <- eHL[iHL:NROW(eHL), numReceivedCounterattackRetaliation := 1]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numRunawayRetaliation := 0]
+  eHH <- eHH[iHH:NROW(eHH), numAttackRetaliation := 1]
+  eHH <- eHH[iHH:NROW(eHH), numReceivedAttackRetaliation := 1]
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackRetaliation := 1]
+  eHH <- eHH[iHH:NROW(eHH), numReceivedCounterattackRetaliation := 1]
+}
+
+minRunawayY <- floor(min(min(eLL[,numRunawayRetaliation],
+                             eHH[,numRunawayRetaliation]),
+                         min(eLH[,numRunawayRetaliation],
+                             eHL[,numRunawayRetaliation])))
+maxRunawayY <- ceiling(max(max(eLL[,numRunawayRetaliation],
+                               eHH[,numRunawayRetaliation]),
+                           max(eLH[,numRunawayRetaliation],
+                               eHL[,numRunawayRetaliation])))
+
+plotLL <- qplot(cycle, numRunawayRetaliation,
+                data=eLL, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="LL", xlab="", ylab="Number of Runaway Retaliation") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numRunawayRetaliation,
+                data=eLH, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="LH", xlab="", ylab="Number of Runaway Retaliation") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numRunawayRetaliation,
+                data=eHL, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="HL", xlab="", ylab="Number of Runaway Retaliation") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numRunawayRetaliation,
+                data=eHH, geom = "line",
+                ylim = c(minRunawayY,maxRunawayY),
+                main="HH", xlab="", ylab="Number of Runaway Retaliation") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberRunawayRetaliation.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Extorters Number of Runaway Retaliation")
+dev.off()
+
+
+###
 ### EXTORTER VIOLENCE
 ###
 eLL <- extorterSum[which(type == 0), ]
@@ -415,44 +558,65 @@ eHL <- extorterSum[which(type == 2), ]
 eHH <- extorterSum[which(type == 3), ]
 
 if(iLL <= NROW(eLL)){
-  eLL <- eLL[iLL:NROW(eLL), numCounterattack := 0]
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackProtection := 0]
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackRetaliation := 0]
   eLL <- eLL[iLL:NROW(eLL), numPunishment := 0]
 }
 if(iLH <= NROW(eLH)){
-  eLH <- eLH[iLH:NROW(eLH), numCounterattack := 0]
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackProtection := 0]
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackRetaliation := 0]
   eLH <- eLH[iLH:NROW(eLH), numPunishment := 0]
 }
 if(iHL <= NROW(eHL)){
-  eHL <- eHL[iHL:NROW(eHL), numCounterattack := 0]
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackProtection := 0]
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackRetaliation := 0]
   eHL <- eHL[iHL:NROW(eHL), numPunishment := 0]
 }
 if(iHH <= NROW(eHH)){
-  eHH <- eHH[iHH:NROW(eHH), numCounterattack := 0]
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackProtection := 0]
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackRetaliation := 0]
   eHH <- eHH[iHH:NROW(eHH), numPunishment := 0]
 }
 
-minViolenceY <- floor(min(min(eLL[,numCounterattack+numPunishment],
-                              eHH[,numCounterattack+numPunishment]),
-                          min(eLH[,numCounterattack+numPunishment],
-                              eHL[,numCounterattack+numPunishment])))
-maxViolenceY <- ceiling(max(max(eLL[,numCounterattack+numPunishment],
-                                eHH[,numCounterattack+numPunishment]),
-                            max(eLH[,numCounterattack+numPunishment],
-                                eHL[,numCounterattack+numPunishment])))
+minViolenceY <- floor(min(min(eLL[,numCounterattackProtection+
+                                    numCounterattackRetaliation+
+                                    numPunishment],
+                              eHH[,numCounterattackProtection+
+                                    numCounterattackRetaliation+
+                                    numPunishment]),
+                          min(eLH[,numCounterattackProtection+
+                                    numCounterattackRetaliation+
+                                    numPunishment],
+                              eHL[,numCounterattackProtection+
+                                    numCounterattackRetaliation+
+                                    numPunishment])))
+maxViolenceY <- ceiling(max(max(eLL[,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment],
+                                eHH[,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment]),
+                            max(eLH[,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment],
+                                eHL[,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment])))
 
-plotLL <- qplot(cycle, numCounterattack+numPunishment, data=eLL, geom = "line",
+plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eLL, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LL", xlab="", ylab="Number of Fights + Punishments") +
   geom_vline(xintercept=iLL, linetype="dashed", color="red")
-plotLH <- qplot(cycle, numCounterattack+numPunishment, data=eLH, geom = "line",
+plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment, data=eLH, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LH", xlab="", ylab="Number of Fights + Punishments") +
   geom_vline(xintercept=iLH, linetype="dashed", color="red")
-plotHL <- qplot(cycle, numCounterattack+numPunishment, data=eHL, geom = "line",
+plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment, data=eHL, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HL", xlab="", ylab="Number of Fights + Punishments") +
   geom_vline(xintercept=iHL, linetype="dashed", color="red")
-plotHH <- qplot(cycle, numCounterattack+numPunishment, data=eHH, geom = "line",
+plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment, data=eHH, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HH", xlab="", ylab="Number of Fights + Punishments") +
   geom_vline(xintercept=iHH, linetype="dashed", color="red")
@@ -465,21 +629,33 @@ dev.off()
 ### EXTORTER VIOLENCE HIGHLIGHT 1:100
 ###
 minViolenceY <- 0
-maxViolenceY <- ceiling(max(max(eLL[1:100,numCounterattack+numPunishment],
-                                eHH[1:100,numCounterattack+numPunishment]),
-                            max(eLH[1:100,numCounterattack+numPunishment],
-                                eHL[1:100,numCounterattack+numPunishment])))
+maxViolenceY <- ceiling(max(max(eLL[1:100,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment],
+                                eHH[1:100,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment]),
+                            max(eLH[1:100,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment],
+                                eHL[1:100,numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment])))
 
-plotLL <- qplot(cycle, numCounterattack+numPunishment, data=eLL[1:100], geom = "line",
+plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eLL[1:100], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LL", xlab="", ylab="Number of Fights + Punishments")
-plotLH <- qplot(cycle, numCounterattack+numPunishment, data=eLH[1:100], geom = "line",
+plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eLH[1:100], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LH", xlab="", ylab="Number of Fights + Punishments")
-plotHL <- qplot(cycle, numCounterattack+numPunishment, data=eHL[1:100], geom = "line",
+plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eHL[1:100], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HL", xlab="", ylab="Number of Fights + Punishments")
-plotHH <- qplot(cycle, numCounterattack+numPunishment, data=eHH[1:100], geom = "line",
+plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eHH[1:100], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HH", xlab="", ylab="Number of Fights + Punishments")
 png(file=paste(imagePath,"/numberViolenceHighlighted:1-100.png", sep=""), width=800, height=600)
@@ -491,21 +667,33 @@ dev.off()
 ### EXTORTER VIOLENCE HIGHLIGHT 100:END
 ###
 minViolenceY <- 0
-maxViolenceY <- ceiling(max(max(eLL[100:NROW(eLL),numCounterattack+numPunishment],
-                                eHH[100:NROW(eHH),numCounterattack+numPunishment]),
-                            max(eLH[100:NROW(eLH),numCounterattack+numPunishment],
-                                eHL[100:NROW(eHL),numCounterattack+numPunishment])))
+maxViolenceY <- ceiling(max(max(eLL[100:NROW(eLL),numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment],
+                                eHH[100:NROW(eHH),numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment]),
+                            max(eLH[100:NROW(eLH),numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment],
+                                eHL[100:NROW(eHL),numCounterattackProtection+
+                                      numCounterattackRetaliation+
+                                      numPunishment])))
 
-plotLL <- qplot(cycle, numCounterattack+numPunishment, data=eLL[100:NROW(eLL)], geom = "line",
+plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eLL[100:NROW(eLL)], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LL", xlab="", ylab="Number of Fights + Punishments")
-plotLH <- qplot(cycle, numCounterattack+numPunishment, data=eLH[100:NROW(eLH)], geom = "line",
+plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eLH[100:NROW(eLH)], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LH", xlab="", ylab="Number of Fights + Punishments")
-plotHL <- qplot(cycle, numCounterattack+numPunishment, data=eHL[100:NROW(eHL)], geom = "line",
+plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eHL[100:NROW(eHL)], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HL", xlab="", ylab="Number of Fights + Punishments")
-plotHH <- qplot(cycle, numCounterattack+numPunishment, data=eHH[100:NROW(eHH)], geom = "line",
+plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+numPunishment,
+                data=eHH[100:NROW(eHH)], geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HH", xlab="", ylab="Number of Fights + Punishments")
 png(file=paste(imagePath,"/numberViolenceHighlighted:100-END.png", sep=""), width=800, height=600)
@@ -522,19 +710,23 @@ eHL <- extorterSum[which(type == 2), ]
 eHH <- extorterSum[which(type == 3), ]
 
 if(iLL <= NROW(eLL)){
-  eLL <- eLL[iLL:NROW(eLL), totalLostFight := 0]
+  eLL <- eLL[iLL:NROW(eLL), totalLostFightProtection := 0]
+  eLL <- eLL[iLL:NROW(eLL), totalLostFightRetaliation := 0]
   eLL <- eLL[iLL:NROW(eLL), totalLostPunishment := 0]
 }
 if(iLH <= NROW(eLH)){
-  eLH <- eLH[iLH:NROW(eLH), totalLostFight := 0]
+  eLH <- eLH[iLH:NROW(eLH), totalLostFightProtection := 0]
+  eLH <- eLH[iLH:NROW(eLH), totalLostFightRetaliation := 0]
   eLH <- eLH[iLH:NROW(eLH), totalLostPunishment := 0]
 }
 if(iHL <= NROW(eHL)){
-  eHL <- eHL[iHL:NROW(eHL), totalLostFight := 0]
+  eHL <- eHL[iHL:NROW(eHL), totalLostFightProtection := 0]
+  eHL <- eHL[iHL:NROW(eHL), totalLostFightRetaliation := 0]
   eHL <- eHL[iHL:NROW(eHL), totalLostPunishment := 0]
 }
 if(iHH <= NROW(eHH)){
-  eHH <- eHH[iHH:NROW(eHH), totalLostFight := 0]
+  eHH <- eHH[iHH:NROW(eHH), totalLostFightProtection := 0]
+  eHH <- eHH[iHH:NROW(eHH), totalLostFightRetaliation := 0]
   eHH <- eHH[iHH:NROW(eHH), totalLostPunishment := 0]
 }
 
@@ -543,56 +735,104 @@ lastLine <- max(max(nrow(eLL),nrow(eHH)),max(nrow(eLH),nrow(eHL)))
 for(index in 2:lastLine){
   
   if(index < nrow(eLL)){
-    aux <- eLL[index-1,totalLostFight] + eLL[index,totalLostFight]
-    eLL[index,totalLostFight := aux]
-    aux <- eLL[index-1,totalLostPunishment] + eLL[index,totalLostPunishment]
+    aux <- eLL[index-1,totalLostFightProtection] +
+      eLL[index,totalLostFightProtection]
+    eLL[index,totalLostFightProtection := aux]
+    
+    aux <- eLL[index-1,totalLostFightRetaliation] +
+      eLL[index,totalLostFightRetaliation]
+    eLL[index,totalLostFightRetaliation := aux]
+    
+    aux <- eLL[index-1,totalLostPunishment] +
+      eLL[index,totalLostPunishment]
     eLL[index,totalLostPunishment := aux]
   }
   
   if(index < nrow(eLH)){
-    aux <- eLH[index-1,totalLostFight] + eLH[index,totalLostFight]
-    eLH[index,totalLostFight := aux]
-    aux <- eLH[index-1,totalLostPunishment] + eLH[index,totalLostPunishment]
+    aux <- eLH[index-1,totalLostFightProtection] +
+      eLH[index,totalLostFightProtection]
+    eLH[index,totalLostFightProtection := aux]
+    
+    aux <- eLH[index-1,totalLostFightRetaliation] +
+      eLH[index,totalLostFightRetaliation]
+    eLH[index,totalLostFightRetaliation := aux]
+    
+    aux <- eLH[index-1,totalLostPunishment] +
+      eLH[index,totalLostPunishment]
     eLH[index,totalLostPunishment := aux]
   }
   
   if(index < nrow(eHL)){
-    aux <- eHL[index-1,totalLostFight] + eHL[index,totalLostFight]
-    eHL[index,totalLostFight := aux]
-    aux <- eHL[index-1,totalLostPunishment] + eHL[index,totalLostPunishment]
+    aux <- eHL[index-1,totalLostFightProtection] +
+      eHL[index,totalLostFightProtection]
+    eHL[index,totalLostFightProtection := aux]
+    
+    aux <- eHL[index-1,totalLostFightRetaliation] +
+      eHL[index,totalLostFightRetaliation]
+    eHL[index,totalLostFightRetaliation := aux]
+    
+    aux <- eHL[index-1,totalLostPunishment] +
+      eHL[index,totalLostPunishment]
     eHL[index,totalLostPunishment := aux]
   }
   
   if(index < nrow(eHH)){
-    aux <- eHH[index-1,totalLostFight] + eHH[index,totalLostFight]
-    eHH[index,totalLostFight := aux]
-    aux <- eHH[index-1,totalLostPunishment] + eHH[index,totalLostPunishment]
+    aux <- eHH[index-1,totalLostFightProtection] +
+      eHH[index,totalLostFightProtection]
+    eHH[index,totalLostFightProtection := aux]
+    
+    aux <- eHH[index-1,totalLostFightRetaliation] +
+      eHH[index,totalLostFightRetaliation]
+    eHH[index,totalLostFightRetaliation := aux]
+    
+    aux <- eHH[index-1,totalLostPunishment] +
+      eHH[index,totalLostPunishment]
     eHH[index,totalLostPunishment := aux]
   }
 }
 
-minViolenceY <- floor(min(min(eLL[,totalLostFight+totalLostPunishment],
-                              eHH[,totalLostFight+totalLostPunishment]),
-                          min(eLH[,totalLostFight+totalLostPunishment],
-                              eHL[,totalLostFight+totalLostPunishment])))
-maxViolenceY <- ceiling(max(max(eLL[,totalLostFight+totalLostPunishment],
-                                eHH[,totalLostFight+totalLostPunishment]),
-                            max(eLH[,totalLostFight+totalLostPunishment],
-                                eHL[,totalLostFight+totalLostPunishment])))
+minViolenceY <- floor(min(min(eLL[,totalLostFightProtection+
+                                    totalLostFightRetaliation+
+                                    totalLostPunishment],
+                              eHH[,totalLostFightProtection+
+                                    totalLostFightRetaliation+
+                                    totalLostPunishment]),
+                          min(eLH[,totalLostFightProtection+
+                                    totalLostFightRetaliation+
+                                    totalLostPunishment],
+                              eHL[,totalLostFightProtection+
+                                    totalLostFightRetaliation+
+                                    totalLostPunishment])))
+maxViolenceY <- ceiling(max(max(eLL[,totalLostFightProtection+
+                                      totalLostFightRetaliation+
+                                      totalLostPunishment],
+                                eHH[,totalLostFightProtection+
+                                      totalLostFightRetaliation+
+                                      totalLostPunishment]),
+                            max(eLH[,totalLostFightProtection+
+                                      totalLostFightRetaliation+
+                                      totalLostPunishment],
+                                eHL[,totalLostFightProtection+
+                                      totalLostFightRetaliation+
+                                      totalLostPunishment])))
 
-plotLL <- qplot(cycle, totalLostFight+totalLostPunishment, data=eLL, geom = "line",
+plotLL <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation+totalLostPunishment,
+                data=eLL, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LL", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iLL, linetype="dashed", color="red")
-plotLH <- qplot(cycle, totalLostFight+totalLostPunishment, data=eLH, geom = "line",
+plotLH <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation+totalLostPunishment,
+                data=eLH, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="LH", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iLH, linetype="dashed", color="red")
-plotHL <- qplot(cycle, totalLostFight+totalLostPunishment, data=eHL, geom = "line",
+plotHL <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation+totalLostPunishment,
+                data=eHL, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HL", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iHL, linetype="dashed", color="red")
-plotHH <- qplot(cycle, totalLostFight+totalLostPunishment, data=eHH, geom = "line",
+plotHH <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation+totalLostPunishment,
+                data=eHH, geom = "line",
                 ylim = c(minViolenceY,maxViolenceY),
                 main="HH", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iHH, linetype="dashed", color="red")
@@ -604,24 +844,32 @@ dev.off()
 ###
 ### EXTORTER LOSS OF WEALTH ON FIGHTING
 ###
-minFightY <- floor(min(min(eLL[,totalLostFight], eHH[,totalLostFight]),
-                       min(eLH[,totalLostFight], eHL[,totalLostFight])))
-maxFightY <- ceiling(max(max(eLL[,totalLostFight], eHH[,totalLostFight]),
-                         max(eLH[,totalLostFight], eHL[,totalLostFight])))
+minFightY <- floor(min(min(eLL[,totalLostFightProtection+totalLostFightRetaliation],
+                           eHH[,totalLostFightProtection+totalLostFightRetaliation]),
+                       min(eLH[,totalLostFightProtection+totalLostFightRetaliation],
+                           eHL[,totalLostFightProtection+totalLostFightRetaliation])))
+maxFightY <- ceiling(max(max(eLL[,totalLostFightProtection+totalLostFightRetaliation],
+                             eHH[,totalLostFightProtection+totalLostFightRetaliation]),
+                         max(eLH[,totalLostFightProtection+totalLostFightRetaliation],
+                             eHL[,totalLostFightProtection+totalLostFightRetaliation])))
 
-plotLL <- qplot(cycle, totalLostFight, data=eLL, geom = "line",
+plotLL <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+                data=eLL, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LL", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iLL, linetype="dashed", color="red")
-plotLH <- qplot(cycle, totalLostFight, data=eLH, geom = "line",
+plotLH <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+                data=eLH, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LH", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iLH, linetype="dashed", color="red")
-plotHL <- qplot(cycle, totalLostFight, data=eHL, geom = "line",
+plotHL <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+                data=eHL, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HL", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iHL, linetype="dashed", color="red")
-plotHH <- qplot(cycle, totalLostFight, data=eHH, geom = "line",
+plotHH <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+                data=eHH, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HH", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iHH, linetype="dashed", color="red")
@@ -765,44 +1013,84 @@ eHL <- extorterSum[which(type == 2), ]
 eHH <- extorterSum[which(type == 3), ]
 
 if(iLL <= NROW(eLL)){
-  eLL <- eLL[iLL:NROW(eLL), numCounterattack := 0]
-  eLL <- eLL[iLL:NROW(eLL), numReceivedCounterattack := 0]
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackProtection := 0]
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackRetaliation := 0]
+  eLL <- eLL[iLL:NROW(eLL), numReceivedCounterattackProtection := 0]
+  eLL <- eLL[iLL:NROW(eLL), numReceivedCounterattackRetaliation := 0]
 }
 if(iLH <= NROW(eLH)){
-  eLH <- eLH[iLH:NROW(eLH), numCounterattack := 0]
-  eLH <- eLH[iLH:NROW(eLH), numReceivedCounterattack := 0]
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackProtection := 0]
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackRetaliation := 0]
+  eLH <- eLH[iLH:NROW(eLH), numReceivedCounterattackProtection := 0]
+  eLH <- eLH[iLH:NROW(eLH), numReceivedCounterattackRetaliation := 0]
 }
 if(iHL <= NROW(eHL)){
-  eHL <- eHL[iHL:NROW(eHL), numCounterattack := 0]
-  eHL <- eHL[iHL:NROW(eHL), numReceivedCounterattack := 0]
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackProtection := 0]
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackRetaliation := 0]
+  eHL <- eHL[iHL:NROW(eHL), numReceivedCounterattackProtection := 0]
+  eHL <- eHL[iHL:NROW(eHL), numReceivedCounterattackRetaliation := 0]
 }
 if(iHH <= NROW(eHH)){
-  eHH <- eHH[iHH:NROW(eHH), numCounterattack := 0]
-  eHH <- eHH[iHH:NROW(eHH), numReceivedCounterattack := 0]
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackProtection := 0]
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackRetaliaion := 0]
+  eHH <- eHH[iHH:NROW(eHH), numReceivedCounterattackProtection := 0]
+  eHH <- eHH[iHH:NROW(eHH), numReceivedCounterattackRetaliation := 0]
 }
 
-minFightY <- floor(min(min(eLL[,numCounterattack+numReceivedCounterattack],
-                           eHH[,numCounterattack+numReceivedCounterattack]),
-                       min(eLH[,numCounterattack+numReceivedCounterattack],
-                           eHL[,numCounterattack+numReceivedCounterattack])))
-maxFightY <- ceiling(max(max(eLL[,numCounterattack+numReceivedCounterattack],
-                             eHH[,numCounterattack+numReceivedCounterattack]),
-                         max(eLH[,numCounterattack+numReceivedCounterattack],
-                             eHL[,numCounterattack+numReceivedCounterattack])))
+minFightY <- floor(min(min(eLL[,numCounterattackProtection+
+                                 numCounterattackRetaliation+
+                                 numReceivedCounterattackProtection+
+                                 numReceivedCounterattackRetaliation],
+                           eHH[,numCounterattackProtection+
+                                 numCounterattackRetaliation+
+                                 numReceivedCounterattackProtection+
+                                 numReceivedCounterattackRetaliation]),
+                       min(eLH[,numCounterattackProtection+
+                                 numCounterattackRetaliation+
+                                 numReceivedCounterattackProtection+
+                                 numReceivedCounterattackRetaliation],
+                           eHL[,numCounterattackProtection+
+                                 numCounterattackRetaliation+
+                                 numReceivedCounterattackProtection+
+                                 numReceivedCounterattackRetaliation])))
+maxFightY <- ceiling(max(max(eLL[,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation],
+                             eHH[,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation]),
+                         max(eLH[,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation],
+                             eHL[,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation])))
 
-plotLL <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eLL, geom = "line",
+plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eLL, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LL", xlab="", ylab="Number of Fights") +
   geom_vline(xintercept=iLL, linetype="dashed", color="red")
-plotLH <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eLH, geom = "line",
+plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eLH, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LH", xlab="", ylab="Number of Fights") +
   geom_vline(xintercept=iLH, linetype="dashed", color="red")
-plotHL <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eHL, geom = "line",
+plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eHL, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HL", xlab="", ylab="Number of Fights") +
   geom_vline(xintercept=iHL, linetype="dashed", color="red")
-plotHH <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eHH, geom = "line",
+plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eHH, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HH", xlab="", ylab="Number of Fights") +
   geom_vline(xintercept=iHH, linetype="dashed", color="red")
@@ -815,21 +1103,41 @@ dev.off()
 ### EXTORTER FIGHT HIGHLIGHT 1:100
 ###
 minFightY <- 0
-maxFightY <- ceiling(max(max(eLL[1:100,numCounterattack+numReceivedCounterattack],
-                             eHH[1:100,numCounterattack+numReceivedCounterattack]),
-                         max(eLH[1:100,numCounterattack+numReceivedCounterattack],
-                             eHL[1:100,numCounterattack+numReceivedCounterattack])))
+maxFightY <- ceiling(max(max(eLL[1:100,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation],
+                             eHH[1:100,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation]),
+                         max(eLH[1:100,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation],
+                             eHL[1:100,numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation])))
 
-plotLL <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eLL[1:100], geom = "line",
+plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eLL[1:100], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LL", xlab="", ylab="Number of Fights")
-plotLH <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eLH[1:100], geom = "line",
+plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eLH[1:100], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LH", xlab="", ylab="Number of Fights")
-plotHL <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eHL[1:100], geom = "line",
+plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eHL[1:100], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HL", xlab="", ylab="Number of Fights")
-plotHH <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eHH[1:100], geom = "line",
+plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eHH[1:100], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HH", xlab="", ylab="Number of Fights")
 png(file=paste(imagePath,"/numberFightHighlighted:1-100.png", sep=""), width=800, height=600)
@@ -841,21 +1149,41 @@ dev.off()
 ### EXTORTER FIGHT HIGHLIGHT 100:END
 ###
 minFightY <- 0
-maxFightY <- ceiling(max(max(eLL[100:NROW(eLL),numCounterattack+numReceivedCounterattack],
-                             eHH[100:NROW(eHH),numCounterattack+numReceivedCounterattack]),
-                         max(eLH[100:NROW(eLH),numCounterattack+numReceivedCounterattack],
-                             eHL[100:NROW(eHL),numCounterattack+numReceivedCounterattack])))
+maxFightY <- ceiling(max(max(eLL[100:NROW(eLL),numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation],
+                             eHH[100:NROW(eHH),numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation]),
+                         max(eLH[100:NROW(eLH),numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation],
+                             eHL[100:NROW(eHL),numCounterattackProtection+
+                                   numCounterattackRetaliation+
+                                   numReceivedCounterattackProtection+
+                                   numReceivedCounterattackRetaliation])))
 
-plotLL <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eLL[100:NROW(eLL)], geom = "line",
+plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eLL[100:NROW(eLL)], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LL", xlab="", ylab="Number of Fights")
-plotLH <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eLH[100:NROW(eLH)], geom = "line",
+plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eLH[100:NROW(eLH)], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LH", xlab="", ylab="Number of Fights")
-plotHL <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eHL[100:NROW(eHL)], geom = "line",
+plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eHL[100:NROW(eHL)], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HL", xlab="", ylab="Number of Fights")
-plotHH <- qplot(cycle, numCounterattack+numReceivedCounterattack, data=eHH[100:NROW(eHH)], geom = "line",
+plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
+                  numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
+                data=eHH[100:NROW(eHH)], geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HH", xlab="", ylab="Number of Fights")
 png(file=paste(imagePath,"/numberFightHighlighted:100-END.png", sep=""), width=800, height=600)
@@ -946,8 +1274,15 @@ if(iHH <= NROW(eHH)){
 cycle <- seq(1:NROW(targetSum))
 dWealth <- mapply(sum, targetSum[,wealth], eLL[,wealth], eLH[,wealth],
                   eHL[,wealth], eHH[,wealth])
-dLosses <- mapply(sum, targetSum[,totalPunishment], eLL[,totalLostFight],
-                  eLH[,totalLostFight], eHL[,totalLostFight], eHH[,totalLostFight])
+dLosses <- mapply(sum, targetSum[,totalPunishment],
+                  eLL[,totalLostFightProtection],
+                  eLL[,totalLostFightRetaliation],
+                  eLH[,totalLostFightProtection], 
+                  eLH[,totalLostFightRetaliation],
+                  eHL[,totalLostFightProtection],
+                  eHL[,totalLostFightRetaliation],
+                  eHH[,totalLostFightProtection],
+                  eHH[,totalLostFightRetaliation])
 society <- cbind(cycle, dWealth, dLosses)
 society <- data.table(society)
 setnames(society, c("data","wealth","losses"))

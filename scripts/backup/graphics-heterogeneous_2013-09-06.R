@@ -5,13 +5,36 @@ library(data.table)
 library(ggplot2)
 library(gridExtra)
 
-rm(list=ls())
+###
+### Command Arguments
+###
+args <- commandArgs(TRUE)
+
+###
+### Raw simulation data output directory
+###
+en <- as.numeric(args[1])
+to <- as.numeric(args[2])
+ex <- as.numeric(args[3])
+pu <- as.numeric(args[4])
+
+###
+### Comment all those lines when using with Rscript
+###
+#rm(list=ls())
+#en <- 10
+#to <- 10
+#ex <- 10
+#pu <- 30
+
 ###
 ### Raw simulation data output directory
 ###
 basePath <- "/data/workspace/gloders/intERS/output"
 
-outputPath <- paste(basePath, "/no_attack",sep="")
+outputPath <- paste(basePath,"/En",en,"_To",to,
+                    "/Ex",ex,"-",(ex*2),"_Pu",pu,"-",(pu*2),"_En",en,"_To",to,
+                    "/LL-LH-HL-HH", sep="")
         
 ###
 ### Images repository directory
@@ -127,7 +150,7 @@ if(oX <= NROW(observerAvg)){
   o <- observerAvg[oX:NROW(observerAvg), totalExtortersImprisoned := 0]
 }
 
-png(file=paste(imagePath,"/numberExtortersTotal.png", sep=""), width=800, height=600)
+png(file=paste(imagePath,"/numberExtortersTotal",ext,".png", sep=""), width=800, height=600)
 qplot(cycle, totalExtortersFree+totalExtortersImprisoned, data=o, geom = "line",
       ylim = c(minTotalExtortersY,maxTotalExtortersY),
       main="Total Number of Extorters", xlab="", ylab="Number")

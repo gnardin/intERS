@@ -63,9 +63,9 @@ public class ExtorterAgent extends ExtorterAbstract {
 		List<Integer> protectionList;
 		List<Integer> extortersList;
 		ExtorterAbstract extorter;
-		int maxNumExtorted;
+		double maxNumExtorted;
 		double maxWealth;
-		int opNumExtorted;
+		double opNumExtorted;
 		double opWealth;
 		double opStrength;
 		double myStrength;
@@ -100,10 +100,10 @@ public class ExtorterAgent extends ExtorterAbstract {
 						maxWealth = Math.max(this.wealth, opWealth);
 
 						opStrength = ((double) opNumExtorted / maxNumExtorted)
-								+ (opWealth / maxWealth);
+								+ ((double) opWealth / maxWealth);
 
 						myStrength = ((double) this.extorted.size() / maxNumExtorted)
-								+ (this.wealth / maxWealth);
+								+ ((double) this.wealth / maxWealth);
 
 						// If I am stronger attack protection, otherwise do not
 						if (opStrength < myStrength) {
@@ -120,9 +120,9 @@ public class ExtorterAgent extends ExtorterAbstract {
 	@Override
 	public void decideToCounterattackProtection() {
 		ExtorterAbstract extorter;
-		int maxNumExtorted;
+		double maxNumExtorted;
 		double maxWealth;
-		int opNumExtorted;
+		double opNumExtorted;
 		double opWealth;
 		double opStrength;
 		double myStrength;
@@ -130,6 +130,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 			// Counterattack anyway
 			if (RandomHelper.nextDouble() <= this.counterattackProtectionPropensity) {
 				this.counterattackProtection.add(extorterId);
+
 				// Rational decision to counterattack
 			} else {
 				extorter = this.extorters.get(extorterId);
@@ -141,10 +142,10 @@ public class ExtorterAgent extends ExtorterAbstract {
 				maxWealth = Math.max(this.wealth, opWealth);
 
 				opStrength = ((double) opNumExtorted / maxNumExtorted)
-						+ (opWealth / maxWealth);
+						+ ((double) opWealth / maxWealth);
 
 				myStrength = ((double) this.extorted.size() / maxNumExtorted)
-						+ (this.wealth / maxWealth);
+						+ ((double) this.wealth / maxWealth);
 
 				// If I am stronger attack, otherwise do not
 				if (opStrength < myStrength) {
@@ -207,9 +208,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 					&& (!wasAttackedBecauseTarget.containsKey(targetId))) {
 				if (!this.paid.containsKey(targetId)) {
 					this.punishments.put(targetId, 0.0);
-
-					// System.out.println("(1) " + this.id + " PUNISHING "
-					// + targetId);
 				}
 				// Extorter was Asked for Protection
 			} else if (this.protectionRequested.containsKey(targetId)) {
@@ -231,10 +229,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 					// Protection
 					if (isCounterattackedBecauseTarget) {
 						if (!this.paid.containsKey(targetId)) {
-							// System.out.println("(2) " + this.id +
-							// " PUNISHING "
-							// + targetId);
-
 							this.punishments.put(targetId, 0.0);
 						}
 
@@ -242,10 +236,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 						// Request Protection
 					} else {
 						if (!this.paid.containsKey(targetId)) {
-							// System.out.println("(3) " + this.id +
-							// " PUNISHING "
-							// + targetId);
-
 							this.punishments.put(targetId, 0.0);
 						}
 					}
@@ -254,10 +244,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 				} else {
 					if (!this.paid.containsKey(targetId)) {
 						if (RandomHelper.nextDouble() < this.tolerance) {
-							// System.out.println("(4) " + this.id +
-							// " PUNISHING "
-							// + targetId);
-
 							this.punishments.put(targetId, 0.0);
 						}
 					}
@@ -280,9 +266,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 			if (counterattackedAll) {
 				if (!this.paid.containsKey(targetId)) {
 					if (RandomHelper.nextDouble() < this.tolerance) {
-						// System.out.println("(5) " + this.id + " PUNISHING "
-						// + targetId);
-
 						this.punishments.put(targetId, 0.0);
 					}
 
@@ -290,6 +273,9 @@ public class ExtorterAgent extends ExtorterAbstract {
 				} else {
 					if (this.extorted.containsKey(targetId)) {
 						this.extorted.remove(targetId);
+
+						this.output.setNumRunawayProtection(this.output
+								.getNumRunawayProtection() + 1);
 					}
 				}
 			}
