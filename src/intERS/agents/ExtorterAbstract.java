@@ -64,7 +64,7 @@ public abstract class ExtorterAbstract {
 	protected Map<Integer, ExtorterAbstract> extorters;
 
 	// List of Extorters paid <Extorter Id, <Target Id, Extortion paid>>
-	protected Map<Integer, Map<Integer, Double>> extortersPaid;
+	protected Map<Integer, Map<Integer, Double>> extortersPaidInsteadOfMe;
 
 	// List of protection requests <Target Id, Extorters list>
 	protected Map<Integer, List<Integer>> protectionRequested;
@@ -78,17 +78,23 @@ public abstract class ExtorterAbstract {
 	// Output recorder
 	protected OutputRecorder outputRecorder;
 
-	// List of Target payments <Target Id, Payment>
+	// Target payments <Target Id, Payment>
 	protected Map<Integer, Double> paid;
 
-	// List of punishments <Target Id, Punishment>
+	// Punishments <Target Id, Punishment>
 	protected Map<Integer, Double> punishments;
 
-	// List of Extorters to attack for protection <Extorter Id, List Target Ids>
+	// Extorters to attack for protection <Extorter Id, List Target Ids>
 	protected Map<Integer, List<Integer>> attackProtection;
 
-	// List of Extorters to attack for retaliation <Extorter Id>
-	protected List<Integer> attackRetaliation;
+	// Extorters to non attack for protection <Extorter Id, List Target Ids>
+	protected Map<Integer, List<Integer>> nonAttackProtection;
+
+	// Extorters to attack for retaliation <Extorter Id, List Target Ids>
+	protected Map<Integer, List<Integer>> attackRetaliation;
+
+	// Extorters to non attack for retaliation <Extorter Id, List Target Ids>
+	protected Map<Integer, List<Integer>> nonAttackRetaliation;
 
 	// Attack protection propensity [0;1]
 	protected double attackProtectionPropensity;
@@ -99,8 +105,8 @@ public abstract class ExtorterAbstract {
 	// List of received attack for protection <Extorter Id, List Target Ids>
 	protected Map<Integer, List<Integer>> protection;
 
-	// List of received retaliation <Extorter ID>
-	protected List<Integer> retaliation;
+	// List of received retaliation <Extorter ID, List Target Ids>
+	protected Map<Integer, List<Integer>> retaliation;
 
 	// List of available Targets <Target Id, Target Object>
 	protected Map<Integer, TargetAbstract> targets;
@@ -149,20 +155,22 @@ public abstract class ExtorterAbstract {
 		}
 
 		this.extorters = extorters;
-		this.extortersPaid = new HashMap<Integer, Map<Integer, Double>>();
+		this.extortersPaidInsteadOfMe = new HashMap<Integer, Map<Integer, Double>>();
 		this.protectionRequested = new HashMap<Integer, List<Integer>>();
 		this.lostWealth = 0;
 		this.outputRecorder = OutputRecorder.getInstance();
 		this.paid = new HashMap<Integer, Double>();
 		this.punishments = new HashMap<Integer, Double>();
 		this.attackProtection = new HashMap<Integer, List<Integer>>();
-		this.attackRetaliation = new ArrayList<Integer>();
+		this.nonAttackProtection = new HashMap<Integer, List<Integer>>();
+		this.attackRetaliation = new HashMap<Integer, List<Integer>>();
+		this.nonAttackRetaliation = new HashMap<Integer, List<Integer>>();
 		this.attackProtectionPropensity = this.extorterConf
 				.getAttackProtection() / 100;
 		this.attackRetaliationPropensity = this.extorterConf
 				.getAttackRetaliation() / 100;
 		this.protection = new HashMap<Integer, List<Integer>>();
-		this.retaliation = new ArrayList<Integer>();
+		this.retaliation = new HashMap<Integer, List<Integer>>();
 		this.targets = targets;
 		this.tolerance = this.extorterConf.getTolerance() / 100;
 		this.wealth = extorterConf.getInitialWealth();
@@ -247,7 +255,7 @@ public abstract class ExtorterAbstract {
 		this.counterattackedProtection.clear();
 		this.counterattackRetaliation.clear();
 		this.counterattackedRetaliation.clear();
-		this.extortersPaid.clear();
+		this.extortersPaidInsteadOfMe.clear();
 		this.protectionRequested.clear();
 		this.lostWealth = 0;
 
@@ -259,7 +267,9 @@ public abstract class ExtorterAbstract {
 		this.paid.clear();
 		this.punishments.clear();
 		this.attackProtection.clear();
+		this.nonAttackProtection.clear();
 		this.attackRetaliation.clear();
+		this.nonAttackRetaliation.clear();
 		this.protection.clear();
 		this.retaliation.clear();
 
@@ -385,6 +395,8 @@ public abstract class ExtorterAbstract {
 
 			// Output
 			this.output.setNumAttackProtection(numProtection);
+			this.output.setNumNonAttackProtection(this.nonAttackProtection
+					.size());
 		}
 	}
 
@@ -461,15 +473,15 @@ public abstract class ExtorterAbstract {
 		this.counterattackedProtection.add(id);
 
 		ExtorterAbstract extorter = this.extorters.get(id);
-		double lostWealthProtection = this.costFightProtection
+		double lossWealthProtection = this.costFightProtection
 				* extorter.getRealWealth();
-		this.lostWealth += lostWealthProtection;
+		this.lostWealth += lossWealthProtection;
 
 		// Output
 		this.output.setNumReceivedCounterattackProtection(this.output
 				.getNumReceivedCounterattackProtection() + 1);
 		this.output.setTotalLostFightProtection(this.output
-				.getTotalLostFightProtection() + lostWealthProtection);
+				.getTotalLostFightProtection() + lossWealthProtection);
 	}
 
 	/**
@@ -515,18 +527,18 @@ public abstract class ExtorterAbstract {
 	/**
 	 * Receive Target's payment
 	 * 
-	 * @param id
+	 * @param targetId
 	 *            Target identification
 	 * @param extortion
 	 *            Amount paid
 	 */
-	public void receivePayment(int id, Map<Integer, Double> payments) {
+	public void receivePayment(int targetId, Map<Integer, Double> payments) {
 
 		// If Extorter was paid
 		if (payments.containsKey(this.id)) {
 			double extortion = payments.get(this.id);
 			this.wealth += extortion;
-			this.paid.put(id, extortion);
+			this.paid.put(targetId, extortion);
 
 			// Output
 			this.output.setNumExtortionReceived(this.output
@@ -539,13 +551,14 @@ public abstract class ExtorterAbstract {
 			Map<Integer, Double> listPayments;
 			for (Integer extorterId : payments.keySet()) {
 
-				if (extortersPaid.containsKey(extorterId)) {
-					listPayments = extortersPaid.get(extorterId);
+				if (this.extortersPaidInsteadOfMe.containsKey(extorterId)) {
+					listPayments = this.extortersPaidInsteadOfMe
+							.get(extorterId);
 				} else {
 					listPayments = new HashMap<Integer, Double>();
 				}
-				listPayments.put(id, payments.get(extorterId));
-				this.extortersPaid.put(extorterId, listPayments);
+				listPayments.put(targetId, payments.get(extorterId));
+				this.extortersPaidInsteadOfMe.put(extorterId, listPayments);
 			}
 		}
 	}
@@ -570,10 +583,13 @@ public abstract class ExtorterAbstract {
 		if (!this.attackRetaliation.isEmpty()) {
 			int numRetaliation = 0;
 
+			List<Integer> targets;
 			ExtorterAbstract extorter;
-			for (Integer extorterId : this.attackRetaliation) {
+			for (Integer extorterId : this.attackRetaliation.keySet()) {
 				extorter = this.extorters.get(extorterId);
-				extorter.receiveAttackRetaliation(this.id);
+
+				targets = this.attackRetaliation.get(extorterId);
+				extorter.receiveAttackRetaliation(this.id, targets);
 
 				// Output
 				numRetaliation++;
@@ -581,6 +597,8 @@ public abstract class ExtorterAbstract {
 
 			// Output
 			this.output.setNumAttackRetaliation(numRetaliation);
+			this.output.setNumNonAttackRetaliation(this.nonAttackRetaliation
+					.size());
 		}
 	}
 
@@ -589,9 +607,11 @@ public abstract class ExtorterAbstract {
 	 * 
 	 * @param id
 	 *            Identification of the retaliator Extorter
+	 * @param targetList
+	 *            List of targets I am being retaliate for
 	 */
-	public void receiveAttackRetaliation(int id) {
-		this.retaliation.add(id);
+	public void receiveAttackRetaliation(int id, List<Integer> targetList) {
+		this.retaliation.put(id, targetList);
 
 		this.output.setNumReceivedAttackRetaliation(this.output
 				.getNumReceivedAttackRetaliation() + 1);
@@ -618,25 +638,25 @@ public abstract class ExtorterAbstract {
 			// Output
 			int numCounterattackRetaliation = 0;
 
-			double lostWealthRetaliation = 0.0;
+			double lossWealthRetaliation = 0.0;
 			ExtorterAbstract extorter;
 			for (Integer extorterId : this.counterattackRetaliation) {
 				extorter = this.extorters.get(extorterId);
 
 				extorter.receiveCounterattackRetaliation(this.id);
 
-				lostWealthRetaliation += this.costFightRetaliation
+				lossWealthRetaliation += this.costFightRetaliation
 						* extorter.getRealWealth();
 
 				// Output
 				numCounterattackRetaliation++;
 			}
-			this.lostWealth += lostWealthRetaliation;
+			this.lostWealth += lossWealthRetaliation;
 
 			// Output
 			this.output
 					.setNumCounterattackRetaliation(numCounterattackRetaliation);
-			this.output.setTotalLostFightRetaliation(lostWealthRetaliation);
+			this.output.setTotalLostFightRetaliation(lossWealthRetaliation);
 		}
 	}
 
@@ -650,15 +670,15 @@ public abstract class ExtorterAbstract {
 		this.counterattackedRetaliation.add(id);
 
 		ExtorterAbstract extorter = this.extorters.get(id);
-		double lostWealthRetaliation = this.costFightRetaliation
+		double lossWealthRetaliation = this.costFightRetaliation
 				* extorter.getRealWealth();
-		this.lostWealth += lostWealthRetaliation;
+		this.lostWealth += lossWealthRetaliation;
 
 		// Output
 		this.output.setNumReceivedCounterattackRetaliation(this.output
 				.getNumReceivedCounterattackRetaliation() + 1);
 		this.output.setTotalLostFightRetaliation(this.output
-				.getTotalLostFightRetaliation() + lostWealthRetaliation);
+				.getTotalLostFightRetaliation() + lossWealthRetaliation);
 	}
 
 	/**

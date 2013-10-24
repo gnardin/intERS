@@ -1,4 +1,4 @@
-package intERS.impl.withProtection;
+package intERS.impl.extorter.withProtection;
 
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;
@@ -61,6 +61,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 	@Override
 	public void decideToProtect() {
 		List<Integer> protectionList;
+		List<Integer> nonProtectionList;
 		List<Integer> extortersList;
 		ExtorterAbstract extorter;
 		double maxNumExtorted;
@@ -88,6 +89,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 					if (RandomHelper.nextDouble() <= this.attackProtectionPropensity) {
 						protectionList.add(targetId);
 						this.attackProtection.put(extorterId, protectionList);
+
 						// Rational decision to attack
 					} else {
 						extorter = this.extorters.get(extorterId);
@@ -110,6 +112,18 @@ public class ExtorterAgent extends ExtorterAbstract {
 							protectionList.add(targetId);
 							this.attackProtection.put(extorterId,
 									protectionList);
+						} else {
+							if (this.nonAttackProtection
+									.containsKey(extorterId)) {
+								nonProtectionList = this.nonAttackProtection
+										.get(extorterId);
+							} else {
+								nonProtectionList = new ArrayList<Integer>();
+							}
+
+							nonProtectionList.add(targetId);
+							this.nonAttackProtection.put(extorterId,
+									nonProtectionList);
 						}
 					}
 				}

@@ -307,6 +307,7 @@ public abstract class TargetAbstract {
 			}
 		}
 
+		// Pay and inform Extorters about payments
 		for (Integer extorterId : this.extortions.keySet()) {
 			extorter = this.extorters.get(extorterId);
 			extorter.receivePayment(this.id, payments);

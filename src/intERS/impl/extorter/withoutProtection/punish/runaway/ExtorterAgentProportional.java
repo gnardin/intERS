@@ -1,4 +1,4 @@
-package intERS.impl.withProtection;
+package intERS.impl.extorter.withoutProtection.punish.runaway;
 
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;

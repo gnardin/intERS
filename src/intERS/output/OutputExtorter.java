@@ -9,11 +9,13 @@ public class OutputExtorter extends OutputAbstract {
 	private int numProtectionRequested;
 	private int numProtectionProvided;
 	private int numAttackProtection;
+	private int numNonAttackProtection;
 	private int numReceivedAttackProtection;
 	private int numCounterattackProtection;
 	private int numReceivedCounterattackProtection;
 	private int numRunawayProtection;
 	private int numAttackRetaliation;
+	private int numNonAttackRetaliation;
 	private int numReceivedAttackRetaliation;
 	private int numCounterattackRetaliation;
 	private int numReceivedCounterattackRetaliation;
@@ -35,11 +37,13 @@ public class OutputExtorter extends OutputAbstract {
 		this.numProtectionRequested = 0;
 		this.numProtectionProvided = 0;
 		this.numAttackProtection = 0;
+		this.numNonAttackProtection = 0;
 		this.numReceivedAttackProtection = 0;
 		this.numCounterattackProtection = 0;
 		this.numReceivedCounterattackProtection = 0;
 		this.numRunawayProtection = 0;
 		this.numAttackRetaliation = 0;
+		this.numNonAttackRetaliation = 0;
 		this.numReceivedAttackRetaliation = 0;
 		this.numCounterattackRetaliation = 0;
 		this.numReceivedCounterattackRetaliation = 0;
@@ -59,10 +63,12 @@ public class OutputExtorter extends OutputAbstract {
 		str += "type" + fs + "id" + fs + "wealth" + fs + "numTargets" + fs
 				+ "numExtortion" + fs + "totalExtortion" + fs
 				+ "numProtectionRequested" + fs + "numProtectionProvided" + fs
-				+ "numAttackProtection" + fs + "numReceivedAttackProtection"
-				+ fs + "numCounterattackProtection" + fs
+				+ "numAttackProtection" + fs + "numNonAttackProtection" + fs
+				+ "numReceivedAttackProtection" + fs
+				+ "numCounterattackProtection" + fs
 				+ "numReceivedCounterattackProtection" + fs
 				+ "numRunawayProtection" + fs + "numAttackRetaliation" + fs
+				+ "numNonAttackRetaliation" + fs
 				+ "numReceivedAttackRetaliation" + fs
 				+ "numCounterattackRetaliation" + fs
 				+ "numReceivedCounterattackRetaliation" + fs
@@ -82,11 +88,13 @@ public class OutputExtorter extends OutputAbstract {
 				+ this.numTargets + fs + this.numExtortion + fs
 				+ this.totalExtortion + fs + this.numProtectionRequested + fs
 				+ this.numProtectionProvided + fs + this.numAttackProtection
-				+ fs + this.numReceivedAttackProtection + fs
+				+ fs + this.numNonAttackProtection + fs
+				+ this.numReceivedAttackProtection + fs
 				+ this.numCounterattackProtection + fs
 				+ this.numReceivedCounterattackProtection + fs
 				+ this.numRunawayProtection + fs + this.numAttackRetaliation
-				+ fs + this.numReceivedAttackRetaliation + fs
+				+ fs + this.numNonAttackRetaliation + fs
+				+ this.numReceivedAttackRetaliation + fs
 				+ this.numCounterattackRetaliation + fs
 				+ this.numReceivedCounterattackRetaliation + fs
 				+ this.numRunawayRetaliation + fs
@@ -154,6 +162,14 @@ public class OutputExtorter extends OutputAbstract {
 		this.numAttackProtection = numAttackProtection;
 	}
 
+	public int getNumNonAttackProtection() {
+		return numNonAttackProtection;
+	}
+
+	public void setNumNonAttackProtection(int numNonAttackProtection) {
+		this.numNonAttackProtection = numNonAttackProtection;
+	}
+
 	public int getNumReceivedAttackProtection() {
 		return numReceivedAttackProtection;
 	}
@@ -193,6 +209,14 @@ public class OutputExtorter extends OutputAbstract {
 
 	public void setNumAttackRetaliation(int numAttackRetaliation) {
 		this.numAttackRetaliation = numAttackRetaliation;
+	}
+
+	public int getNumNonAttackRetaliation() {
+		return numNonAttackRetaliation;
+	}
+
+	public void setNumNonAttackRetaliation(int numNonAttackRetaliation) {
+		this.numNonAttackRetaliation = numNonAttackRetaliation;
 	}
 
 	public int getNumReceivedAttackRetaliation() {

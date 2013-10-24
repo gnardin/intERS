@@ -209,7 +209,7 @@
 <xmlFilename>./conf/batchScenario.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-<directory>./output/withoutProtection/En80_To80/Ex10-20_Pu40-80_En80_To80/LL-LH-HL-HH</directory>
+<directory>./output/withProtection/En10_To40/Ex10-20_Pu40-80_En10_To40/LL-LH-HL-HH</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>

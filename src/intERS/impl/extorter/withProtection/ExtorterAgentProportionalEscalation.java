@@ -1,4 +1,4 @@
-package intERS.impl.withProtection;
+package intERS.impl.extorter.withProtection;
 
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;

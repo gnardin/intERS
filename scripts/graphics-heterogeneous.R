@@ -32,7 +32,7 @@ pu <- 40
 ###
 basePath <- "/data/workspace/gloders/intERS/output"
 
-outputPath <- paste(basePath, "/withoutProtection", sep="")
+outputPath <- paste(basePath, "/withoutProtection.noPunish.noRunaway", sep="")
 #outputPath <- paste(basePath,"/En",en,"_To",to,
 #                    "/Ex",ex,"-",(ex*2),"_Pu",pu,"-",(pu*2),"_En",en,"_To",to,
 #                    "/LL-LH-HL-HH", sep="")
@@ -63,6 +63,22 @@ setkey(targetSum, type, cycle)
 
 targetAvg <- data.table(read.csv(paste(outputPath,"/","cAvgtargets.csv",sep=""), sep=";"))
 setkey(targetAvg, type, cycle)
+
+###
+### INDEX NUMBER OF EXTORTERS < 1
+###
+iLL <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR0 +
+                                               observerAvg$IM0) < 1],
+                      NROW(observerAvg)+1))
+iLH <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR1 +
+                                               observerAvg$IM1) < 1],
+                      NROW(observerAvg)+1))
+iHL <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR2 +
+                                               observerAvg$IM2) < 1],
+                      NROW(observerAvg)+1))
+iHH <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR3 +
+                                               observerAvg$IM3) < 1],
+                      NROW(observerAvg)+1))
 
 
 ###
@@ -170,22 +186,6 @@ qplot(cycle, NE0/TE0, data=observerSum, geom = "line",
       main="Number of Extorters Per Extorted Target", xlab="", ylab="Number")
 dev.off()
 
-
-###
-### INDEX NUMBER OF EXTORTERS < 1
-###
-iLL <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR0 +
-                                               observerAvg$IM0) < 1],
-                      NROW(observerAvg)+1))
-iLH <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR1 +
-                                               observerAvg$IM1) < 1],
-           NROW(observerAvg)+1))
-iHL <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR2 +
-                                               observerAvg$IM2) < 1],
-           NROW(observerAvg)+1))
-iHH <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$FR3 +
-                                               observerAvg$IM3) < 1],
-           NROW(observerAvg)+1))
 
 ###
 ### NUMBER OF EXTORTERS BY TYPE
@@ -362,6 +362,104 @@ dev.off()
 
 
 ###
+### NUMBER OF EXTORTIONS RECEIVED
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numExtortionReceived := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numExtortionReceived := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numExtortionReceived := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numExtortionReceived := 0]
+}
+
+minNumExtortionY <- 0
+maxNumExtortionY <- ceiling(max(max(eLL[,numExtortionReceived],eHH[,numExtortionReceived]),
+                                max(eLH[,numExtortionReceived],eHL[,numExtortionReceived])))
+
+plotLL <- qplot(cycle, numExtortionReceived, data=eLL, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numExtortionReceived, data=eLH, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numExtortionReceived, data=eHL, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numExtortionReceived, data=eHH, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberExtortionsReceived.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Extortions Received")
+dev.off()
+
+
+###
+### NUMBER OF EXTORTIONS RECEIVED
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numExtortion := 0]
+  eLL <- eLL[iLL:NROW(eLL), numExtortionReceived := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numExtortion := 0]
+  eLH <- eLH[iLH:NROW(eLH), numExtortionReceived := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numExtortion := 0]
+  eHL <- eHL[iHL:NROW(eHL), numExtortionReceived := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numExtortion := 0]
+  eHH <- eHH[iHH:NROW(eHH), numExtortionReceived := 0]
+}
+
+minNumExtortionY <- 0
+maxNumExtortionY <- ceiling(max(max(eLL[,numExtortion-numExtortionReceived],
+                                    eHH[,numExtortion-numExtortionReceived]),
+                                max(eLH[,numExtortion-numExtortionReceived],
+                                    eHL[,numExtortion-numExtortionReceived])))
+
+plotLL <- qplot(cycle, numExtortion-numExtortionReceived, data=eLL, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numExtortion-numExtortionReceived, data=eLH, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numExtortion-numExtortionReceived, data=eHL, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numExtortion-numExtortionReceived, data=eHH, geom = "line",
+                ylim = c(minNumExtortionY,maxNumExtortionY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberExtortionsNotReceived.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Extortions Not Received")
+dev.off()
+
+
+###
 ### AVERAGE NUMBER OF TARGETS PER EXTORTER
 ###
 eLL <- extorterAvg[which(type == 0), ]
@@ -404,6 +502,244 @@ plotHH <- qplot(cycle, numTargets, data=eHH, geom = "line",
   geom_vline(xintercept=iHH, linetype="dashed", color="red")
 png(file=paste(imagePath,"/numberTargetsPerExtorter.png", sep=""), width=800, height=600)
 grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Targets per Extorter")
+dev.off()
+
+
+###
+### NUMBER OF ATTACK RETALIATION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numAttackRetaliation := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numAttackRetaliation := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numAttackRetaliation := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numAttackRetaliation := 0]
+}
+
+minNumRetaliationY <- 0
+maxNumRetaliationY <- ceiling(max(max(eLL[,numAttackRetaliation],eHH[,numAttackRetaliation]),
+                                  max(eLH[,numAttackRetaliation],eHL[,numAttackRetaliation])))
+
+plotLL <- qplot(cycle, numAttackRetaliation, data=eLL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numAttackRetaliation, data=eLH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numAttackRetaliation, data=eHL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numAttackRetaliation, data=eHH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberRetaliationAttack.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Attack Retaliation")
+dev.off()
+
+
+###
+### NUMBER OF NON ATTACK RETALIATION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numNonAttackRetaliation := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numNonAttackRetaliation := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numNonAttackRetaliation := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numNonAttackRetaliation := 0]
+}
+
+minNumNonRetaliationY <- 0
+maxNumNonRetaliationY <- ceiling(max(max(eLL[,numNonAttackRetaliation],
+                                         eHH[,numNonAttackRetaliation]),
+                                   max(eLH[,numNonAttackRetaliation],
+                                       eHL[,numNonAttackRetaliation])))
+
+plotLL <- qplot(cycle, numNonAttackRetaliation, data=eLL, geom = "line",
+                ylim = c(minNumNonRetaliationY,maxNumNonRetaliationY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numNonAttackRetaliation, data=eLH, geom = "line",
+                ylim = c(minNumNonRetaliationY,maxNumNonRetaliationY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numNonAttackRetaliation, data=eHL, geom = "line",
+                ylim = c(minNumNonRetaliationY,maxNumNonRetaliationY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numNonAttackRetaliation, data=eHH, geom = "line",
+                ylim = c(minNumNonRetaliationY,maxNumNonRetaliationY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberRetaliationNonAttack.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Non Attack Retaliation")
+dev.off()
+
+
+###
+### NUMBER OF RECEIVED RETALIATION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numReceivedAttackRetaliation := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numReceivedAttackRetaliation := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numReceivedAttackRetaliation := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numReceivedAttackRetaliation := 0]
+}
+
+minNumRetaliationY <- 0
+maxNumRetaliationY <- ceiling(max(max(eLL[,numReceivedAttackRetaliation],
+                                      eHH[,numReceivedAttackRetaliation]),
+                                  max(eLH[,numReceivedAttackRetaliation],
+                                      eHL[,numReceivedAttackRetaliation])))
+
+plotLL <- qplot(cycle, numReceivedAttackRetaliation, data=eLL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numReceivedAttackRetaliation, data=eLH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numReceivedAttackRetaliation, data=eHL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numReceivedAttackRetaliation, data=eHH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberReceivedRetaliationAttack.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Received Attack Retaliation")
+dev.off()
+
+
+###
+### NUMBER OF COUNTERATTACK RETALIATION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numCounterattackRetaliation := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numCounterattackRetaliation := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numCounterattackRetaliation := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numCounterattackRetaliation := 0]
+}
+
+minNumRetaliationY <- 0
+maxNumRetaliationY <- ceiling(max(max(eLL[,numCounterattackRetaliation],
+                                      eHH[,numCounterattackRetaliation]),
+                                  max(eLH[,numCounterattackRetaliation],
+                                      eHL[,numCounterattackRetaliation])))
+
+plotLL <- qplot(cycle, numCounterattackRetaliation, data=eLL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numCounterattackRetaliation, data=eLH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numCounterattackRetaliation, data=eHL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numCounterattackRetaliation, data=eHH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberCounterretaliationAttack.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Counterattack Retaliation")
+dev.off()
+
+
+###
+### NUMBER OF RECEIVED COUNTERATTACK RETALIATION
+###
+eLL <- extorterSum[which(type == 0), ]
+eLH <- extorterSum[which(type == 1), ]
+eHL <- extorterSum[which(type == 2), ]
+eHH <- extorterSum[which(type == 3), ]
+
+if(iLL <= NROW(eLL)){
+  eLL <- eLL[iLL:NROW(eLL), numReceivedCounterattackRetaliation := 0]
+}
+if(iLH <= NROW(eLH)){
+  eLH <- eLH[iLH:NROW(eLH), numReceivedCounterattackRetaliation := 0]
+}
+if(iHL <= NROW(eHL)){
+  eHL <- eHL[iHL:NROW(eHL), numReceivedCounterattackRetaliation := 0]
+}
+if(iHH <= NROW(eHH)){
+  eHH <- eHH[iHH:NROW(eHH), numReceivedCounterattackRetaliation := 0]
+}
+
+minNumRetaliationY <- 0
+maxNumRetaliationY <- ceiling(max(max(eLL[,numReceivedCounterattackRetaliation],
+                                      eHH[,numReceivedCounterattackRetaliation]),
+                                  max(eLH[,numReceivedCounterattackRetaliation],
+                                      eHL[,numReceivedCounterattackRetaliation])))
+
+plotLL <- qplot(cycle, numReceivedCounterattackRetaliation, data=eLL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
+plotLH <- qplot(cycle, numReceivedCounterattackRetaliation, data=eLH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="LH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
+plotHL <- qplot(cycle, numReceivedCounterattackRetaliation, data=eHL, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HL", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
+plotHH <- qplot(cycle, numReceivedCounterattackRetaliation, data=eHH, geom = "line",
+                ylim = c(minNumRetaliationY,maxNumRetaliationY),
+                main="HH", xlab="", ylab="Number") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
+png(file=paste(imagePath,"/numberReceivedCounterretaliationAttack.png", sep=""), width=800, height=600)
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Number of Received Counterattack Retaliation")
 dev.off()
 
 
@@ -791,6 +1127,11 @@ for(index in 2:lastLine){
   }
 }
 
+acELL <- eLL
+acELH <- eLH
+acEHL <- eHL
+acEHH <- eHH
+
 minViolenceY <- floor(min(min(eLL[,totalLostFightProtection+
                                     totalLostFightRetaliation+
                                     totalLostPunishment],
@@ -842,39 +1183,84 @@ dev.off()
 
 
 ###
-### EXTORTER LOSS OF WEALTH ON FIGHTING
+### EXTORTER LOSS OF WEALTH PER FIGHT
 ###
-minFightY <- floor(min(min(eLL[,totalLostFightProtection+totalLostFightRetaliation],
-                           eHH[,totalLostFightProtection+totalLostFightRetaliation]),
-                       min(eLH[,totalLostFightProtection+totalLostFightRetaliation],
-                           eHL[,totalLostFightProtection+totalLostFightRetaliation])))
-maxFightY <- ceiling(max(max(eLL[,totalLostFightProtection+totalLostFightRetaliation],
-                             eHH[,totalLostFightProtection+totalLostFightRetaliation]),
-                         max(eLH[,totalLostFightProtection+totalLostFightRetaliation],
-                             eHL[,totalLostFightProtection+totalLostFightRetaliation])))
+eLL <- acELL
+eLH <- acELH
+eHL <- acEHL
+eHH <- acEHH
 
-plotLL <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+eLL[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightProtection := 0]
+eLL[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightRetaliation := 0]
+eLL[which(numCounterattackRetaliation == 0), numCounterattackRetaliation := 1]
+eLL[which(numReceivedCounterattackRetaliation == 0), numReceivedCounterattackRetaliation := 1]
+
+eLH[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightProtection := 0]
+eLH[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightRetaliation := 0]
+eLH[which(numCounterattackRetaliation == 0), numCounterattackRetaliation := 1]
+eLH[which(numReceivedCounterattackRetaliation == 0), numReceivedCounterattackRetaliation := 1]
+
+eHL[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightProtection := 0]
+eHL[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightRetaliation := 0]
+eHL[which(numCounterattackRetaliation == 0), numCounterattackRetaliation := 1]
+eHL[which(numReceivedCounterattackRetaliation == 0), numReceivedCounterattackRetaliation := 1]
+
+eHH[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightProtection := 0]
+eHH[which((numCounterattackRetaliation == 0) | (numReceivedCounterattackRetaliation == 0)),
+    totalLostFightRetaliation := 0]
+eHH[which(numCounterattackRetaliation == 0), numCounterattackRetaliation := 1]
+eHH[which(numReceivedCounterattackRetaliation == 0), numReceivedCounterattackRetaliation := 1]
+
+minFightY <- floor(min(min(eLL[,totalLostFightProtection+totalLostFightRetaliation]/
+                             eLL[,numCounterattackRetaliation+numReceivedCounterattackRetaliation],
+                           eHH[,totalLostFightProtection+totalLostFightRetaliation]/
+                             eHH[,numCounterattackRetaliation+numReceivedCounterattackRetaliation]),
+                       min(eLH[,totalLostFightProtection+totalLostFightRetaliation]/
+                             eLH[,numCounterattackRetaliation+numReceivedCounterattackRetaliation],
+                           eHL[,totalLostFightProtection+totalLostFightRetaliation]/
+                             eHL[,numCounterattackRetaliation+numReceivedCounterattackRetaliation])))
+maxFightY <- ceiling(max(max(eLL[,totalLostFightProtection+totalLostFightRetaliation]/
+                               eLL[,numCounterattackRetaliation+numReceivedCounterattackRetaliation],
+                             eHH[,totalLostFightProtection+totalLostFightRetaliation]/
+                               eHH[,numCounterattackRetaliation+numReceivedCounterattackRetaliation]),
+                         max(eLH[,totalLostFightProtection+totalLostFightRetaliation]/
+                               eLH[,numCounterattackRetaliation+numReceivedCounterattackRetaliation],
+                             eHL[,totalLostFightProtection+totalLostFightRetaliation]/
+                               eHL[,numCounterattackRetaliation+numReceivedCounterattackRetaliation])))
+
+plotLL <- qplot(cycle, (totalLostFightProtection+totalLostFightRetaliation)/
+                  (numCounterattackRetaliation+numReceivedCounterattackRetaliation),
                 data=eLL, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LL", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iLL, linetype="dashed", color="red")
-plotLH <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+plotLH <- qplot(cycle, (totalLostFightProtection+totalLostFightRetaliation)/
+                  (numCounterattackRetaliation+numReceivedCounterattackRetaliation),
                 data=eLH, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="LH", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iLH, linetype="dashed", color="red")
-plotHL <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+plotHL <- qplot(cycle, (totalLostFightProtection+totalLostFightRetaliation)/
+                  (numCounterattackRetaliation+numReceivedCounterattackRetaliation),
                 data=eHL, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HL", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iHL, linetype="dashed", color="red")
-plotHH <- qplot(cycle, totalLostFightProtection+totalLostFightRetaliation,
+plotHH <- qplot(cycle, (totalLostFightProtection+totalLostFightRetaliation)/
+                  (numCounterattackRetaliation+numReceivedCounterattackRetaliation),
                 data=eHH, geom = "line",
                 ylim = c(minFightY,maxFightY),
                 main="HH", xlab="", ylab="Wealth") +
   geom_vline(xintercept=iHH, linetype="dashed", color="red")
 png(file=paste(imagePath,"/lossWealthFight.png", sep=""), width=800, height=600)
-grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Loss of Wealth on Fighting")
+grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Loss of Wealth per Fight")
 dev.off()
 
 
@@ -1170,143 +1556,26 @@ plotLL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
                   numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
                 data=eLL[100:NROW(eLL)], geom = "line",
                 ylim = c(minFightY,maxFightY),
-                main="LL", xlab="", ylab="Number of Fights")
+                main="LL", xlab="", ylab="Number of Fights") +
+  geom_vline(xintercept=iLL, linetype="dashed", color="red")
 plotLH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
                   numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
                 data=eLH[100:NROW(eLH)], geom = "line",
                 ylim = c(minFightY,maxFightY),
-                main="LH", xlab="", ylab="Number of Fights")
+                main="LH", xlab="", ylab="Number of Fights") +
+  geom_vline(xintercept=iLH, linetype="dashed", color="red")
 plotHL <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
                   numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
                 data=eHL[100:NROW(eHL)], geom = "line",
                 ylim = c(minFightY,maxFightY),
-                main="HL", xlab="", ylab="Number of Fights")
+                main="HL", xlab="", ylab="Number of Fights") +
+  geom_vline(xintercept=iHL, linetype="dashed", color="red")
 plotHH <- qplot(cycle, numCounterattackProtection+numCounterattackRetaliation+
                   numReceivedCounterattackProtection+numReceivedCounterattackRetaliation,
                 data=eHH[100:NROW(eHH)], geom = "line",
                 ylim = c(minFightY,maxFightY),
-                main="HH", xlab="", ylab="Number of Fights")
+                main="HH", xlab="", ylab="Number of Fights") +
+  geom_vline(xintercept=iHH, linetype="dashed", color="red")
 png(file=paste(imagePath,"/numberFightHighlighted:100-END.png", sep=""), width=800, height=600)
 grid.arrange(plotLL, plotLH, plotHL, plotHH, main="Extorters Number of Fights [100:END]")
-dev.off()
-
-
-###
-### NUMBER OF PAID EXTORTIONS
-###
-minNumPaidY <- 0
-maxNumPaidY <- ceiling(max(targetSum[,numPaid]))
-
-png(file=paste(imagePath,"/numberExtortionsPaid.png", sep=""), width=800, height=600)
-qplot(cycle, numPaid, data=targetSum, geom = "line", ylim = c(minNumPaidY,maxNumPaidY),
-      main="Extortions Paid", xlab="", ylab="Number")
-dev.off()
-
-
-###
-### NUMBER OF PAID EXTORTIONS 1-250
-###
-minNumPaidY <- 0
-maxNumPaidY <- ceiling(max(targetSum[1:250,numPaid]))
-
-png(file=paste(imagePath,"/numberExtortionsPaid:1-250.png", sep=""), width=800, height=600)
-qplot(cycle, numPaid, data=targetSum[1:250,], geom = "line",
-      ylim = c(minNumPaidY,maxNumPaidY),
-      main="Extortions Paid", xlab="", ylab="Number")
-dev.off()
-
-
-###
-### NUMBER OF NON PAID EXTORTIONS
-###
-minNumNotPaidY <- 0
-maxNumNotPaidY <- ceiling(max(targetSum[,numNotPaid]))
-
-png(file=paste(imagePath,"/numberExtortionsNotPaid.png", sep=""), width=800, height=600)
-qplot(cycle, numNotPaid, data=targetSum, geom = "line",
-      ylim = c(minNumNotPaidY,maxNumNotPaidY),
-      main="Extortions Not Paid", xlab="", ylab="Number")
-dev.off()
-
-
-###
-### NUMBER OF NON PAID EXTORTIONS 1-250
-###
-minNumNotPaidY <- 0
-maxNumNotPaidY <- ceiling(max(targetSum[1:250,numNotPaid]))
-
-png(file=paste(imagePath,"/numberExtortionsNotPaid:1-250.png", sep=""),
-    width=800, height=600)
-qplot(cycle, numNotPaid, data=targetSum[1:250,], geom = "line",
-      ylim = c(minNumNotPaidY,maxNumNotPaidY),
-      main="Extortions Not Paid", xlab="", ylab="Number")
-dev.off()
-
-###
-### SOCIETY WEALTH LOSSES AND PERCENTAGE
-###
-eLL <- extorterSum[which(type == 0), ]
-eLH <- extorterSum[which(type == 1), ]
-eHL <- extorterSum[which(type == 2), ]
-eHH <- extorterSum[which(type == 3), ]
-
-if(iLL <= NROW(eLL)){
-  eLL <- eLL[iLL:NROW(eLL), wealth := 0]
-  eLL <- eLL[iLL:NROW(eLL), totalPunishment := 0]
-  eLL <- eLL[iLL:NROW(eLL), totalLostFight := 0]
-}
-if(iLH <= NROW(eLH)){
-  eLH <- eLH[iLH:NROW(eLH), wealth := 0]
-  eLH <- eLH[iLH:NROW(eLH), totalPunishment := 0]
-  eLH <- eLH[iLH:NROW(eLH), totalLostFight := 0]
-}
-if(iHL <= NROW(eHL)){
-  eHL <- eHL[iHL:NROW(eHL), wealth := 0]
-  eHL <- eHL[iHL:NROW(eHL), totalPunishment := 0]
-  eHL <- eHL[iHL:NROW(eHL), totalLostFight := 0]
-}
-if(iHH <= NROW(eHH)){
-  eHH <- eHH[iHH:NROW(eHH), wealth := 0]
-  eHH <- eHH[iHH:NROW(eHH), totalPunishment := 0]
-  eHH <- eHH[iHH:NROW(eHH), totalLostFight := 0]
-}
-
-cycle <- seq(1:NROW(targetSum))
-dWealth <- mapply(sum, targetSum[,wealth], eLL[,wealth], eLH[,wealth],
-                  eHL[,wealth], eHH[,wealth])
-dLosses <- mapply(sum, targetSum[,totalPunishment],
-                  eLL[,totalLostFightProtection],
-                  eLL[,totalLostFightRetaliation],
-                  eLH[,totalLostFightProtection], 
-                  eLH[,totalLostFightRetaliation],
-                  eHL[,totalLostFightProtection],
-                  eHL[,totalLostFightRetaliation],
-                  eHH[,totalLostFightProtection],
-                  eHH[,totalLostFightRetaliation])
-society <- cbind(cycle, dWealth, dLosses)
-society <- data.table(society)
-setnames(society, c("data","wealth","losses"))
-
-minWealthY <- floor(min(society[,wealth]))
-maxWealthY <- ceiling(max(society[,wealth]))
-
-png(file=paste(imagePath,"/societyWealth.png", sep=""), width=800, height=600)
-qplot(cycle, wealth, data=society, geom = "line", ylim = c(minWealthY,maxWealthY),
-      main="Society Wealth", xlab="", ylab="Wealth")
-dev.off()
-
-minLossesY <- floor(min(society[,losses]))
-maxLossesY <- ceiling(max(society[,losses]))
-
-png(file=paste(imagePath,"/societyLosses.png", sep=""), width=800, height=600)
-qplot(cycle, losses, data=society, geom = "line", ylim = c(minLossesY,maxLossesY),
-      main="Society Losses", xlab="", ylab="Losses")
-dev.off()
-
-minY <- floor(min(society[,losses/(wealth+losses)]))
-maxY <- ceiling(max(society[,losses/(wealth+losses)]))
-
-png(file=paste(imagePath,"/societyLossesPercentage.png", sep=""), width=800, height=600)
-qplot(cycle, losses/(wealth+losses), data=society, geom = "line", ylim = c(minY,maxY),
-      main="Society Losses Percentage", xlab="", ylab="Percentage")
 dev.off()
