@@ -74,7 +74,9 @@ public class DataSummaryTarget implements DataSummaryInterface {
 	private int numSims;
 
 	public DataSummaryTarget(Integer numSims, String fieldSeparator) {
+		// <Cycle, <Type, Averaged Value>>
 		this.avgData = new TreeMap<Integer, Map<String, Double[]>>();
+		// <Cycle, <Type, Summed Value>>
 		this.sumData = new TreeMap<Integer, Map<String, Double[]>>();
 
 		this.fieldSeparator = fieldSeparator;
@@ -116,7 +118,10 @@ public class DataSummaryTarget implements DataSummaryInterface {
 
 			if (tokens.length == FIELDS_INPUT.values().length) {
 
+				// <Cycle, <Type, Value>>
 				Map<Integer, Map<String, Double[]>> values = new TreeMap<Integer, Map<String, Double[]>>();
+
+				// <Cycle, <Type, Number>>
 				Map<Integer, Map<String, Integer[]>> numbers = new TreeMap<Integer, Map<String, Integer[]>>();
 
 				Map<String, Double[]> valueType;

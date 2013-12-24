@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="simulation.xsd">
-	<numberOfRuns>30</numberOfRuns>
+	<numberOfRuns>10</numberOfRuns>
 	<randomSeeds>
 		<seed>169868</seed>
 		<seed>264938</seed>
@@ -206,10 +206,10 @@
 		<seed>868564</seed>
 	</randomSeeds>
 	<rsDirectory>./intERS.rs</rsDirectory>
-<xmlFilename>./conf/batchScenario.xml</xmlFilename>
+	<xmlFilename>./conf/scenarioNoProtection.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-<directory>./output/newCombinatorial/protection/Pu40-80/Ex10-70_Pu40-80_En10_To40</directory>
+		<directory>./output/test/noProtection/Pu40-80/Ex10-90_Pu40-80_En10_To40</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>

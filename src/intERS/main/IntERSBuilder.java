@@ -191,9 +191,6 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 					extorter = eConstructor.newInstance(this.extorters,
 							this.targets, initialTargets, id, extorterConf);
 
-					// extorter = new ExtorterAgentProportionalProportional(
-					// this.extorters, this.targets, initialTargets, id,
-					// extorterConf);
 					this.extorters.put(id, extorter);
 					context.add(extorter);
 
@@ -250,9 +247,6 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		output.setOutput(outputConf);
 		schedule.schedule(scheduleRep, output, "write");
 		schedule.schedule(scheduleEnd, output, "close");
-
-		// Schedule the simulation stop
-		// RunEnvironment.getInstance().endAt(scenario.getNumberCycles());
 
 		return context;
 	}

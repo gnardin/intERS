@@ -14,7 +14,8 @@ import java.util.Queue;
 public class TargetAgent extends TargetAbstract {
 
 	public TargetAgent(Map<Integer, ExtorterAbstract> extorters,
-			Map<Integer, TargetAbstract> targets, Integer id, TargetConf targetConf) {
+			Map<Integer, TargetAbstract> targets, Integer id,
+			TargetConf targetConf) {
 		super(extorters, targets, id, targetConf);
 	}
 
@@ -159,18 +160,6 @@ public class TargetAgent extends TargetAbstract {
 	public void decideToPay() {
 		this.extortersToPay = new ArrayList<Integer>(
 				this.extortersAskProtection);
-	}
-
-	@Override
-	public void decideToExit() {
-		this.incomeCurrent -= (this.payment + this.punishment);
-
-		if (this.incomeCurrent <= 0) {
-			this.endCycle();
-			this.die();
-		} else {
-			this.wealth += this.incomeCurrent;
-		}
 	}
 }
 

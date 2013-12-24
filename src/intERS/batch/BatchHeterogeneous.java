@@ -13,9 +13,8 @@ import java.nio.file.Paths;
 public class BatchHeterogeneous {
 
 	public static void main(String[] args) {
-
 		String confDir = "/data/workspace/gloders/intERS/conf/";
-		String outDir = "./output/withProtection";
+		String outDir = "./output/newCombinatorial/protection/Pu40-80";
 		String simulationXML = "simulation.xml";
 		String simulationXSD = "simulation.xsd";
 		String scenarioXML = "scenario.xml";
@@ -24,14 +23,25 @@ public class BatchHeterogeneous {
 
 		String enlargement[] = { "10" };
 		String tolerance[] = { "40" };
-		String extortion[][] = { { "10", "20" } };
+		String extortion[][] = { { "10", "20" }, { "10", "30" },
+				{ "10", "40" }, { "10", "50" }, { "10", "60" }, { "10", "70" },
+				{ "10", "80" }, { "10", "90" }, { "10", "100" },
+				{ "20", "30" }, { "20", "40" }, { "20", "50" }, { "20", "60" },
+				{ "20", "70" }, { "20", "80" }, { "20", "90" },
+				{ "20", "100" }, { "30", "40" }, { "30", "50" },
+				{ "30", "60" }, { "30", "70" }, { "30", "80" }, { "30", "90" },
+				{ "30", "100" }, { "40", "50" }, { "40", "60" },
+				{ "40", "70" }, { "40", "80" }, { "40", "90" },
+				{ "40", "100" }, { "50", "60" }, { "50", "70" },
+				{ "50", "80" }, { "50", "90" }, { "50", "100" },
+				{ "60", "70" }, { "60", "80" }, { "60", "90" },
+				{ "60", "100" }, { "70", "80" }, { "70", "90" },
+				{ "70", "100" }, { "80", "90" }, { "80", "100" },
+				{ "90", "100" } };
+
+		// String extortion[][] = { { "80", "100" }, { "90", "100" } };
+
 		String punishment[][] = { { "40", "80" } };
-		// String enlargement[] = { "10", "40", "80" };
-		// String tolerance[] = { "10", "40", "80" };
-		// String extortion[][] = { { "10", "20" }, { "20", "40" },
-		// { "30", "60" }, { "40", "80" }, { "50", "100" } };
-		// String punishment[][] = { { "20", "40" }, { "30", "60" },
-		// { "40", "80" }, { "50", "100" } };
 
 		Path readFile;
 		Path writeFile;
@@ -62,16 +72,23 @@ public class BatchHeterogeneous {
 								}
 
 								if (numLine == 212) {
-									line = "<directory>" + outDir + "/En"
-											+ enlargement[en] + "_To"
-											+ tolerance[to] + "/Ex"
+									// line = "<directory>" + outDir + "/En"
+									// + enlargement[en] + "_To"
+									// + tolerance[to] + "/Ex"
+									// + extortion[ex][0] + "-"
+									// + extortion[ex][1] + "_Pu"
+									// + punishment[pu][0] + "-"
+									// + punishment[pu][1] + "_En"
+									// + enlargement[en] + "_To"
+									// + tolerance[to]
+									// + "/LL-LH-HL-HH</directory>";
+									line = "<directory>" + outDir + "/Ex"
 											+ extortion[ex][0] + "-"
 											+ extortion[ex][1] + "_Pu"
 											+ punishment[pu][0] + "-"
 											+ punishment[pu][1] + "_En"
 											+ enlargement[en] + "_To"
-											+ tolerance[to]
-											+ "/LL-LH-HL-HH</directory>";
+											+ tolerance[to] + "</directory>";
 								}
 
 								writer.write(line);
@@ -94,35 +111,35 @@ public class BatchHeterogeneous {
 							numLine = 1;
 							while ((line = reader.readLine()) != null) {
 
-								if ((numLine == 37) || (numLine == 56)
-										|| (numLine == 75) || (numLine == 94)) {
+								if ((numLine == 38) || (numLine == 58)
+										|| (numLine == 78) || (numLine == 98)) {
 									line = "<enlargementProbability>"
 											+ enlargement[en]
 											+ "</enlargementProbability>";
 								}
 
-								if ((numLine == 40) || (numLine == 59)
-										|| (numLine == 78) || (numLine == 97)) {
+								if ((numLine == 41) || (numLine == 61)
+										|| (numLine == 81) || (numLine == 101)) {
 									line = "<tolerance>" + tolerance[to]
 											+ "</tolerance>";
 								}
 
-								if ((numLine == 48) || (numLine == 67)) {
+								if ((numLine == 49) || (numLine == 69)) {
 									line = "<extortion>" + extortion[ex][0]
 											+ "</extortion>";
 								}
 
-								if ((numLine == 86) || (numLine == 105)) {
+								if ((numLine == 89) || (numLine == 109)) {
 									line = "<extortion>" + extortion[ex][1]
 											+ "</extortion>";
 								}
 
-								if ((numLine == 51) || (numLine == 89)) {
+								if ((numLine == 52) || (numLine == 92)) {
 									line = "<punishment>" + punishment[pu][0]
 											+ "</punishment>";
 								}
 
-								if ((numLine == 70) || (numLine == 108)) {
+								if ((numLine == 72) || (numLine == 112)) {
 									line = "<punishment>" + punishment[pu][1]
 											+ "</punishment>";
 								}

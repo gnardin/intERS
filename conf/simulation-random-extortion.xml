@@ -206,10 +206,10 @@
 		<seed>868564</seed>
 	</randomSeeds>
 	<rsDirectory>./intERS.rs</rsDirectory>
-<xmlFilename>./conf/batchScenario.xml</xmlFilename>
+	<xmlFilename>./conf/scenario-random-extortion.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-<directory>./output/newCombinatorial/protection/Pu40-80/Ex10-70_Pu40-80_En10_To40</directory>
+		<directory>./output/withoutProtection-random-extortion-15000</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>

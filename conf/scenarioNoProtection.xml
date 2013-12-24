@@ -32,8 +32,8 @@
 		<!-- ceil(#{TARGETS} / #{EXTORTERS}) -->
 		<targetPerExtorter><![CDATA[ceil(#{TARGETS} / #{EXTORTERS})]]></targetPerExtorter>
 		<extorter>
-			<!-- <extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass> -->
-			<extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass>
+			<extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass>
+			<!-- <extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass> -->
 			<extorterType>0</extorterType>
 			<enlargementProbability>10</enlargementProbability>
 			<numberOfExtorters>15</numberOfExtorters>
@@ -52,8 +52,8 @@
 			<punishment>40</punishment>
 		</extorter>
 		<extorter>
-			<!-- <extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass> -->
-			<extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass>
+			<extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass>
+			<!-- <extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass> -->
 			<extorterType>1</extorterType>
 			<enlargementProbability>10</enlargementProbability>
 			<numberOfExtorters>15</numberOfExtorters>
@@ -72,8 +72,8 @@
 			<punishment>80</punishment>
 		</extorter>
 		<extorter>
-			<!-- <extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass> -->
-			<extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass>
+			<extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass>
+			<!-- <extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass> -->
 			<extorterType>2</extorterType>
 			<enlargementProbability>10</enlargementProbability>
 			<numberOfExtorters>15</numberOfExtorters>
@@ -92,8 +92,8 @@
 			<punishment>40</punishment>
 		</extorter>
 		<extorter>
-			<!--<extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass> -->
-			<extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass>
+			<extorterClass>intERS.impl.extorter.withoutProtection.punish.noRunaway.ExtorterAgentProportionalProportional</extorterClass>
+			<!-- <extorterClass>intERS.impl.extorter.withProtection.ExtorterAgentProportionalProportional</extorterClass> -->
 			<extorterType>3</extorterType>
 			<enlargementProbability>10</enlargementProbability>
 			<numberOfExtorters>15</numberOfExtorters>

@@ -32,7 +32,7 @@ pu <- 40
 ###
 basePath <- "/data/workspace/gloders/intERS/output"
 
-outputPath <- paste(basePath, "/withoutProtection.noPunish.noRunaway", sep="")
+outputPath <- paste(basePath, "/withoutProtection.punish.noRunaway-15000", sep="")
 #outputPath <- paste(basePath,"/En",en,"_To",to,
 #                    "/Ex",ex,"-",(ex*2),"_Pu",pu,"-",(pu*2),"_En",en,"_To",to,
 #                    "/LL-LH-HL-HH", sep="")

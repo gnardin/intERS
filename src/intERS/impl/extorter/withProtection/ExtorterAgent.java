@@ -36,7 +36,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 		// Extorter has a probability to add new Target
 		if (this.enlargementProbability > 0) {
-			if ((RandomHelper.nextDoubleFromTo(0, 1) < this.enlargementProbability)
+			if ((RandomHelper.nextDouble() < this.enlargementProbability)
 					&& (this.extorted.size() < this.targets.size())) {
 
 				Object[] targetIds = this.targets.keySet().toArray();
@@ -161,7 +161,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 				myStrength = ((double) this.extorted.size() / maxNumExtorted)
 						+ ((double) this.wealth / maxWealth);
 
-				// If I am stronger attack, otherwise do not
+				// If I am stronger then attack, otherwise do not
 				if (opStrength < myStrength) {
 					this.counterattackProtection.add(extorterId);
 				}
@@ -257,7 +257,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 					// Did not Attack
 				} else {
 					if (!this.paid.containsKey(targetId)) {
-						if (RandomHelper.nextDouble() < this.tolerance) {
+						if (RandomHelper.nextDouble() >= this.tolerance) {
 							this.punishments.put(targetId, 0.0);
 						}
 					}
@@ -279,18 +279,17 @@ public class ExtorterAgent extends ExtorterAbstract {
 			// I counterattacked
 			if (counterattackedAll) {
 				if (!this.paid.containsKey(targetId)) {
-					if (RandomHelper.nextDouble() < this.tolerance) {
+					if (RandomHelper.nextDouble() >= this.tolerance) {
 						this.punishments.put(targetId, 0.0);
 					}
+				}
+				// I did not counterattack
+			} else {
+				if (this.extorted.containsKey(targetId)) {
+					this.extorted.remove(targetId);
 
-					// I did not counterattack
-				} else {
-					if (this.extorted.containsKey(targetId)) {
-						this.extorted.remove(targetId);
-
-						this.output.setNumRunawayProtection(this.output
-								.getNumRunawayProtection() + 1);
-					}
+					this.output.setNumRunawayProtection(this.output
+							.getNumRunawayProtection() + 1);
 				}
 			}
 		}

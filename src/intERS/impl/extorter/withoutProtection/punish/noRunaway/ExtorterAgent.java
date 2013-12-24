@@ -17,6 +17,12 @@ public class ExtorterAgent extends ExtorterAbstract {
 			Map<Integer, TargetAbstract> targets, Set<Integer> initialTargets,
 			int id, ExtorterConf extorterConf) {
 		super(extorters, targets, initialTargets, id, extorterConf);
+
+		//String str = "";
+		//for (Integer targetId : this.extorted.keySet()) {
+		//	str += targetId.toString() + ";";
+		//}
+		//System.out.println(this.id + ";" + str);
 	}
 
 	@Override
@@ -34,7 +40,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 		// Extorter has a probability to add new Target
 		if (this.enlargementProbability > 0) {
-			if ((RandomHelper.nextDoubleFromTo(0, 1) < this.enlargementProbability)
+			if ((RandomHelper.nextDouble() < this.enlargementProbability)
 					&& (this.extorted.size() < this.targets.size())) {
 
 				Object[] targetIds = this.targets.keySet().toArray();
@@ -103,7 +109,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 				if (opStrength < myStrength) {
 					this.attackRetaliation.put(extorterId,
 							new ArrayList<Integer>(targets.keySet()));
-
 				} else {
 					this.nonAttackRetaliation.put(extorterId,
 							new ArrayList<Integer>(targets.keySet()));
@@ -170,18 +175,22 @@ public class ExtorterAgent extends ExtorterAbstract {
 	public void decideToPunish() {
 
 		List<Integer> targets;
+		List<Integer> targetsAttackNonAttack = new ArrayList<Integer>();
 		double tolerate;
 		for (Integer extorterId : this.attackRetaliation.keySet()) {
 
 			if (this.counterattackedRetaliation.contains(extorterId)) {
-				tolerate = 10;
+				tolerate = 1; // Tolerate non payment if counterattacked
 			} else {
-				tolerate = this.tolerance;
+				tolerate = 0; // Do not tolerate non payment if not
+								// counterattacked
 			}
 
 			targets = this.attackRetaliation.get(extorterId);
 			for (Integer targetId : targets) {
-				if (RandomHelper.nextDouble() < tolerate) {
+				targetsAttackNonAttack.add(targetId);
+
+				if (RandomHelper.nextDouble() >= (tolerate * this.tolerance)) {
 					if (!this.punishments.containsKey(targetId)) {
 						this.punishments.put(targetId, 0.0);
 					}
@@ -189,14 +198,29 @@ public class ExtorterAgent extends ExtorterAbstract {
 			}
 		}
 
-		// Even not retaliating the Extorter, there is a probability to punish
-		// the Targets
+		// Even though not retaliating the Extorter, there is a probability to
+		// punish the Targets
 		for (Integer extorterId : this.nonAttackRetaliation.keySet()) {
 			targets = this.nonAttackRetaliation.get(extorterId);
 			for (Integer targetId : targets) {
-				if (RandomHelper.nextDouble() < this.tolerance) {
+				targetsAttackNonAttack.add(targetId);
+
+				if (RandomHelper.nextDouble() >= this.tolerance) {
 					if (!this.punishments.containsKey(targetId)) {
 						this.punishments.put(targetId, 0.0);
+					}
+				}
+			}
+		}
+
+		// Others
+		for (Integer targetId : this.extorted.keySet()) {
+			if (!targetsAttackNonAttack.contains(targetId)) {
+				if (!this.paid.containsKey(targetId)) {
+					if (RandomHelper.nextDouble() >= this.tolerance) {
+						if (!this.punishments.containsKey(targetId)) {
+							this.punishments.put(targetId, 0.0);
+						}
 					}
 				}
 			}

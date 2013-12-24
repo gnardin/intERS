@@ -370,127 +370,12 @@ public abstract class ExtorterAbstract {
 	public abstract void decideToProtect();
 
 	/**
-	 * Protect by attacking other Extorters
+	 * Inform whether it will try to protect
 	 * 
 	 * @param none
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.35, interval = 1)
-	public void attackProtection() {
-		if (!this.attackProtection.isEmpty()) {
-			// Output
-			int numProtection = 0;
-
-			ExtorterAbstract extorter;
-			List<Integer> targetList;
-			for (Integer extorterId : this.attackProtection.keySet()) {
-				targetList = this.attackProtection.get(extorterId);
-
-				extorter = this.extorters.get(extorterId);
-				extorter.receiveAttackProtection(this.id, targetList);
-
-				// Output
-				numProtection++;
-			}
-
-			// Output
-			this.output.setNumAttackProtection(numProtection);
-			this.output.setNumNonAttackProtection(this.nonAttackProtection
-					.size());
-		}
-	}
-
-	/**
-	 * Receive protect attack from other Extorters
-	 * 
-	 * @param id
-	 *            Identification of the protector Extorter
-	 * @param targetList
-	 *            List of Targets that required protection against the Extorter
-	 * @result none
-	 */
-	public void receiveAttackProtection(int id, List<Integer> targetList) {
-		this.protection.put(id, targetList);
-
-		this.output.setNumReceivedAttackProtection(this.output
-				.getNumReceivedAttackProtection() + 1);
-	}
-
-	/**
-	 * Decide to counterattack because of protection
-	 * 
-	 * @param none
-	 * @param none
-	 */
-	@ScheduledMethod(start = 1.40, interval = 1)
-	public abstract void decideToCounterattackProtection();
-
-	/**
-	 * Counterattack
-	 * 
-	 * @param none
-	 * @return none
-	 */
-	@ScheduledMethod(start = 1.45, interval = 1)
-	public void counterattackProtection() {
-		if (!this.counterattackProtection.isEmpty()) {
-			// Output
-			int numCounterattackProtection = 0;
-
-			double lossWealthProtection = 0;
-			ExtorterAbstract extorter;
-			for (Integer extorterId : this.counterattackProtection) {
-				extorter = this.extorters.get(extorterId);
-
-				if (this.protection.containsKey(extorterId)) {
-
-					extorter.receiveCounterattackProtection(this.id);
-
-					lossWealthProtection += this.costFightProtection
-							* extorter.getRealWealth();
-
-					// Output
-					numCounterattackProtection++;
-				}
-			}
-			this.lostWealth += lossWealthProtection;
-
-			// Output
-			this.output
-					.setNumCounterattackProtection(numCounterattackProtection);
-			this.output.setTotalLostFightProtection(lossWealthProtection);
-		}
-	}
-
-	/**
-	 * Receive the counterattack because of protection
-	 * 
-	 * @param id
-	 *            Identification of the counterattack Extorter
-	 * @return none
-	 */
-	public void receiveCounterattackProtection(int id) {
-		this.counterattackedProtection.add(id);
-
-		ExtorterAbstract extorter = this.extorters.get(id);
-		double lossWealthProtection = this.costFightProtection
-				* extorter.getRealWealth();
-		this.lostWealth += lossWealthProtection;
-
-		// Output
-		this.output.setNumReceivedCounterattackProtection(this.output
-				.getNumReceivedCounterattackProtection() + 1);
-		this.output.setTotalLostFightProtection(this.output
-				.getTotalLostFightProtection() + lossWealthProtection);
-	}
-
-	/**
-	 * Inform if tried to help
-	 * 
-	 * @param none
-	 * @return none
-	 */
-	@ScheduledMethod(start = 1.50, interval = 1)
 	public void informProtection() {
 		if ((!this.protectionRequested.isEmpty())
 				&& (!this.attackProtection.isEmpty())) {
@@ -561,6 +446,121 @@ public abstract class ExtorterAbstract {
 				this.extortersPaidInsteadOfMe.put(extorterId, listPayments);
 			}
 		}
+	}
+
+	/**
+	 * Protect by attacking other Extorters
+	 * 
+	 * @param none
+	 * @return none
+	 */
+	@ScheduledMethod(start = 1.50, interval = 1)
+	public void attackProtection() {
+		if (!this.attackProtection.isEmpty()) {
+			// Output
+			int numProtection = 0;
+
+			ExtorterAbstract extorter;
+			List<Integer> targetList;
+			for (Integer extorterId : this.attackProtection.keySet()) {
+				targetList = this.attackProtection.get(extorterId);
+
+				extorter = this.extorters.get(extorterId);
+				extorter.receiveAttackProtection(this.id, targetList);
+
+				// Output
+				numProtection++;
+			}
+
+			// Output
+			this.output.setNumAttackProtection(numProtection);
+			this.output.setNumNonAttackProtection(this.nonAttackProtection
+					.size());
+		}
+	}
+
+	/**
+	 * Receive protect attack from other Extorters
+	 * 
+	 * @param id
+	 *            Identification of the protector Extorter
+	 * @param targetList
+	 *            List of Targets that required protection against the Extorter
+	 * @result none
+	 */
+	public void receiveAttackProtection(int id, List<Integer> targetList) {
+		this.protection.put(id, targetList);
+
+		this.output.setNumReceivedAttackProtection(this.output
+				.getNumReceivedAttackProtection() + 1);
+	}
+
+	/**
+	 * Decide to counterattack because of protection
+	 * 
+	 * @param none
+	 * @param none
+	 */
+	@ScheduledMethod(start = 1.55, interval = 1)
+	public abstract void decideToCounterattackProtection();
+
+	/**
+	 * Counterattack
+	 * 
+	 * @param none
+	 * @return none
+	 */
+	@ScheduledMethod(start = 1.60, interval = 1)
+	public void counterattackProtection() {
+		if (!this.counterattackProtection.isEmpty()) {
+			// Output
+			int numCounterattackProtection = 0;
+
+			double lossWealthProtection = 0;
+			ExtorterAbstract extorter;
+			for (Integer extorterId : this.counterattackProtection) {
+				extorter = this.extorters.get(extorterId);
+
+				if (this.protection.containsKey(extorterId)) {
+
+					extorter.receiveCounterattackProtection(this.id);
+
+					lossWealthProtection += this.costFightProtection
+							* extorter.getRealWealth();
+
+					// Output
+					numCounterattackProtection++;
+				}
+			}
+			this.lostWealth += lossWealthProtection;
+
+			// Output
+			this.output
+					.setNumCounterattackProtection(numCounterattackProtection);
+			this.output.setTotalLostFightProtection(lossWealthProtection);
+		}
+	}
+
+	/**
+	 * Receive the counterattack because of protection
+	 * 
+	 * @param id
+	 *            Identification of the counterattack Extorter
+	 * @return none
+	 */
+	public void receiveCounterattackProtection(int id) {
+		this.counterattackedProtection.add(id);
+
+		ExtorterAbstract extorter = this.extorters.get(id);
+		double lossWealthProtection = this.costFightProtection
+				* extorter.getRealWealth();
+		this.lostWealth += lossWealthProtection;
+
+		// Output
+		this.output.setNumReceivedCounterattackProtection(this.output
+				.getNumReceivedCounterattackProtection() + 1);
+		this.output.setTotalLostFightProtection(this.output
+				.getTotalLostFightProtection() + lossWealthProtection);
 	}
 
 	/**

@@ -86,7 +86,7 @@
 			<counterattackRetaliation>80</counterattackRetaliation>
 			<costOfFightRetaliation>25</costOfFightRetaliation>
 			<extortionType>proportional</extortionType>
-			<extortion>90</extortion>
+			<extortion>20</extortion>
 			<punishmentType>proportional</punishmentType>
 			<punishmentCost>33.33</punishmentCost>
 			<punishment>40</punishment>
@@ -106,7 +106,7 @@
 			<counterattackRetaliation>80</counterattackRetaliation>
 			<costOfFightRetaliation>25</costOfFightRetaliation>
 			<extortionType>proportional</extortionType>
-			<extortion>90</extortion>
+			<extortion>20</extortion>
 			<punishmentType>proportional</punishmentType>
 			<punishmentCost>33.33</punishmentCost>
 			<punishment>80</punishment>

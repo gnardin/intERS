@@ -59,10 +59,10 @@ public abstract class TargetAbstract {
 	protected double percIncomeForExtortion;
 
 	// Accumulated Payment
-	protected double payment;
+	// protected double payment;
 
 	// Accumulated Punishment
-	protected double punishment;
+	// protected double punishment;
 
 	// List of punishments per Extorter
 	protected Map<Integer, Queue<Double>> punishments;
@@ -112,8 +112,6 @@ public abstract class TargetAbstract {
 		this.percIncomeForExtortion = RandomHelper.nextDoubleFromTo(
 				targetConf.getMinExtortion(), targetConf.getMaxExtortion()) / 100.0;
 
-		this.payment = 0;
-		this.punishment = 0;
 		this.punishments = new HashMap<Integer, Queue<Double>>();
 		this.targetConf = targetConf;
 		this.targets = targets;
@@ -205,9 +203,6 @@ public abstract class TargetAbstract {
 				.getTickCount() + 1;
 		this.output = new OutputTarget(cycle, this.id,
 				this.targetConf.getType());
-
-		this.payment = 0;
-		this.punishment = 0;
 	}
 
 	/**
@@ -264,7 +259,7 @@ public abstract class TargetAbstract {
 	 * @param id
 	 *            Extorter identification
 	 * @param extorters
-	 *            List of Extorters protected against
+	 *            List of Extorters tried to protect against
 	 * @return none
 	 */
 	public void receiveProtectionInform(int id, List<Integer> extorters) {
@@ -281,7 +276,7 @@ public abstract class TargetAbstract {
 	 * @param none
 	 * @return none
 	 */
-	@ScheduledMethod(start = 1.55, interval = 1)
+	@ScheduledMethod(start = 1.40, interval = 1)
 	public abstract void decideToPay();
 
 	/**
@@ -290,19 +285,20 @@ public abstract class TargetAbstract {
 	 * @param none
 	 * @return none
 	 */
-	@ScheduledMethod(start = 1.60, interval = 1)
+	@ScheduledMethod(start = 1.45, interval = 1)
 	public void payInformNotPay() {
 		Map<Integer, Double> payments = new HashMap<Integer, Double>();
 
 		ExtorterAbstract extorter;
+		double payment = 0;
 		double value;
 		for (Integer extorterId : this.extortersToPay) {
 			extorter = this.extorters.get(extorterId);
 
 			// If there is enough income
 			value = this.extortions.get(extorterId);
-			if ((this.incomeCurrent - (this.payment + value)) > 0) {
-				this.payment += value;
+			if ((this.incomeCurrent - (payment + value)) > 0) {
+				payment += value;
 				payments.put(extorterId, value);
 			}
 		}
@@ -312,6 +308,8 @@ public abstract class TargetAbstract {
 			extorter = this.extorters.get(extorterId);
 			extorter.receivePayment(this.id, payments);
 		}
+
+		this.incomeCurrent -= payment;
 	}
 
 	/**
@@ -325,7 +323,7 @@ public abstract class TargetAbstract {
 	 */
 	public void receivePunishment(int id, double punishment) {
 
-		this.punishment += punishment;
+		this.incomeCurrent -= punishment;
 
 		// Update Punishment memory
 		if (this.targetConf.getMemLength() >= 0) {
@@ -355,7 +353,14 @@ public abstract class TargetAbstract {
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.95, interval = 1)
-	public abstract void decideToExit();
+	public void decideToExit() {
+		if (this.incomeCurrent <= 0) {
+			this.endCycle();
+			this.die();
+		} else {
+			this.wealth += this.incomeCurrent;
+		}
+	}
 
 	/**
 	 * End the cycle
