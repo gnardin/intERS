@@ -4,8 +4,6 @@ import intERS.conf.simulation.SimulationConf;
 import intERS.statistics.DataAggregation;
 import intERS.utils.XML;
 
-import java.io.File;
-
 public class IntERS {
 
 	public static void main(String[] args) throws Exception {
@@ -23,18 +21,16 @@ public class IntERS {
 		IntERSRunner runner = new IntERSRunner();
 
 		int randomSeed;
-		String outputDirectory;
 		// Runs the simulation
 		for (int sim = 0; sim < simulation.getNumberRuns(); sim++) {
 
 			randomSeed = simulation.getSeed(sim);
-			outputDirectory = simulation.getOutput().getDirectory()
-					+ File.separator + (sim + 1);
 
-			runner.load(randomSeed, simulation.getRSDirectory(), simulation
-					.getXMLFilename(), simulation.getXSDFilename(),
-					outputDirectory, simulation.getOutput().getFileExtorter(),
-					simulation.getOutput().getFileObserver(), simulation
+			runner.load((sim + 1), randomSeed, simulation.getRSDirectory(),
+					simulation.getXMLFilename(), simulation.getXSDFilename(),
+					simulation.getOutput().getDirectory(), simulation
+							.getOutput().getFileExtorter(), simulation
+							.getOutput().getFileObserver(), simulation
 							.getOutput().getFileTarget(), simulation
 							.getOutput().getFileAppend(), simulation
 							.getOutput().getFieldSeparator(), simulation

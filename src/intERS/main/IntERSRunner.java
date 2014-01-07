@@ -34,8 +34,8 @@ public class IntERSRunner extends AbstractRunner {
 		this.controller.setScheduleRunner(this);
 	}
 
-	public void load(int randomSeed, String rsDirectory, String xmlFilename,
-			String xsdFilename, String outputDirectory,
+	public void load(int simulationRun, int randomSeed, String rsDirectory,
+			String xmlFilename, String xsdFilename, String outputDirectory,
 			String outputFileExtorter, String outputFileObserver,
 			String outputFileTarget, boolean outputFileAppend,
 			String outputFieldSeparator, int outputWriteEvery) throws Exception {
@@ -55,6 +55,8 @@ public class IntERSRunner extends AbstractRunner {
 		this.controller.batchInitialize();
 
 		ParametersCreator paramsCreator = new ParametersCreator();
+		paramsCreator.addParameter("simulationRun", Integer.class,
+				simulationRun, false);
 		paramsCreator.addParameter("randomSeed", Integer.class, randomSeed,
 				false);
 		paramsCreator.addParameter("scenarioFilename", String.class,

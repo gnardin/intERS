@@ -6,12 +6,14 @@ public class OutputTarget extends OutputAbstract {
 	private double income;
 	private int numExtortion;
 	private double totalExtortion;
+	private int numPaymentProtection;
 	private int numProtectionRequested;
 	private int numProtectionReceived;
-	private int numPaid;
-	private double totalPaid;
-	private int numNotPaid;
-	private double totalNotPaid;
+	private int numSuccessfulProtection;
+	private int numExtortionPaid;
+	private double totalExtortionPaid;
+	private int numExtortionNotPaid;
+	private double totalExtortionNotPaid;
 	private int numPunishment;
 	private double totalPunishment;
 
@@ -22,12 +24,14 @@ public class OutputTarget extends OutputAbstract {
 		this.income = 0;
 		this.numExtortion = 0;
 		this.totalExtortion = 0;
+		this.numPaymentProtection = 0;
 		this.numProtectionRequested = 0;
 		this.numProtectionReceived = 0;
-		this.numPaid = 0;
-		this.totalPaid = 0;
-		this.numNotPaid = 0;
-		this.totalNotPaid = 0;
+		this.numSuccessfulProtection = 0;
+		this.numExtortionPaid = 0;
+		this.totalExtortionPaid = 0;
+		this.numExtortionNotPaid = 0;
+		this.totalExtortionNotPaid = 0;
 		this.numPunishment = 0;
 		this.totalPunishment = 0;
 	}
@@ -38,10 +42,11 @@ public class OutputTarget extends OutputAbstract {
 
 		str += "type" + fs + "id" + fs + "wealth" + fs + "income" + fs
 				+ "numExtortion" + fs + "totalExtortion" + fs
-				+ "numProtectionRequested" + fs + "numProtectionReceived" + fs
-				+ "numPaid" + fs + "totalPaid" + fs + "numNotPaid" + fs
-				+ "totalNotPaid" + fs + "numPunishment" + fs
-				+ "totalPunishment";
+				+ "numPaymentProtection" + fs + "numProtectionRequested" + fs
+				+ "numProtectionReceived" + fs + "numSuccessfulProtection" + fs
+				+ "numExtortionPaid" + fs + "totalExtortionPaid" + fs
+				+ "numExtortionNotPaid" + fs + "totalExtortionNotPaid" + fs
+				+ "numPunishment" + fs + "totalPunishment";
 
 		return str;
 	}
@@ -52,16 +57,18 @@ public class OutputTarget extends OutputAbstract {
 
 		str += this.type + fs + this.id + fs + this.wealth + fs + this.income
 				+ fs + this.numExtortion + fs + this.totalExtortion + fs
-				+ this.numProtectionRequested + fs + this.numProtectionReceived
-				+ fs + this.numPaid + fs + this.totalPaid + fs
-				+ this.numNotPaid + fs + this.totalNotPaid + fs
-				+ this.numPunishment + fs + this.totalPunishment;
+				+ this.numPaymentProtection + fs + this.numProtectionRequested
+				+ fs + this.numProtectionReceived + fs
+				+ this.numSuccessfulProtection + fs + this.numExtortionPaid
+				+ fs + this.totalExtortionPaid + fs + this.numExtortionNotPaid
+				+ fs + this.totalExtortionNotPaid + fs + this.numPunishment
+				+ fs + this.totalPunishment;
 
 		return str;
 	}
 
 	public double getWealth() {
-		return wealth;
+		return this.wealth;
 	}
 
 	public void setWealth(double wealth) {
@@ -69,31 +76,23 @@ public class OutputTarget extends OutputAbstract {
 	}
 
 	public double getIncome() {
-		return income;
+		return this.income;
 	}
 
 	public void setIncome(double income) {
 		this.income = income;
 	}
 
-	public int getNumPunishment() {
-		return numPunishment;
+	public int getNumPaymentProtection() {
+		return this.numPaymentProtection;
 	}
 
-	public void setNumPunishment(int numPunishment) {
-		this.numPunishment = numPunishment;
-	}
-
-	public double getTotalPunishment() {
-		return totalPunishment;
-	}
-
-	public void setTotalPunishment(double totalPunishment) {
-		this.totalPunishment = totalPunishment;
+	public void setNumPaymentProtection(int numPaymentProtection) {
+		this.numPaymentProtection = numPaymentProtection;
 	}
 
 	public int getNumProtectionRequested() {
-		return numProtectionRequested;
+		return this.numProtectionRequested;
 	}
 
 	public void setNumProtectionRequested(int numProtectionRequested) {
@@ -101,15 +100,23 @@ public class OutputTarget extends OutputAbstract {
 	}
 
 	public int getNumProtectionReceived() {
-		return numProtectionReceived;
+		return this.numProtectionReceived;
 	}
 
 	public void setNumProtectionReceived(int numProtectionReceived) {
 		this.numProtectionReceived = numProtectionReceived;
 	}
 
+	public int getNumSuccessfulProtection() {
+		return this.numSuccessfulProtection;
+	}
+
+	public void setNumSuccessfulProtection(int numSuccessfulProtection) {
+		this.numSuccessfulProtection = numSuccessfulProtection;
+	}
+
 	public int getNumExtortion() {
-		return numExtortion;
+		return this.numExtortion;
 	}
 
 	public void setNumExtortion(int numExtortion) {
@@ -117,42 +124,58 @@ public class OutputTarget extends OutputAbstract {
 	}
 
 	public double getTotalExtortion() {
-		return totalExtortion;
+		return this.totalExtortion;
 	}
 
 	public void setTotalExtortion(double totalExtortion) {
 		this.totalExtortion = totalExtortion;
 	}
 
-	public int getNumPaid() {
-		return numPaid;
+	public int getNumExtortionPaid() {
+		return this.numExtortionPaid;
 	}
 
-	public void setNumPaid(int numPaid) {
-		this.numPaid = numPaid;
+	public void setNumExtortionPaid(int numExtortionPaid) {
+		this.numExtortionPaid = numExtortionPaid;
 	}
 
-	public double getTotalPaid() {
-		return totalPaid;
+	public double getTotalExtortionPaid() {
+		return this.totalExtortionPaid;
 	}
 
-	public void setTotalPaid(double totalPaid) {
-		this.totalPaid = totalPaid;
+	public void setTotalExtortionPaid(double totalExtortionPaid) {
+		this.totalExtortionPaid = totalExtortionPaid;
 	}
 
-	public int getNumNotPaid() {
-		return numNotPaid;
+	public int getNumExtortionNotPaid() {
+		return this.numExtortionNotPaid;
 	}
 
-	public void setNumNotPaid(int numNotPaid) {
-		this.numNotPaid = numNotPaid;
+	public void setNumExtortionNotPaid(int numExtortionNotPaid) {
+		this.numExtortionNotPaid = numExtortionNotPaid;
 	}
 
-	public double getTotalNotPaid() {
-		return totalNotPaid;
+	public double getTotalExtortionNotPaid() {
+		return this.totalExtortionNotPaid;
 	}
 
-	public void setTotalNotPaid(double totalNotPaid) {
-		this.totalNotPaid = totalNotPaid;
+	public void setTotalExtortionNotPaid(double totalExtortionNotPaid) {
+		this.totalExtortionNotPaid = totalExtortionNotPaid;
+	}
+
+	public int getNumPunishment() {
+		return this.numPunishment;
+	}
+
+	public void setNumPunishment(int numPunishment) {
+		this.numPunishment = numPunishment;
+	}
+
+	public double getTotalPunishment() {
+		return this.totalPunishment;
+	}
+
+	public void setTotalPunishment(double totalPunishment) {
+		this.totalPunishment = totalPunishment;
 	}
 }

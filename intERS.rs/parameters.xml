@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <parameters>
+	<parameter name="simulationRun" displayName="Simulation Run"
+		type="int" defaultValue="0" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$IntConverter" />
 	<parameter name="scenarioFilename" displayName="Scenario Filename"
 		type="java.lang.String" defaultValue="/data/workspace/repast/intERS/conf/scenario.xml"
 		isReadOnly="false"

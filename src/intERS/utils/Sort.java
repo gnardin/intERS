@@ -10,6 +10,7 @@ import java.util.Map;
 
 public class Sort {
 
+	@SuppressWarnings("unchecked")
 	public static Map<Integer, Double> descendentSortByValue(
 			Map<Integer, Double> map) {
 		List list = new LinkedList(map.entrySet());
@@ -20,7 +21,25 @@ public class Sort {
 			}
 		});
 
-		// logger.info(list);
+		Map<Integer, Double> result = new LinkedHashMap<Integer, Double>();
+		for (Iterator<?> it = list.iterator(); it.hasNext();) {
+			Map.Entry entry = (Map.Entry) it.next();
+			result.put((Integer) entry.getKey(), (Double) entry.getValue());
+		}
+		return result;
+	}
+
+	@SuppressWarnings("unchecked")
+	public static Map<Integer, Double> ascendentSortByValue(
+			Map<Integer, Double> map) {
+		List list = new LinkedList(map.entrySet());
+		Collections.sort(list, new Comparator<Object>() {
+			public int compare(Object o1, Object o2) {
+				return ((Comparable) ((Map.Entry) (o1)).getValue())
+						.compareTo(((Map.Entry) (o2)).getValue());
+			}
+		});
+
 		Map<Integer, Double> result = new LinkedHashMap<Integer, Double>();
 		for (Iterator<?> it = list.iterator(); it.hasNext();) {
 			Map.Entry entry = (Map.Entry) it.next();

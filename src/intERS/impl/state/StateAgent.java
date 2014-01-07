@@ -71,7 +71,7 @@ public class StateAgent extends StateAbstract {
 	@ScheduledMethod(start = 1.95, interval = 1)
 	public void endCycle() {
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
-				.getTickCount() + 1;
+				.getTickCount();
 
 		this.outputRecorder.addRecord(this.getOutput(cycle));
 	}

@@ -83,7 +83,7 @@ public abstract class StateAbstract {
 		}
 
 		// Output
-		this.outputRecorder.addRecord(this.getOutput(1));
+		this.outputRecorder.addRecord(this.getOutput(0));
 	}
 
 	@ScheduledMethod(start = 1, interval = 1, priority = 0)
@@ -95,7 +95,7 @@ public abstract class StateAbstract {
 		Evaluator eval = new Evaluator();
 
 		try {
-			eval.putVariable("CYCLE", new Double(cycle).toString());
+			eval.putVariable("CYCLE", new Double(cycle - 1).toString());
 			eval.putVariable("EXTORTERS", new Integer(this.extorters.size()
 					+ this.imprisonedTotal).toString());
 

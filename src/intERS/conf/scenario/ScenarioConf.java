@@ -44,21 +44,21 @@ public class ScenarioConf {
 	private final static String EXTORTER_ENLARGEMENT_PROBABILITY = "enlargementProbability";
 	private final static String EXTORTER_NUMBER = "numberOfExtorters";
 	private final static String EXTORTER_INITIAL_WEALTH = "initialWealth";
-	private final static String EXTORTER_TOLERANCE = "tolerance";
-	private final static String EXTORTER_ATTACK_PROTECTION = "attackProtection";
-	private final static String EXTORTER_COUNTERATTACK_PROTECTION = "counterattackProtection";
+	private final static String EXTORTER_IMPULSE_PROTECTION = "impulseProtection";
+	private final static String EXTORTER_IMPULSE_FIGHT = "impulseFight";
+	private final static String EXTORTER_IMPULSE_ATTACK = "impulseAttack";
+	private final static String EXTORTER_IMPULSE_COUNTERATTACK = "impulseCounterattack";
 	private final static String EXTORTER_COST_FIGHT_PROTECTION = "costOfFightProtection";
-	private final static String EXTORTER_ATTACK_RETALIATION = "attackRetaliation";
-	private final static String EXTORTER_COUNTERATTACK_RETALIATION = "counterattackRetaliation";
-	private final static String EXTORTER_COST_FIGHT_RETALIATION = "costOfFightRetaliation";
-	private final static String EXTORTER_EXTORTION_TYPE = "extortionType";
-	private final static String EXTORTER_EXTORTION = "extortion";
-	private final static String EXTORTER_PUNISHMENT_TYPE = "punishmentType";
-	private final static String EXTORTER_PUNISHMENT_COST = "punishmentCost";
-	private final static String EXTORTER_PUNISHMENT = "punishment";
-	private final static String EXTORTER_PUNISHMENT_MINIMUM_ESCALATION = "escalationMinimun";
-	private final static String EXTORTER_PUNISHMENT_MAXIMUM_ESCALATION = "escalationMaximum";
-	private final static String EXTORTER_PUNISHMENT_FORMULA_ESCALATION = "escalationFormula";
+	private final static String EXTORTER_COST_FIGHT_ATTACK = "costOfFightAttack";
+	private final static String EXTORTER_COST_PUNISH = "costOfPunish";
+	private final static String EXTORTER_CFG_FILENAME = "extortersCfgFilename";
+	private final static String EXTORTER_MINIMUM_EXTORT = "minimumExtort";
+	private final static String EXTORTER_MAXIMUM_EXTORT = "maximumExtort";
+	private final static String EXTORTER_STEP_EXTORT = "stepExtort";
+	private final static String EXTORTER_MINIMUM_PUNISH = "minimumPunish";
+	private final static String EXTORTER_MAXIMUM_PUNISH = "maximumPunish";
+	private final static String EXTORTER_STEP_PUNISH = "stepPunish";
+	private final static String EXTORTER_UPDATE_AT_END = "updateAtEnd";
 
 	// Scenario
 	private String stopAt;
@@ -285,27 +285,35 @@ public class ScenarioConf {
 								.asCharacters().getData()));
 						continue;
 
-						// Set tolerance attribute
+						// Set impulseProtection attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_TOLERANCE)) {
+							.equals(EXTORTER_IMPULSE_PROTECTION)) {
 						event = eventReader.nextEvent();
-						extorter.setTolerance(new Double(event.asCharacters()
-								.getData()));
-						continue;
-
-						// Set attackProtection attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_ATTACK_PROTECTION)) {
-						event = eventReader.nextEvent();
-						extorter.setAttackProtection(new Double(event
+						extorter.setImpulseProtection(new Double(event
 								.asCharacters().getData()));
 						continue;
 
-						// Set counterattackProtection attribute
+						// Set impulseFight attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_COUNTERATTACK_PROTECTION)) {
+							.equals(EXTORTER_IMPULSE_FIGHT)) {
 						event = eventReader.nextEvent();
-						extorter.setCounterattackProtection(new Double(event
+						extorter.setImpulseFight(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set impulseAttack attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_IMPULSE_ATTACK)) {
+						event = eventReader.nextEvent();
+						extorter.setImpulseAttack(new Double(event
+								.asCharacters().getData()));
+						continue;
+
+						// Set impulseCounterattack attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_IMPULSE_COUNTERATTACK)) {
+						event = eventReader.nextEvent();
+						extorter.setCostFightProtection(new Double(event
 								.asCharacters().getData()));
 						continue;
 
@@ -317,108 +325,84 @@ public class ScenarioConf {
 								.asCharacters().getData()));
 						continue;
 
-						// Set attackRetaliation attribute
+						// Set costFightAttack attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_ATTACK_RETALIATION)) {
+							.equals(EXTORTER_COST_FIGHT_ATTACK)) {
 						event = eventReader.nextEvent();
-						extorter.setAttackRetaliation(new Double(event
+						extorter.setCostFightAttack(new Double(event
 								.asCharacters().getData()));
 						continue;
 
-						// Set counterattackRetaliation attribute
+						// Set costPunish attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_COUNTERATTACK_RETALIATION)) {
-						event = eventReader.nextEvent();
-						extorter.setCounterattackRetaliation(new Double(event
-								.asCharacters().getData()));
-						continue;
-
-						// Set costFightRetaliation attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_COST_FIGHT_RETALIATION)) {
-						event = eventReader.nextEvent();
-						extorter.setCostFightRetaliation(new Double(event
-								.asCharacters().getData()));
-						continue;
-
-						// Set extortionType attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_EXTORTION_TYPE)) {
-						event = eventReader.nextEvent();
-
-						String type = event.asCharacters().getData();
-
-						if (ExtorterConf.ExtortionType.PROPORTIONAL.name()
-								.toLowerCase().equals(type)) {
-							extorter.setExtortionType(ExtorterConf.ExtortionType.PROPORTIONAL);
-						}
-						continue;
-
-						// Set extortion attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_EXTORTION)) {
-						event = eventReader.nextEvent();
-						extorter.setExtortion(new Double(event.asCharacters()
-								.getData()));
-						continue;
-
-						// Set punishmentType attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_PUNISHMENT_TYPE)) {
-						event = eventReader.nextEvent();
-
-						String type = event.asCharacters().getData();
-
-						if (ExtorterConf.PunishmentType.FIXED.name()
-								.toLowerCase().equals(type)) {
-							extorter.setPunishmentType(ExtorterConf.PunishmentType.FIXED);
-						} else if (ExtorterConf.PunishmentType.PROPORTIONAL
-								.name().toLowerCase().equals(type)) {
-							extorter.setPunishmentType(ExtorterConf.PunishmentType.PROPORTIONAL);
-						} else if (ExtorterConf.PunishmentType.ESCALATION
-								.name().toLowerCase().equals(type)) {
-							extorter.setPunishmentType(ExtorterConf.PunishmentType.ESCALATION);
-						}
-						continue;
-
-						// Set punishmentCost attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_PUNISHMENT_COST)) {
+							.equals(EXTORTER_COST_PUNISH)) {
 						event = eventReader.nextEvent();
 						extorter.setCostPunish(new Double(event.asCharacters()
 								.getData()));
 						continue;
 
-						// Set punishment attribute
+						// Set extortersCfgFile attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_PUNISHMENT)) {
+							.equals(EXTORTER_CFG_FILENAME)) {
 						event = eventReader.nextEvent();
-						extorter.setPunishment(new Double(event.asCharacters()
+						extorter.setExtortersCfgFilename(event.asCharacters()
+								.getData());
+						continue;
+
+						// Set minExtort attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_MINIMUM_EXTORT)) {
+						event = eventReader.nextEvent();
+						extorter.setMinExtort(new Double(event.asCharacters()
 								.getData()));
 						continue;
 
-						// Set escalationMinimum attribute
+						// Set maxExtort attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_PUNISHMENT_MINIMUM_ESCALATION)) {
+							.equals(EXTORTER_MAXIMUM_EXTORT)) {
 						event = eventReader.nextEvent();
-						extorter.setMinEscalation(new Double(event
-								.asCharacters().getData()));
+						extorter.setMaxExtort(new Double(event.asCharacters()
+								.getData()));
 						continue;
 
-						// Set escalationMaximum attribute
+						// Set stepExtort attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_PUNISHMENT_MAXIMUM_ESCALATION)) {
+							.equals(EXTORTER_STEP_EXTORT)) {
 						event = eventReader.nextEvent();
-						extorter.setMaxEscalation(new Double(event
-								.asCharacters().getData()));
+						extorter.setStepExtort(new Double(event.asCharacters()
+								.getData()));
 						continue;
 
-						// Set escalationFormula attribute
+						// Set minPunish attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(EXTORTER_PUNISHMENT_FORMULA_ESCALATION)) {
+							.equals(EXTORTER_MINIMUM_PUNISH)) {
 						event = eventReader.nextEvent();
-						extorter.setFormulaEscalation(event.asCharacters()
-								.getData());
+						extorter.setMinPunish(new Double(event.asCharacters()
+								.getData()));
+						continue;
+
+						// Set maxPunish attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_MAXIMUM_PUNISH)) {
+						event = eventReader.nextEvent();
+						extorter.setMaxPunish(new Double(event.asCharacters()
+								.getData()));
+						continue;
+
+						// Set stepPunish attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_STEP_PUNISH)) {
+						event = eventReader.nextEvent();
+						extorter.setStepPunish(new Double(event.asCharacters()
+								.getData()));
+						continue;
+
+						// Set receiveAtEnd attribute
+					} else if (event.asStartElement().getName().getLocalPart()
+							.equals(EXTORTER_UPDATE_AT_END)) {
+						event = eventReader.nextEvent();
+						extorter.setUpdateAtEnd(new Boolean(event
+								.asCharacters().getData()));
 						continue;
 					}
 				}

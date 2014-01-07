@@ -36,6 +36,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		ContextBuilder<Object> {
 
 	private static final String PROJECT_NAME = "intERS";
+	private static final String PARAM_SIM = "simulationRun";
 	private static final String PARAM_RANDOM_SEED = "randomSeed";
 	private static final String PARAM_SCENARIO_FILENAME = "scenarioFilename";
 	private static final String PARAM_SCHEMA_FILENAME = "schemaFilename";
@@ -60,6 +61,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 
 		// Get the parameter values
 		Parameters params = RunEnvironment.getInstance().getParameters();
+		Integer simulationRun = (Integer) params.getValue(PARAM_SIM);
 		Integer randomSeed = (Integer) params.getValue(PARAM_RANDOM_SEED);
 		RandomHelper.setSeed(randomSeed);
 
@@ -68,8 +70,10 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		String schemaFilename = (String) params.getValue(PARAM_SCHEMA_FILENAME);
 
 		OutputConf outputConf = new OutputConf();
-		outputConf.setDirectory((String) params
-				.getValue(PARAM_OUTPUT_DIRECTORY));
+		outputConf.setDirectory(((String) params
+				.getValue(PARAM_OUTPUT_DIRECTORY))
+				+ File.separator
+				+ simulationRun);
 		outputConf.setFileExtorter((String) params
 				.getValue(PARAM_OUTPUT_FILENAME_EXTORTER));
 		outputConf.setFileObserver((String) params
@@ -140,8 +144,11 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		List<ExtorterConf> extortersScenario = scenario.getExtorters();
 
 		int numExtorters = 0;
-		for (ExtorterConf extorter : extortersScenario) {
-			numExtorters += extorter.getNumberExtorters();
+		for (ExtorterConf extorterCfg : extortersScenario) {
+			numExtorters += extorterCfg.getNumberExtorters();
+			extorterCfg.upload(
+					(String) params.getValue(PARAM_OUTPUT_DIRECTORY),
+					(String) params.getValue(PARAM_OUTPUT_FIELD_SEPARATOR));
 		}
 
 		int targetsPerExtorter = 0;
@@ -159,6 +166,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 			}
 		} catch (EvaluationException e) {
 			e.printStackTrace();
+			System.exit(1);
 		}
 
 		// Create Extorter agents
@@ -183,8 +191,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 					initialTargets = new HashSet<Integer>();
 					int targetId;
 					while (initialTargets.size() < targetsPerExtorter) {
-						targetId = RandomHelper.nextIntFromTo(0,
-								(numTargets - 1));
+						targetId = RandomHelper.nextIntFromTo(1, numTargets);
 						initialTargets.add(targetId);
 					}
 

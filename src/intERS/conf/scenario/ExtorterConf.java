@@ -1,39 +1,50 @@
 package intERS.conf.scenario;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import repast.simphony.random.RandomHelper;
+
 public class ExtorterConf {
-
-	public enum ExtortionType {
-		PROPORTIONAL
-	}
-
-	public enum PunishmentType {
-		FIXED, PROPORTIONAL, ESCALATION
-	}
-
 	private String extorterClass;
 	private String type;
 	private String enlargementProbability;
-	private int number;
+	private int numberExtorters;
 	private double initialWealth;
-	private double tolerance;
-	private double attackProtection;
-	private double counterattackProtection;
+	private double impulseProtection;
+	private double impulseFight;
+	private double impulseAttack;
+	private double impulseCounterattack;
 	private double costFightProtection;
-	private double attackRetaliation;
-	private double counterattackRetaliation;
-	private double costFightRetaliation;
+	private double costFightAttack;
 	private double costPunish;
+	private String extortersCfgFilename;
+	private double minExtort;
+	private double maxExtort;
+	private double stepExtort;
+	private double minPunish;
+	private double maxPunish;
+	private double stepPunish;
+	private boolean updateAtEnd;
 
-	// Extortion
-	private ExtortionType extortionType;
-	private double extortion;
+	// ExtorterId, Extortion
+	private Map<Integer, Double> extortions;
 
-	// Punishment
-	private PunishmentType punishmentType;
-	private double punishment;
-	private double minEscalation;
-	private double maxEscalation;
-	private String formulaEscalation;
+	// ExtorterId, Punishment
+	private Map<Integer, Double> punishments;
+
+	public ExtorterConf() {
+		this.extortions = new HashMap<Integer, Double>();
+		this.punishments = new HashMap<Integer, Double>();
+	}
 
 	public String getExtorterClass() {
 		return this.extorterClass;
@@ -60,11 +71,11 @@ public class ExtorterConf {
 	}
 
 	public int getNumberExtorters() {
-		return this.number;
+		return this.numberExtorters;
 	}
 
-	public void setNumberExtorters(int number) {
-		this.number = number;
+	public void setNumberExtorters(int numberExtorters) {
+		this.numberExtorters = numberExtorters;
 	}
 
 	public double getInitialWealth() {
@@ -75,68 +86,36 @@ public class ExtorterConf {
 		this.initialWealth = initialWealth;
 	}
 
-	public double getTolerance() {
-		return this.tolerance;
+	public double getImpulseProtection() {
+		return this.impulseProtection;
 	}
 
-	public void setTolerance(double tolerance) {
-		this.tolerance = tolerance;
+	public void setImpulseProtection(double impulseProtection) {
+		this.impulseProtection = impulseProtection;
 	}
 
-	public double getAttackProtection() {
-		return this.attackProtection;
+	public double getImpulseFight() {
+		return this.impulseFight;
 	}
 
-	public void setAttackProtection(double attackProtection) {
-		this.attackProtection = attackProtection;
+	public void setImpulseFight(double impulseFight) {
+		this.impulseFight = impulseFight;
 	}
 
-	public double getCounterattackProtection() {
-		return this.counterattackProtection;
+	public double getImpulseAttack() {
+		return this.impulseAttack;
 	}
 
-	public void setCounterattackProtection(double counterattackProtection) {
-		this.counterattackProtection = counterattackProtection;
+	public void setImpulseAttack(double impulseAttack) {
+		this.impulseAttack = impulseAttack;
 	}
 
-	public double getAttackRetaliation() {
-		return this.attackRetaliation;
+	public double getImpulseCounterattack() {
+		return this.impulseCounterattack;
 	}
 
-	public void setAttackRetaliation(double attackRetaliation) {
-		this.attackRetaliation = attackRetaliation;
-	}
-
-	public double getCounterattackRetaliation() {
-		return this.counterattackRetaliation;
-	}
-
-	public void setCounterattackRetaliation(double counterattackRetaliation) {
-		this.counterattackRetaliation = counterattackRetaliation;
-	}
-
-	public ExtortionType getExtortionType() {
-		return extortionType;
-	}
-
-	public void setExtortionType(ExtortionType extortionType) {
-		this.extortionType = extortionType;
-	}
-
-	public double getExtortion() {
-		return this.extortion;
-	}
-
-	public void setExtortion(double extortion) {
-		this.extortion = extortion;
-	}
-
-	public PunishmentType getPunishmentType() {
-		return this.punishmentType;
-	}
-
-	public void setPunishmentType(PunishmentType punishmentType) {
-		this.punishmentType = punishmentType;
+	public void setImpulseCounterattack(double impulseCounterattack) {
+		this.impulseCounterattack = impulseCounterattack;
 	}
 
 	public double getCostFightProtection() {
@@ -147,12 +126,12 @@ public class ExtorterConf {
 		this.costFightProtection = costFightProtection;
 	}
 
-	public double getCostFightRetaliation() {
-		return this.costFightRetaliation;
+	public double getCostFightAttack() {
+		return this.costFightAttack;
 	}
 
-	public void setCostFightRetaliation(double costFightRetaliation) {
-		this.costFightRetaliation = costFightRetaliation;
+	public void setCostFightAttack(double costFightAttack) {
+		this.costFightAttack = costFightAttack;
 	}
 
 	public double getCostPunish() {
@@ -163,36 +142,203 @@ public class ExtorterConf {
 		this.costPunish = costPunish;
 	}
 
-	public double getPunishment() {
-		return this.punishment;
+	public String getExtortersCfgFilename() {
+		return this.extortersCfgFilename;
 	}
 
-	public void setPunishment(double punishment) {
-		this.punishment = punishment;
+	public void setExtortersCfgFilename(String extortersCfgFilename) {
+		this.extortersCfgFilename = extortersCfgFilename;
 	}
 
-	public double getMinEscalation() {
-		return this.minEscalation;
+	public double getMinExtort() {
+		return this.minExtort;
 	}
 
-	public void setMinEscalation(double minEscalation) {
-		this.minEscalation = minEscalation;
+	public void setMinExtort(double minExtort) {
+		this.minExtort = minExtort;
 	}
 
-	public double getMaxEscalation() {
-		return this.maxEscalation;
+	public double getMaxExtort() {
+		return this.maxExtort;
 	}
 
-	public void setMaxEscalation(double maxEscalation) {
-		this.maxEscalation = maxEscalation;
+	public void setMaxExtort(double maxExtort) {
+		this.maxExtort = maxExtort;
 	}
 
-	public String getFormulaEscalation() {
-		return this.formulaEscalation;
+	public double getStepExtort() {
+		return this.stepExtort;
 	}
 
-	public void setFormulaEscalation(String formulaEscalation) {
-		this.formulaEscalation = formulaEscalation;
+	public void setStepExtort(double stepExtort) {
+		this.stepExtort = stepExtort;
+	}
+
+	public double getMinPunish() {
+		return this.minPunish;
+	}
+
+	public void setMinPunish(double minPunish) {
+		this.minPunish = minPunish;
+	}
+
+	public double getMaxPunish() {
+		return this.maxPunish;
+	}
+
+	public void setMaxPunish(double maxPunish) {
+		this.maxPunish = maxPunish;
+	}
+
+	public double getStepPunish() {
+		return this.stepPunish;
+	}
+
+	public void setStepPunish(double stepPunish) {
+		this.stepPunish = stepPunish;
+	}
+
+	public boolean getUpdateAtEnd() {
+		return this.updateAtEnd;
+	}
+
+	public void setUpdateAtEnd(boolean updateAtEnd) {
+		this.updateAtEnd = updateAtEnd;
+	}
+
+	/**
+	 * Upload the Extorters' extortion and punishment values
+	 * 
+	 * @param path
+	 *            Output directory path
+	 * @param fieldSeparator
+	 *            Field separator
+	 * @return none
+	 */
+	public void upload(String path, String fieldSeparator) {
+		boolean uploaded = false;
+		String filename = path + File.separator + this.extortersCfgFilename;
+
+		File directory = new File(path);
+		directory.mkdirs();
+
+		File file = new File(filename);
+		if (file.exists()) {
+			try {
+				BufferedReader br = new BufferedReader(new FileReader(file));
+				String line;
+				String[] tokens;
+				boolean error = false;
+				Integer extorterId;
+				Double extortion;
+				Double punishment;
+				while (((line = br.readLine()) != null) && (!error)) {
+					tokens = line.split(fieldSeparator);
+					if (tokens.length < 3) {
+						error = true;
+					} else {
+						try {
+							extorterId = Integer.valueOf(tokens[0]);
+							extortion = Double.valueOf(tokens[1]) / 100.0;
+							punishment = Double.valueOf(tokens[2]) / 100.0;
+
+							this.extortions.put(extorterId, extortion);
+							this.punishments.put(extorterId, punishment);
+						} catch (NumberFormatException e) {
+							error = true;
+						}
+					}
+				}
+
+				if (!error) {
+					uploaded = true;
+				}
+
+				br.close();
+			} catch (IOException e) {
+			}
+		}
+
+		if (!uploaded) {
+			this.extortions.clear();
+			this.punishments.clear();
+
+			// Extorter options
+			List<Double> extortValues = new ArrayList<Double>();
+			double extort = this.minExtort;
+			while (extort <= this.maxExtort) {
+				extortValues.add(extort);
+				extort += this.stepExtort;
+			}
+
+			// Punishment options
+			List<Double> punishValues = new ArrayList<Double>();
+			double punish = this.minPunish;
+			while (punish <= this.maxPunish) {
+				punishValues.add(punish);
+				punish += this.stepPunish;
+			}
+
+			for (int extorterId = 1; extorterId <= this.numberExtorters; extorterId++) {
+				this.extortions.put(extorterId, extortValues.get(RandomHelper
+						.nextIntFromTo(0, extortValues.size() - 1)) / 100.0);
+
+				this.punishments.put(extorterId, punishValues.get(RandomHelper
+						.nextIntFromTo(0, punishValues.size() - 1)) / 100.0);
+			}
+
+			try {
+				BufferedWriter bw = new BufferedWriter(new FileWriter(file,
+						false));
+
+				String str;
+				for (Integer extorterId : this.extortions.keySet()) {
+					str = extorterId.toString() + ";"
+							+ (this.extortions.get(extorterId) * 100)
+							+ fieldSeparator
+							+ (this.punishments.get(extorterId) * 100) + "\n";
+					bw.write(str);
+				}
+
+				bw.flush();
+				bw.close();
+			} catch (IOException e) {
+			}
+		}
+	}
+
+	/**
+	 * Define the extortion value
+	 * 
+	 * @param extorterId
+	 *            Extorter identification
+	 * @return Extortion value
+	 */
+	public double getExtortion(int extorterId) {
+		double extortionValue = 0;
+
+		if (this.extortions.containsKey(extorterId)) {
+			extortionValue = this.extortions.get(extorterId);
+		}
+
+		return extortionValue;
+	}
+
+	/**
+	 * Define the punishment value
+	 * 
+	 * @param extorterId
+	 *            Extorter identification
+	 * @return Punishment value
+	 */
+	public double getPunishment(int extorterId) {
+		double punishmentValue = 0;
+
+		if (this.punishments.containsKey(extorterId)) {
+			punishmentValue = this.punishments.get(extorterId);
+		}
+
+		return punishmentValue;
 	}
 
 	@Override
@@ -204,38 +350,29 @@ public class ExtorterConf {
 		str += "Type.........................: [" + this.type + "]\n";
 		str += "Enlargement Probability......: [" + this.enlargementProbability
 				+ "]\n";
-		str += "Number of Targets............: [" + this.number + "]\n";
+		str += "Number of Extorters..........: [" + this.numberExtorters
+				+ "]\n";
 		str += "Initial Wealth...............: [" + this.initialWealth + "]\n";
-		str += "Tolerance....................: [" + this.tolerance + "]\n";
-		str += "Attack Protection............: [" + this.attackProtection
+		str += "Impulse Protection...........: [" + this.impulseProtection
 				+ "]\n";
-		str += "Counterattack Protection.....: ["
-				+ this.counterattackProtection + "]\n";
-		str += "Attack Retaliation...........: [" + this.attackRetaliation
+		str += "Impulse Fight................: [" + this.impulseFight + "]\n";
+		str += "Impulse Attack...............: [" + this.impulseAttack + "]\n";
+		str += "Impulse Counterattack........: [" + this.impulseCounterattack
 				+ "]\n";
-		str += "Counterattack Retaliation....: ["
-				+ this.counterattackRetaliation + "]\n";
-		str += "Extortion Type...............: [" + this.extortionType.name()
+		str += "Cost of Fight Protection.....: [" + this.costFightProtection
 				+ "]\n";
-		str += "Extortion Value..............: [" + this.extortion + "]\n";
-		str += "Punishment Type..............: [" + this.punishmentType.name()
+		str += "Cost of Fight Attack.........: [" + this.costFightAttack
 				+ "]\n";
-		str += "Cost to Fight Protection.....: [" + this.costFightProtection
+		str += "Cost of Punish...............: [" + this.costPunish + "]\n";
+		str += "Extorters Config Filename....: [" + this.extortersCfgFilename
 				+ "]\n";
-		str += "Cost to Fight Retaliation....: [" + this.costFightRetaliation
-				+ "]\n";
-		str += "Cost to Punish...............: [" + this.costPunish + "]\n";
-		if ((this.punishmentType.equals(PunishmentType.FIXED))
-				|| (this.punishmentType.equals(PunishmentType.PROPORTIONAL))) {
-			str += "Punishment Value.............: [" + this.punishment + "]\n";
-		} else if (this.punishmentType.equals(PunishmentType.ESCALATION)) {
-			str += "Escalation Minimum Value.....: [" + this.minEscalation
-					+ "]\n";
-			str += "Escalation Maximum Value.....: [" + this.maxEscalation
-					+ "]\n";
-			str += "Escalation Formula...........: [" + this.formulaEscalation
-					+ "]\n";
-		}
+		str += "Minimum Extort...............: [" + this.minExtort + "]\n";
+		str += "Maximum Extort...............: [" + this.maxExtort + "]\n";
+		str += "Step Extort..................: [" + this.stepExtort + "]\n";
+		str += "Minimum Punish...............: [" + this.minPunish + "]\n";
+		str += "Maximum Punish...............: [" + this.maxPunish + "]\n";
+		str += "Step Punish..................: [" + this.stepPunish + "]\n";
+		str += "Update Wealth at End.........: [" + this.updateAtEnd + "]\n";
 
 		return str;
 	}
