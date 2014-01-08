@@ -3,11 +3,12 @@ package intERS.agents;
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;
 import intERS.conf.scenario.ScenarioConf;
+import intERS.impl.target.RankExtorter;
 import intERS.output.OutputObserver;
 import intERS.output.OutputRecorder;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,8 +53,8 @@ public abstract class StateAbstract {
 		this.id = id;
 		this.scenarioConf = scenarioConf;
 		this.context = context;
-		this.extorters = extorters;
 
+		this.extorters = extorters;
 		this.extorterTypes = new ArrayList<String>();
 		ExtorterAbstract extorter;
 		for (Integer extorterId : this.extorters.keySet()) {
@@ -63,13 +64,6 @@ public abstract class StateAbstract {
 				this.extorterTypes.add(extorter.getType());
 			}
 		}
-
-		this.imprisoned = new Hashtable<Integer, ExtorterAbstract>();
-		this.imprisonedTotal = 0;
-		this.outputRecorder = OutputRecorder.getInstance();
-		this.prisonProbability = prisonProbability / 100;
-		this.prisonRounds = prisonRounds;
-		this.remainedRounds = new Hashtable<Integer, Integer>();
 
 		this.targets = targets;
 		this.targetTypes = new ArrayList<String>();
@@ -81,6 +75,13 @@ public abstract class StateAbstract {
 				this.targetTypes.add(target.getType());
 			}
 		}
+
+		this.imprisoned = new HashMap<Integer, ExtorterAbstract>();
+		this.imprisonedTotal = 0;
+		this.outputRecorder = OutputRecorder.getInstance();
+		this.prisonProbability = prisonProbability / 100;
+		this.prisonRounds = prisonRounds;
+		this.remainedRounds = new HashMap<Integer, Integer>();
 
 		// Output
 		this.outputRecorder.addRecord(this.getOutput(0));
@@ -141,6 +142,9 @@ public abstract class StateAbstract {
 		} catch (EvaluationException e) {
 			e.printStackTrace();
 		}
+
+		RankExtorter rankExtorter = RankExtorter.getInstance();
+		rankExtorter.calcExtorterPunishmentProb(this.extorters);
 	}
 
 	@ScheduledMethod(start = 1.98, interval = 1)

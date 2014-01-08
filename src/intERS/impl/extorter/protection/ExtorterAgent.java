@@ -1,4 +1,4 @@
-package intERS.impl.extorter.withProtection;
+package intERS.impl.extorter.protection;
 
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;
@@ -179,13 +179,13 @@ public class ExtorterAgent extends ExtorterAbstract {
 							}
 						}
 
-						// Extorter counterattacked all attacks
+						// Extorter counterattacked all attackers
 						if (counterattackedAll) {
 							if (!this.punishments.contains(targetId)) {
 								this.punishments.add(targetId);
 							}
 
-							// Extorter did NOT counterattack all attacks
+							// Extorter did NOT counterattack all attackers
 						} else {
 							if (this.extorted.containsKey(targetId)) {
 								this.targetsToRemove.add(targetId);

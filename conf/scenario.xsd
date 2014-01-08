@@ -12,6 +12,8 @@
 							<!-- #{EXTORTER_TYPES} - Number of Extorter Types -->
 							<!-- #{TARGETS} - Number of Targets -->
 							<!-- #{TARGET_TYPES} - Number of Target Types -->
+							<!-- Example: ((#{EXTORTERS} == 1) || (#{TARGETS} == 0)) && (#{CYCLE} 
+								> 1000) -->
 							<element name="stopAt" type="string" />
 						</sequence>
 					</complexType>
@@ -60,16 +62,8 @@
 												</restriction>
 											</simpleType>
 										</element>
-										<!-- Percentage of income the Target may use for paying extortion -->
-										<element name="minimumExtortion">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<element name="maximumExtortion">
+										<!-- Percentage of income available for paying extortion -->
+										<element name="availableExtortionIncome">
 											<simpleType>
 												<restriction base="decimal">
 													<minInclusive value="0.0" />

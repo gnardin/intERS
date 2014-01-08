@@ -3,7 +3,7 @@
 	xsi:noNamespaceSchemaLocation="scenario.xsd">
 	<!-- General Information -->
 	<general>
-		<stopAt><![CDATA[#{EXTORTERS} == 1]]></stopAt>
+		<stopAt><![CDATA[(#{CYCLE} == 1000)]]></stopAt>
 	</general>
 	<!-- State Information -->
 	<state>
@@ -22,8 +22,7 @@
 			<maximumIncome>1200.0</maximumIncome>
 			<minimumIncomeVariation>90</minimumIncomeVariation>
 			<maximumIncomeVariation>110</maximumIncomeVariation>
-			<minimumExtortion>100</minimumExtortion>
-			<maximumExtortion>100</maximumExtortion>
+			<availableExtortionIncome>100</availableExtortionIncome>
 			<memoryLength>0</memoryLength>
 		</target>
 	</targets>
@@ -31,10 +30,10 @@
 	<extorters>
 		<targetPerExtorter><![CDATA[ceil(#{TARGETS} / #{EXTORTERS})]]></targetPerExtorter>
 		<extorter>
-			<extorterClass>intERS.impl.extorter.withProtection.ExtorterAgent</extorterClass>
+			<extorterClass>intERS.impl.extorter.protection.ExtorterAgent</extorterClass>
 			<extorterType>0</extorterType>
 			<enlargementProbability>10</enlargementProbability>
-			<numberOfExtorters>60</numberOfExtorters>
+			<numberOfExtorters>20</numberOfExtorters>
 			<initialWealth>1000.0</initialWealth>
 			<impulseProtection>100</impulseProtection>
 			<impulseFight>20</impulseFight>
@@ -47,8 +46,8 @@
 			<minimumExtort>10</minimumExtort>
 			<maximumExtort>100</maximumExtort>
 			<stepExtort>10</stepExtort>
-			<minimumPunish>10</minimumPunish>
-			<maximumPunish>100</maximumPunish>
+			<minimumPunish>50</minimumPunish>
+			<maximumPunish>50</maximumPunish>
 			<stepPunish>10</stepPunish>
 			<updateAtEnd>true</updateAtEnd>
 		</extorter>

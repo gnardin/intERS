@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<parameters>
+	<parameter name="scenarioFilename" displayName="Scenario Filename"
+		type="java.lang.String" defaultValue="/data/workspace/repast/intERS/conf/scenario.xml"
+		isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+	<parameter name="randomSeed" displayName="Default Random Seed"
+		type="int" defaultValue="__NULL__" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$IntConverter" />
+	<parameter name="outputWriteEvery" displayName="Output Write Every"
+		type="int" defaultValue="50" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$IntConverter" />
+	<parameter name="schemaFilename" displayName="Schema Filename"
+		type="java.lang.String" defaultValue="/data/workspace/repast/intERS/conf/scenario.xsd"
+		isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+	<parameter name="outputFileAppend" displayName="Output File Append"
+		type="boolean" defaultValue="true" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$BooleanConverter" />
+	<parameter name="outputFieldSeparator" displayName="OutputFieldSeparator"
+		type="java.lang.String" defaultValue=";" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+	<parameter name="outputFileExtorter" displayName="Output File Extorter"
+		type="java.lang.String" defaultValue="extorters.csv" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+	<parameter name="outputDirectory" displayName="Output Directory"
+		type="java.lang.String" defaultValue="/data/workspace/repast/intERS/output"
+		isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+	<parameter name="outputFileObserver" displayName="Output File Observer"
+		type="java.lang.String" defaultValue="observers.csv" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+	<parameter name="outputFileTarget" displayName="Output File Target"
+		type="java.lang.String" defaultValue="targets.csv" isReadOnly="false"
+		converter="repast.simphony.parameter.StringConverterFactory$StringStringConverter" />
+</parameters>
+
+

@@ -1,4 +1,4 @@
-package intERS.agents;
+package intERS.agents.entity;
 
 import java.util.LinkedList;
 import java.util.Queue;

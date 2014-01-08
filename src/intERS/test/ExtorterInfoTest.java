@@ -1,6 +1,6 @@
 package intERS.test;
 
-import intERS.agents.ExtorterInfo;
+import intERS.agents.entity.ExtorterInfo;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.CoreMatchers.*;
 

@@ -1,4 +1,4 @@
-package intERS.impl.extorter.withoutProtection;
+package intERS.impl.extorter.noProtection;
 
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;
@@ -119,6 +119,7 @@ public class ExtorterAgent extends ExtorterAbstract {
 						+ ((double) opWealth / (double) sumWealth);
 				myStrength = ((double) this.extorted.size() / (double) sumTarget)
 						+ ((double) this.wealth / (double) sumWealth);
+
 				// If stronger then counterattack retaliation,
 				// otherwise do not
 				if (opStrength < myStrength) {
@@ -140,29 +141,6 @@ public class ExtorterAgent extends ExtorterAbstract {
 
 	@Override
 	public void decidePunishment() {
-		List<Integer> targets;
-		for (Integer extorterId : this.attackRetaliation.keySet()) {
-
-			targets = this.attackRetaliation.get(extorterId);
-			for (Integer targetId : targets) {
-				if (!this.punishments.contains(targetId)) {
-					this.punishments.add(targetId);
-				}
-			}
-		}
-
-		// Even though not retaliating the Extorter, there is a probability to
-		// punish the Targets
-		for (Integer extorterId : this.nonAttackRetaliation.keySet()) {
-			targets = this.nonAttackRetaliation.get(extorterId);
-			for (Integer targetId : targets) {
-				if (!this.punishments.contains(targetId)) {
-					this.punishments.add(targetId);
-				}
-			}
-		}
-
-		// Others
 		for (Integer targetId : this.extorted.keySet()) {
 			if (!this.paid.containsKey(targetId)) {
 				if (!this.punishments.contains(targetId)) {

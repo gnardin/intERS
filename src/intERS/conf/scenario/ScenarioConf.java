@@ -33,8 +33,7 @@ public class ScenarioConf {
 	private final static String TARGET_MAXIMUM_INCOME = "maximumIncome";
 	private final static String TARGET_MINIMUM_PUBLISHED_INCOME = "minimumIncomeVariation";
 	private final static String TARGET_MAXIMUM_PUBLISHED_INCOME = "maximumIncomeVariation";
-	private final static String TARGET_MINIMUM_EXTORTION = "minimumExtortion";
-	private final static String TARGET_MAXIMUM_EXTORTION = "maximumExtortion";
+	private final static String TARGET_AVAILABLE_EXTORTION_INCOME = "availableExtortionIncome";
 	private final static String TARGET_MEMORY_LENGTH = "memoryLength";
 	// Extorter
 	private final static String TARGET_PER_EXTORTERS = "targetPerExtorter";
@@ -210,20 +209,12 @@ public class ScenarioConf {
 								.asCharacters().getData()));
 						continue;
 
-						// Set MinExtortion attribute
+						// Set availableExtortionIncome attribute
 					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(TARGET_MINIMUM_EXTORTION)) {
+							.equals(TARGET_AVAILABLE_EXTORTION_INCOME)) {
 						event = eventReader.nextEvent();
-						target.setMinExtortion(new Double(event.asCharacters()
-								.getData()));
-						continue;
-
-						// Set MaxExtortion attribute
-					} else if (event.asStartElement().getName().getLocalPart()
-							.equals(TARGET_MAXIMUM_EXTORTION)) {
-						event = eventReader.nextEvent();
-						target.setMaxExtortion(new Double(event.asCharacters()
-								.getData()));
+						target.setAvailExtortionIncome(new Double(event
+								.asCharacters().getData()));
 						continue;
 
 						// Set MemLength attribute

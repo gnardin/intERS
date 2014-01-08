@@ -38,21 +38,22 @@ public class DataAggregation {
 			Class<DataSummaryInterface> ds = (Class<DataSummaryInterface>) Class
 					.forName(classStat);
 			Constructor<DataSummaryInterface> dataSummary = ds
-					.getDeclaredConstructor(Integer.class, String.class);
+					.getDeclaredConstructor();
 
-			DataSummaryInterface summary = dataSummary.newInstance(this.numSims,
-					this.outputFieldSeparator);
+			DataSummaryInterface summary = dataSummary.newInstance();
 
 			String filename;
 			for (int sim = 0; sim < this.numSims; sim++) {
 				filename = this.baseDirectory + File.separator + (sim + 1)
 						+ File.separator + rawFile;
 
-				summary.add(filename);
+				summary.add(filename, this.outputFieldSeparator);
 			}
 
-			summary.writeAvg(this.baseDirectory + File.separator + avgFilename);
-			summary.writeSum(this.baseDirectory + File.separator + sumFilename);
+			summary.writeAvg(this.baseDirectory + File.separator + avgFilename,
+					this.outputFieldSeparator);
+			summary.writeSum(this.baseDirectory + File.separator + sumFilename,
+					this.outputFieldSeparator);
 
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

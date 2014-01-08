@@ -10,8 +10,7 @@ public class TargetConf {
 	private double maxIncome;
 	private double minIncomeVariation;
 	private double maxIncomeVariation;
-	private double minExtortion;
-	private double maxExtortion;
+	private double availExtortionIncome;
 	private int memLength;
 
 	public String getTargetClass() {
@@ -78,20 +77,12 @@ public class TargetConf {
 		this.maxIncomeVariation = maxIncomeVariation;
 	}
 
-	public double getMinExtortion() {
-		return minExtortion;
+	public double getAvailExtortionIncome() {
+		return this.availExtortionIncome;
 	}
 
-	public void setMinExtortion(double minExtortion) {
-		this.minExtortion = minExtortion;
-	}
-
-	public double getMaxExtortion() {
-		return maxExtortion;
-	}
-
-	public void setMaxExtortion(double maxExtortion) {
-		this.maxExtortion = maxExtortion;
+	public void setAvailExtortionIncome(double availExtortionIncome) {
+		this.availExtortionIncome = availExtortionIncome;
 	}
 
 	public int getMemLength() {
@@ -118,8 +109,8 @@ public class TargetConf {
 				+ "]\n";
 		str += "Maximum Income Variation.....: [" + this.maxIncomeVariation
 				+ "]\n";
-		str += "Minimum Extortion............: [" + this.minExtortion + "]\n";
-		str += "Maximum Extortion............: [" + this.maxExtortion + "]\n";
+		str += "Available Extortion Income...: [" + this.availExtortionIncome
+				+ "]\n";
 		str += "Memory Length................: [" + this.memLength + "]\n";
 
 		return str;

@@ -1,5 +1,7 @@
 package intERS.agents;
 
+import intERS.agents.entity.Demand;
+import intERS.agents.entity.ExtorterInfo;
 import intERS.conf.scenario.TargetConf;
 import intERS.output.OutputRecorder;
 import intERS.output.OutputTarget;
@@ -72,7 +74,7 @@ public abstract class TargetAbstract {
 	protected List<Integer> extortersPaidNoProtection;
 
 	// Percentage of the Income that may be used to pay Extortion
-	protected double percIncomeForExtortion;
+	protected double percAvailExtortionIncome;
 
 	// Accumulated wealth
 	protected double wealth;
@@ -119,8 +121,7 @@ public abstract class TargetAbstract {
 		this.income = RandomHelper.nextDoubleFromTo(targetConf.getMinIncome(),
 				targetConf.getMaxIncome());
 
-		this.percIncomeForExtortion = RandomHelper.nextDoubleFromTo(
-				targetConf.getMinExtortion(), targetConf.getMaxExtortion()) / 100.0;
+		this.percAvailExtortionIncome = targetConf.getAvailExtortionIncome() / 100.0;
 
 		this.wealth = 0;
 
@@ -200,7 +201,8 @@ public abstract class TargetAbstract {
 				* RandomHelper.nextDoubleFromTo(this.minIncomeVariation,
 						this.maxIncomeVariation);
 
-		this.incomeAvailable = this.incomeCurrent * this.percIncomeForExtortion;
+		this.incomeAvailable = this.incomeCurrent
+				* this.percAvailExtortionIncome;
 
 		int cycle = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount();
@@ -262,7 +264,7 @@ public abstract class TargetAbstract {
 					.getExtortion();
 
 			// Targets to pay
-			if (((this.numExtorterPerTarget == 0) || (this.extortersPaidProtection
+			if (((this.numExtorterPerTarget <= 0) || (this.extortersPaidProtection
 					.size() < this.numExtorterPerTarget))
 					&& (this.incomeAvailable >= extortion)) {
 				this.extortersPaidProtection.add((Integer) extorterId);
@@ -325,6 +327,7 @@ public abstract class TargetAbstract {
 		boolean receivedProtection = true;
 		boolean successfulProtection = true;
 		for (Integer otherId : extorters.keySet()) {
+			// Not protected
 			if (!extorters.get(otherId)[0]) {
 				receivedProtection = false;
 				successfulProtection = false;
@@ -332,15 +335,17 @@ public abstract class TargetAbstract {
 				if (!this.protectionNotSuccessful.contains(otherId)) {
 					this.protectionNotSuccessful.add(otherId);
 				}
-			} else if (!extorters.get(otherId)[1]) {
-				successfulProtection = false;
+				// Protected
+			} else {
+				// Not successful protection
+				if (!extorters.get(otherId)[1]) {
+					successfulProtection = false;
 
-				if (!this.protectionNotSuccessful.contains(otherId)) {
-					this.protectionNotSuccessful.add(otherId);
+					if (!this.protectionNotSuccessful.contains(otherId)) {
+						this.protectionNotSuccessful.add(otherId);
+					}
 				}
 
-				numReceivedProtectionAgainst++;
-			} else {
 				numReceivedProtectionAgainst++;
 			}
 		}

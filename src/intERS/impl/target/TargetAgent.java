@@ -1,8 +1,8 @@
 package intERS.impl.target;
 
-import intERS.agents.Demand;
 import intERS.agents.ExtorterAbstract;
 import intERS.agents.TargetAbstract;
+import intERS.agents.entity.Demand;
 import intERS.conf.scenario.TargetConf;
 import intERS.utils.Sort;
 
@@ -20,10 +20,7 @@ public class TargetAgent extends TargetAbstract {
 	@Override
 	public void decidePaymentProtection() {
 
-		// if ((this.extortions.size() > 1) && (this.id == 1862))
-		// if (this.id == 407)
-		// System.out.println(this.output.getCycle() + " " + this.id + " "
-		// + this.extortions.size());
+		RankExtorter rankExtorter = RankExtorter.getInstance();
 
 		// Calculate the convenience of paying each Extorter
 		double convenience;
@@ -33,33 +30,20 @@ public class TargetAgent extends TargetAbstract {
 			sumPunishment = 0;
 			for (Integer otherExtorterId : this.extortions.keySet()) {
 				if (otherExtorterId != extorterId) {
+
 					// Punishment * Prob. Punishment
+					// OLD VERSION
 					sumPunishment += this.extortions.get(otherExtorterId)
 							.getPunishment()
 							* this.extortersInfo.get(otherExtorterId)
 									.getPunishmentProb();
+					// NEW VERSION
+					sumPunishment += this.extortions.get(otherExtorterId)
+							.getPunishment()
+							* rankExtorter
+									.getExtorterPunishmentProb(extorterId);
 				}
 			}
-
-			// if ((this.extortions.size() > 1) && (this.id == 1862))
-			// if (this.id == 407)
-			// System.out.println(extorterId
-			// + " "
-			// + this.extortions.get(extorterId).getExtortion()
-			// + " "
-			// + this.extortions.get(extorterId).getPunishment()
-			// + " "
-			// + this.extortersInfo.get(extorterId).getExtortions()
-			// .size()
-			// + " "
-			// + +this.extortersInfo.get(extorterId)
-			// .getSuccessfulProtectionProb()
-			// + " "
-			// + this.extortersInfo.get(extorterId).getPunishments()
-			// .size()
-			// + " "
-			// + +this.extortersInfo.get(extorterId)
-			// .getPunishmentProb());
 
 			// Extortion + (Sum Prob. Punishment * (1 - Successful Protection))
 			convenience = this.extortions.get(extorterId).getExtortion()

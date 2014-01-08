@@ -18,30 +18,24 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 	private static final int FIELDS_DISREGARD = 3;
 
 	// cycle, type, object
-	private Map<Integer, Map<String, Double[]>> avgData;
+	private Map<Integer, Map<String, Value>> avgData;
 
-	private Map<Integer, Map<String, Double[]>> sumData;
-
-	private String fieldSeparator;
+	private Map<Integer, Map<String, Value>> sumData;
 
 	private String header;
 
 	private int numFields;
 
-	private int numSims;
+	public DataSummaryGeneric() {
+		this.avgData = new TreeMap<Integer, Map<String, Value>>();
+		this.sumData = new TreeMap<Integer, Map<String, Value>>();
 
-	public DataSummaryGeneric(Integer numSims, String fieldSeparator) {
-		this.avgData = new TreeMap<Integer, Map<String, Double[]>>();
-		this.sumData = new TreeMap<Integer, Map<String, Double[]>>();
-
-		this.fieldSeparator = fieldSeparator;
 		this.header = null;
 		this.numFields = 0;
-		this.numSims = numSims;
 	}
 
 	@Override
-	public boolean add(String filename) {
+	public boolean add(String filename, String fieldSeparator) {
 		boolean result = false;
 
 		Path file = Paths.get(filename);
@@ -51,115 +45,104 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 
 			// Header
 			String line = reader.readLine();
-			String[] tokens = line.split(this.fieldSeparator);
+			String[] tokens = line.split(fieldSeparator);
 
 			if (this.numFields == 0) {
 				this.numFields = tokens.length - FIELDS_DISREGARD;
 			}
 
 			if (this.header == null) {
-				this.header = "cycle" + this.fieldSeparator + "type";
+				this.header = "cycle" + fieldSeparator + "type";
 				for (int i = 0; i < this.numFields; i++) {
-					this.header += this.fieldSeparator
+					this.header += fieldSeparator
 							+ tokens[i + FIELDS_DISREGARD];
 				}
 			}
 
-			Map<Integer, Map<String, Double[]>> values = new TreeMap<Integer, Map<String, Double[]>>();
-			Map<Integer, Map<String, Integer>> numbers = new TreeMap<Integer, Map<String, Integer>>();
-
-			Map<String, Double[]> valueType;
-			Map<String, Integer> numberType;
-
-			Double[] value;
-			int number;
+			Map<Integer, Map<String, Value>> values = new TreeMap<Integer, Map<String, Value>>();
+			Map<String, Value> valueType;
+			Value value;
 
 			int cycle;
 			String type;
 			while ((line = reader.readLine()) != null) {
-				tokens = line.split(this.fieldSeparator);
+				tokens = line.split(fieldSeparator);
 
 				cycle = Integer.parseInt(tokens[CYCLE]);
 				type = tokens[TYPE];
 
 				if (values.containsKey(cycle)) {
 					valueType = values.get(cycle);
-					numberType = numbers.get(cycle);
 				} else {
-					valueType = new TreeMap<String, Double[]>();
-					numberType = new TreeMap<String, Integer>();
+					valueType = new TreeMap<String, Value>();
 				}
 
 				if (valueType.containsKey(type)) {
 					value = valueType.get(type);
-					number = numberType.get(type);
 				} else {
-					value = new Double[this.numFields];
-					for (int i = 0; i < this.numFields; i++) {
-						value[i] = 0.0;
-					}
-					number = 0;
+					value = new Value(this.numFields);
 				}
 
 				for (int i = 0; i < this.numFields; i++) {
-					value[i] += Double
-							.parseDouble(tokens[i + FIELDS_DISREGARD]);
+					value.setValue(
+							i,
+							value.getValue(i)
+									+ Double.parseDouble(tokens[i
+											+ FIELDS_DISREGARD]));
 				}
+				value.setNumber(value.getNumber() + 1);
 
 				valueType.put(type, value);
 				values.put(cycle, valueType);
-
-				numberType.put(type, number + 1);
-				numbers.put(cycle, numberType);
 			}
 
-			Map<String, Double[]> avgValueType;
-			Map<String, Double[]> sumValueType;
+			Map<String, Value> avgValueType;
+			Map<String, Value> sumValueType;
 
-			Double[] avgValue;
-			Double[] sumValue;
+			Value avgValue;
+			Value sumValue;
 			for (Integer c : values.keySet()) {
 
 				if (this.avgData.containsKey(c)) {
 					avgValueType = this.avgData.get(c);
 				} else {
-					avgValueType = new TreeMap<String, Double[]>();
+					avgValueType = new TreeMap<String, Value>();
 				}
 
 				if (this.sumData.containsKey(c)) {
 					sumValueType = this.sumData.get(c);
 				} else {
-					sumValueType = new TreeMap<String, Double[]>();
+					sumValueType = new TreeMap<String, Value>();
 				}
 
-				numberType = numbers.get(c);
 				valueType = values.get(c);
 				for (String t : valueType.keySet()) {
-					number = numberType.get(t);
 					value = valueType.get(t);
 
 					if (avgValueType.containsKey(t)) {
 						avgValue = avgValueType.get(t);
 					} else {
-						avgValue = new Double[this.numFields];
-						for (int i = 0; i < this.numFields; i++) {
-							avgValue[i] = 0.0;
-						}
+						avgValue = new Value(this.numFields);
 					}
 
 					if (sumValueType.containsKey(t)) {
 						sumValue = sumValueType.get(t);
 					} else {
-						sumValue = new Double[this.numFields];
-						for (int i = 0; i < this.numFields; i++) {
-							sumValue[i] = 0.0;
-						}
+						sumValue = new Value(this.numFields);
 					}
 
 					for (int i = 0; i < this.numFields; i++) {
-						sumValue[i] += value[i];
-						avgValue[i] += (value[i] / (double) number);
+						sumValue.setValue(i,
+								sumValue.getValue(i) + value.getValue(i));
+
+						avgValue.setValue(
+								i,
+								avgValue.getValue(i)
+										+ (value.getValue(i) / (double) value
+												.getNumber()));
 					}
+					sumValue.setNumber(sumValue.getNumber() + 1);
+					avgValue.setNumber(avgValue.getNumber() + 1);
 
 					avgValueType.put(t, avgValue);
 					this.avgData.put(c, avgValueType);
@@ -179,7 +162,7 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 	}
 
 	@Override
-	public boolean writeAvg(String filename) {
+	public boolean writeAvg(String filename, String fieldSeparator) {
 		boolean result = false;
 
 		Path file = Paths.get(filename);
@@ -190,8 +173,8 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 			writer.write(this.header);
 			writer.newLine();
 
-			Map<String, Double[]> valuesType;
-			Double[] value;
+			Map<String, Value> valuesType;
+			Value value;
 			String line;
 			for (Integer cycle : this.avgData.keySet()) {
 				valuesType = this.avgData.get(cycle);
@@ -199,11 +182,12 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 				for (String type : valuesType.keySet()) {
 					value = valuesType.get(type);
 
-					line = cycle + this.fieldSeparator + type;
+					line = cycle + fieldSeparator + type;
 					for (int i = 0; i < this.numFields; i++) {
-						line += this.fieldSeparator
+						line += fieldSeparator
 								+ String.format("%f",
-										(value[i] / (double) this.numSims));
+										(value.getValue(i) / (double) value
+												.getNumber()));
 					}
 
 					writer.write(line);
@@ -221,7 +205,7 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 	}
 
 	@Override
-	public boolean writeSum(String filename) {
+	public boolean writeSum(String filename, String fieldSeparator) {
 		boolean result = false;
 
 		Path file = Paths.get(filename);
@@ -232,8 +216,8 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 			writer.write(this.header);
 			writer.newLine();
 
-			Map<String, Double[]> valuesType;
-			Double[] value;
+			Map<String, Value> valuesType;
+			Value value;
 			String line;
 			for (Integer cycle : this.sumData.keySet()) {
 				valuesType = this.sumData.get(cycle);
@@ -241,11 +225,12 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 				for (String type : valuesType.keySet()) {
 					value = valuesType.get(type);
 
-					line = cycle + this.fieldSeparator + type;
+					line = cycle + fieldSeparator + type;
 					for (int i = 0; i < this.numFields; i++) {
-						line += this.fieldSeparator
+						line += fieldSeparator
 								+ String.format("%f",
-										(value[i] / (double) this.numSims));
+										(value.getValue(i) / (double) value
+												.getNumber()));
 					}
 
 					writer.write(line);
@@ -260,5 +245,47 @@ public class DataSummaryGeneric implements DataSummaryInterface {
 		}
 
 		return result;
+	}
+}
+
+class Value {
+
+	private Double[] values;
+	private int number;
+
+	public Value(int numValues) {
+
+		this.values = new Double[numValues];
+		for (int i = 0; i < numValues; i++) {
+			this.values[i] = 0.0;
+		}
+
+		this.number = 0;
+	}
+
+	public Double[] getValues() {
+		return this.values;
+	}
+
+	public void setValues(Double[] values) {
+		for (int i = 0; i < values.length; i++) {
+			this.values[i] = values[i].doubleValue();
+		}
+	}
+
+	public double getValue(int index) {
+		return this.values[index].doubleValue();
+	}
+
+	public void setValue(int index, double value) {
+		this.values[index] = value;
+	}
+
+	public int getNumber() {
+		return this.number;
+	}
+
+	public void setNumber(int number) {
+		this.number = number;
 	}
 }

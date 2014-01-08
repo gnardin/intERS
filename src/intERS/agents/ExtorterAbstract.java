@@ -1,5 +1,6 @@
 package intERS.agents;
 
+import intERS.agents.entity.Demand;
 import intERS.conf.scenario.ExtorterConf;
 import intERS.output.OutputExtorter;
 import intERS.output.OutputRecorder;
@@ -866,8 +867,141 @@ public abstract class ExtorterAbstract {
 		}
 
 		if (this.wealth <= 0) {
+
+			List<Integer> targetsList;
+			List<Integer> extortersList;
+			Map<Integer, List<Integer>> extortersTargets = new HashMap<Integer, List<Integer>>();
+
+			// Extorter attacked and it was counterattacked
+			for (Integer extorterId : this.attackProtection.keySet()) {
+				if (this.counterattackedProtection.contains(extorterId)) {
+					if (extortersTargets.containsKey(extorterId)) {
+						targetsList = extortersTargets.get(extorterId);
+					} else {
+						targetsList = new ArrayList<Integer>();
+					}
+
+					for (Integer targetId : this.paymentProtection.keySet()) {
+						extortersList = this.paymentProtection.get(targetId);
+						if ((extortersList.contains(extorterId))
+								&& (!targetsList.contains(targetId))) {
+							targetsList.add(targetId);
+						}
+					}
+
+					extortersTargets.put(extorterId, targetsList);
+				}
+			}
+
+			// Extorter was attacked
+			for (Integer extorterId : this.protection.keySet()) {
+				// if (this.counterattackProtection.contains(extorterId)) {
+				if (extortersTargets.containsKey(extorterId)) {
+					targetsList = extortersTargets.get(extorterId);
+				} else {
+					targetsList = new ArrayList<Integer>();
+				}
+
+				for (Integer targetId : this.protection.get(extorterId)) {
+					if (!targetsList.contains(targetId)) {
+						targetsList.add(targetId);
+					}
+				}
+				extortersTargets.put(extorterId, targetsList);
+				// }
+			}
+
+			// Extorter retaliated and it was counterretaliated
+			for (Integer extorterId : this.attackRetaliation.keySet()) {
+				if (this.counterattackedRetaliation.contains(extorterId)) {
+					if (extortersTargets.containsKey(extorterId)) {
+						targetsList = extortersTargets.get(extorterId);
+					} else {
+						targetsList = new ArrayList<Integer>();
+					}
+
+					for (Integer targetId : this.extortersExtortingMyTargets
+							.get(extorterId).keySet()) {
+						if ((this.extortersExtortingMyTargets.get(extorterId)
+								.get(targetId) > 0)
+								&& (!targetsList.contains(targetId))) {
+							targetsList.add(targetId);
+						}
+					}
+					extortersTargets.put(extorterId, targetsList);
+				}
+			}
+
+			// Extorter was retaliated
+			for (Integer extorterId : this.retaliation.keySet()) {
+				// if (this.counterattackRetaliation.contains(extorterId)) {
+				if (extortersTargets.containsKey(extorterId)) {
+					targetsList = extortersTargets.get(extorterId);
+				} else {
+					targetsList = new ArrayList<Integer>();
+				}
+
+				for (Integer targetId : this.retaliation.get(extorterId)) {
+					if (!targetsList.contains(targetId)) {
+						targetsList.add(targetId);
+					}
+				}
+				extortersTargets.put(extorterId, targetsList);
+				// }
+			}
+
+			// Independent Targets
+			List<Integer> allocatedTargets = new ArrayList<Integer>();
+			for (Integer extorterId : extortersTargets.keySet()) {
+				for (Integer targetId : extortersTargets.get(extorterId)) {
+					if (!allocatedTargets.contains(targetId)) {
+						allocatedTargets.add(targetId);
+					}
+				}
+			}
+
+			List<Integer> generalTargetsList = new ArrayList<Integer>();
+			for (Integer targetId : this.extorted.keySet()) {
+				if (!allocatedTargets.contains(targetId)) {
+					generalTargetsList.add(targetId);
+				}
+			}
+
+			// Share Targets
+			ExtorterAbstract extorter;
+			for (Integer extorterId : extortersTargets.keySet()) {
+				if (this.extorters.containsKey(extorterId)) {
+					targetsList = extortersTargets.get(extorterId);
+
+					for (Integer targetId : generalTargetsList) {
+						if (!targetsList.contains(targetId)) {
+							targetsList.add(targetId);
+						}
+					}
+
+					extorter = this.extorters.get(extorterId);
+					extorter.receiveNewTargets(targetsList);
+				}
+			}
+
 			this.endCycle();
 			this.die();
+		}
+	}
+
+	/**
+	 * Receive information from opponents released Targets
+	 * 
+	 * @param newTargets
+	 *            List of targets that will be released from an opponent
+	 *            Extorter
+	 * @return none
+	 */
+	public void receiveNewTargets(List<Integer> newTargets) {
+		for (Integer targetId : newTargets) {
+			if (!this.extorted.containsKey(targetId)) {
+				this.extorted.put(targetId, new Demand(0.0, 0.0));
+			}
 		}
 	}
 
