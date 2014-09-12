@@ -1,120 +1,156 @@
 package intERS.conf.simulation;
 
-public class OutputConf {
-
-	private String directory;
-	private String fileExtorter;
-	private String fileObserver;
-	private String fileTarget;
-	private Boolean fileAppend;
-	private String fieldSeparator;
-	private int writeEvery;
-	private String filePrefixAvg;
-	private String filePrefixSum;
-	private String classExtorterStat;
-	private String classObserverStat;
-	private String classTargetStat;
-
-	public String getDirectory() {
+public class OutputConf{
+	
+	private String	directory;
+	
+	private String	fileExtorter;
+	
+	private String	fileObserver;
+	
+	private String	fileTarget;
+	
+	private Boolean	fileAppend;
+	
+	private String	fieldSeparator;
+	
+	private int			writeEvery;
+	
+	private String	filePrefixAvg;
+	
+	private String	filePrefixSum;
+	
+	private String	classExtorterStat;
+	
+	private String	classObserverStat;
+	
+	private String	classTargetStat;
+	
+	
+	public String getDirectory(){
 		return this.directory;
 	}
-
-	public void setDirectory(String directory) {
+	
+	
+	public void setDirectory(String directory){
 		this.directory = directory;
 	}
-
-	public String getFileExtorter() {
+	
+	
+	public String getFileExtorter(){
 		return this.fileExtorter;
 	}
-
-	public void setFileExtorter(String fileExtorter) {
+	
+	
+	public void setFileExtorter(String fileExtorter){
 		this.fileExtorter = fileExtorter;
 	}
-
-	public String getFileObserver() {
+	
+	
+	public String getFileObserver(){
 		return this.fileObserver;
 	}
-
-	public void setFileObserver(String fileObserver) {
+	
+	
+	public void setFileObserver(String fileObserver){
 		this.fileObserver = fileObserver;
 	}
-
-	public String getFileTarget() {
+	
+	
+	public String getFileTarget(){
 		return this.fileTarget;
 	}
-
-	public void setFileTarget(String fileTarget) {
+	
+	
+	public void setFileTarget(String fileTarget){
 		this.fileTarget = fileTarget;
 	}
-
-	public Boolean getFileAppend() {
+	
+	
+	public Boolean getFileAppend(){
 		return this.fileAppend;
 	}
-
-	public void setFileAppend(Boolean fileAppend) {
+	
+	
+	public void setFileAppend(Boolean fileAppend){
 		this.fileAppend = fileAppend;
 	}
-
-	public String getFieldSeparator() {
+	
+	
+	public String getFieldSeparator(){
 		return this.fieldSeparator;
 	}
-
-	public void setFieldSeparator(String fieldSeparator) {
+	
+	
+	public void setFieldSeparator(String fieldSeparator){
 		this.fieldSeparator = fieldSeparator;
 	}
-
-	public int getWriteEvery() {
+	
+	
+	public int getWriteEvery(){
 		return this.writeEvery;
 	}
-
-	public void setWriteEvery(int writeEvery) {
+	
+	
+	public void setWriteEvery(int writeEvery){
 		this.writeEvery = writeEvery;
 	}
-
-	public String getFilePrefixAvg() {
+	
+	
+	public String getFilePrefixAvg(){
 		return this.filePrefixAvg;
 	}
-
-	public void setFilePrefixAvg(String filePrefixAvg) {
+	
+	
+	public void setFilePrefixAvg(String filePrefixAvg){
 		this.filePrefixAvg = filePrefixAvg;
 	}
-
-	public String getFilePrefixSum() {
+	
+	
+	public String getFilePrefixSum(){
 		return this.filePrefixSum;
 	}
-
-	public void setFilePrefixSum(String filePrefixSum) {
+	
+	
+	public void setFilePrefixSum(String filePrefixSum){
 		this.filePrefixSum = filePrefixSum;
 	}
-
-	public String getClassExtorterStat() {
+	
+	
+	public String getClassExtorterStat(){
 		return this.classExtorterStat;
 	}
-
-	public void setClassExtorterStat(String classExtorterStat) {
+	
+	
+	public void setClassExtorterStat(String classExtorterStat){
 		this.classExtorterStat = classExtorterStat;
 	}
-
-	public String getClassObserverStat() {
+	
+	
+	public String getClassObserverStat(){
 		return this.classObserverStat;
 	}
-
-	public void setClassObserverStat(String classObserverStat) {
+	
+	
+	public void setClassObserverStat(String classObserverStat){
 		this.classObserverStat = classObserverStat;
 	}
-
-	public String getClassTargetStat() {
+	
+	
+	public String getClassTargetStat(){
 		return this.classTargetStat;
 	}
-
-	public void setClassTargetStat(String classTargetStat) {
+	
+	
+	public void setClassTargetStat(String classTargetStat){
 		this.classTargetStat = classTargetStat;
 	}
-
+	
+	
 	@Override
-	public String toString() {
+	public String toString(){
 		String str = new String();
-
+		
 		str += "OUTPUT\n";
 		str += "Directory....................: [" + this.directory + "]\n";
 		str += "Filename Extorter............: [" + this.fileExtorter + "]\n";
@@ -125,13 +161,10 @@ public class OutputConf {
 		str += "Write Every..................: [" + this.writeEvery + "]\n";
 		str += "File Prefix Avg..............: [" + this.filePrefixAvg + "]\n";
 		str += "File Prefix Sum..............: [" + this.filePrefixSum + "]\n";
-		str += "Class Extorter Statistic.....: [" + this.classExtorterStat
-				+ "]\n";
-		str += "Class Observer Statistic.....: [" + this.classObserverStat
-				+ "]\n";
-		str += "Class Target Statistic.......: [" + this.classTargetStat
-				+ "]\n";
-
+		str += "Class Extorter Statistic.....: [" + this.classExtorterStat + "]\n";
+		str += "Class Observer Statistic.....: [" + this.classObserverStat + "]\n";
+		str += "Class Target Statistic.......: [" + this.classTargetStat + "]\n";
+		
 		return str;
 	}
 }

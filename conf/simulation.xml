@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="simulation.xsd">
-	<numberOfRuns>5</numberOfRuns>
+	<numberOfRuns>50</numberOfRuns>
 	<randomSeeds>
-		<seed>169868</seed>
-		<seed>264938</seed>
-		<seed>952330</seed>
-		<seed>784304</seed>
-		<seed>349822</seed>
+		<seed>796957</seed>
+		<seed>948785</seed>
+		<seed>964121</seed>
+		<seed>463313</seed>
+		<seed>590965</seed>
+		<seed>238052</seed>
+		<seed>633181</seed>
 		<seed>794420</seed>
 		<seed>627685</seed>
 		<seed>809965</seed>
@@ -27,14 +29,6 @@
 		<seed>383124</seed>
 		<seed>845896</seed>
 		<seed>175638</seed>
-		<seed>418133</seed>
-		<seed>796957</seed>
-		<seed>948785</seed>
-		<seed>964121</seed>
-		<seed>463313</seed>
-		<seed>590965</seed>
-		<seed>238052</seed>
-		<seed>633181</seed>
 		<seed>855904</seed>
 		<seed>190382</seed>
 		<seed>417486</seed>
@@ -62,6 +56,45 @@
 		<seed>755574</seed>
 		<seed>358986</seed>
 		<seed>728039</seed>
+		<seed>975245</seed>
+		<seed>219878</seed>
+		<seed>847962</seed>
+		<seed>510980</seed>
+		<seed>715295</seed>
+		<seed>869032</seed>
+		<seed>727942</seed>
+		<seed>503511</seed>
+		<seed>622757</seed>
+		<seed>678399</seed>
+		<seed>614436</seed>
+		<seed>594052</seed>
+		<seed>710428</seed>
+		<seed>822418</seed>
+		<seed>554541</seed>
+		<seed>232619</seed>
+		<seed>179696</seed>
+		<seed>571126</seed>
+		<seed>750527</seed>
+		<seed>308715</seed>
+		<seed>638627</seed>
+		<seed>990806</seed>
+		<seed>271334</seed>
+		<seed>049736</seed>
+		<seed>359694</seed>
+		<seed>355882</seed>
+		<seed>706982</seed>
+		<seed>879269</seed>
+		<seed>421145</seed>
+		<seed>826579</seed>
+		<seed>56095</seed>
+		<seed>492582</seed>
+		<seed>165781</seed>
+		<seed>169868</seed>
+		<seed>264938</seed>
+		<seed>952330</seed>
+		<seed>784304</seed>
+		<seed>349822</seed>
+		<seed>418133</seed>
 		<seed>868898</seed>
 		<seed>517640</seed>
 		<seed>393482</seed>
@@ -138,19 +171,6 @@
 		<seed>983788</seed>
 		<seed>319890</seed>
 		<seed>148832</seed>
-		<seed>308715</seed>
-		<seed>750527</seed>
-		<seed>271334</seed>
-		<seed>049736</seed>
-		<seed>359694</seed>
-		<seed>355882</seed>
-		<seed>706982</seed>
-		<seed>879269</seed>
-		<seed>421145</seed>
-		<seed>826579</seed>
-		<seed>56095</seed>
-		<seed>492582</seed>
-		<seed>165781</seed>
 		<seed>997317</seed>
 		<seed>364793</seed>
 		<seed>833948</seed>
@@ -159,30 +179,10 @@
 		<seed>618238</seed>
 		<seed>73722</seed>
 		<seed>549739</seed>
-		<seed>975245</seed>
-		<seed>219878</seed>
-		<seed>847962</seed>
-		<seed>510980</seed>
-		<seed>715295</seed>
-		<seed>869032</seed>
-		<seed>727942</seed>
-		<seed>503511</seed>
-		<seed>622757</seed>
-		<seed>678399</seed>
-		<seed>614436</seed>
 		<seed>84884</seed>
 		<seed>842090</seed>
 		<seed>843380</seed>
 		<seed>460142</seed>
-		<seed>638627</seed>
-		<seed>990806</seed>
-		<seed>594052</seed>
-		<seed>710428</seed>
-		<seed>822418</seed>
-		<seed>554541</seed>
-		<seed>232619</seed>
-		<seed>179696</seed>
-		<seed>571126</seed>
 		<seed>247394</seed>
 		<seed>702755</seed>
 		<seed>585027</seed>
@@ -209,13 +209,13 @@
 	<xmlFilename>./conf/scenario.xml</xmlFilename>
 	<xsdFilename>./conf/scenario.xsd</xsdFilename>
 	<output>
-		<directory>./output/v2/testConvenience</directory>
+		<directory>./output/v3/01-NCNP</directory>
 		<fileExtorter>extorters.csv</fileExtorter>
 		<fileObserver>observers.csv</fileObserver>
 		<fileTarget>targets.csv</fileTarget>
 		<fileAppend>false</fileAppend>
 		<fieldSeparator>;</fieldSeparator>
-		<writeEvery>50</writeEvery>
+		<writeEvery>100</writeEvery>
 		<filePrefixAvg>cAvg</filePrefixAvg>
 		<filePrefixSum>cSum</filePrefixSum>
 		<classExtorterStat>intERS.statistics.DataSummaryGeneric</classExtorterStat>

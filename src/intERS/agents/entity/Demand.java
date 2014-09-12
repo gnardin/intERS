@@ -1,42 +1,45 @@
 package intERS.agents.entity;
 
-public class Demand {
-
+public class Demand{
+	
 	// Extortion value
-	private double extortion;
-
+	private double	extortion;
+	
 	// Punishment value
-	private double punishment;
-
+	private double	punishment;
+	
+	
 	/**
 	 * Constructor
 	 * 
 	 * @param extortion
-	 *            Extortion value
+	 *          Extortion value
 	 * @param punishment
-	 *            Punishment value
+	 *          Punishment value
 	 * @return none
 	 */
-	public Demand(double extortion, double punishment) {
+	public Demand(double extortion, double punishment){
 		this.extortion = extortion;
 		this.punishment = punishment;
 	}
-
+	
+	
 	/**
 	 * Return the extortion value
 	 * 
 	 * @return Extortion value
 	 */
-	public double getExtortion() {
+	public double getExtortion(){
 		return this.extortion;
 	}
-
+	
+	
 	/**
 	 * Return the punishment value
 	 * 
 	 * @return Punishment value
 	 */
-	public double getPunishment() {
+	public double getPunishment(){
 		return this.punishment;
 	}
 }

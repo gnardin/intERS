@@ -161,7 +161,6 @@ oX <- as.numeric(min((1:NROW(observerAvg))[(observerAvg$totalExtortersFree +
                      NROW(observerAvg)+1))
 
 o <- observerAvg
-print(oX)
 if(oX <= NROW(observerAvg)){
   o <- observerAvg[oX:NROW(observerAvg), totalExtortersFree := 0]
   o <- observerAvg[oX:NROW(observerAvg), totalExtortersImprisoned := 0]

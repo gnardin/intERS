@@ -4,208 +4,166 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class OutputObserver extends OutputAbstract {
-
-	private Map<String, Integer> targetsAlive;
-	private Map<String, Integer> targetsExtorted;
-	private Map<String, Integer> targetsExtortion;
-	private Map<String, Integer> extortersFree;
-	private Map<String, Integer> extortersImprisoned;
-
-	public OutputObserver(int cycle, int id, String type) {
-		super(AgentType.OBSERVER, cycle, id, type);
-
+public class OutputObserver extends OutputAbstract{
+	
+	private Map<String, Integer>	targetsAlive;
+	
+	private Map<String, Integer>	targetsSurvived;
+	
+	private Map<String, Integer>	extortersFree;
+	
+	private Map<String, Integer>	extortersImprisoned;
+	
+	
+	public OutputObserver(int cycle, String type, int id){
+		super(AgentType.OBSERVER, cycle, type, id);
+		
 		this.targetsAlive = new Hashtable<String, Integer>();
-		this.targetsExtorted = new Hashtable<String, Integer>();
+		this.targetsSurvived = new Hashtable<String, Integer>();
 		this.extortersFree = new Hashtable<String, Integer>();
 		this.extortersImprisoned = new Hashtable<String, Integer>();
-		this.targetsExtortion = new Hashtable<String, Integer>();
 	}
-
+	
+	
 	@Override
-	public String getHeader(String fs) {
+	public String getHeader(String fs){
 		String str = new String();
 		Map<String, Integer> map;
-
+		
 		str += "type" + fs + "id" + fs;
-
+		
 		map = new TreeMap<String, Integer>(this.targetsAlive);
-		for (String type : map.keySet()) {
+		for(String type : map.keySet()){
 			str += "TA" + type + fs;
+			str += "TS" + type + fs;
 		}
-
-		map = new TreeMap<String, Integer>(this.targetsExtorted);
-		for (String type : map.keySet()) {
-			str += "TE" + type + fs;
-		}
-
-		map = new TreeMap<String, Integer>(this.targetsExtortion);
-		for (String type : map.keySet()) {
-			str += "NE" + type + fs;
-		}
-
-		str += "totalTargets" + fs;
-
+		
+		str += "totalTA" + fs + "totalTS" + fs;
+		
 		String strImprisoned = new String();
 		map = new TreeMap<String, Integer>(this.extortersFree);
-		for (String type : map.keySet()) {
+		for(String type : map.keySet()){
 			str += "FR" + type + fs;
 			strImprisoned += "IM" + type + fs;
 		}
-
-		str += "totalExtortersFree" + fs + strImprisoned
-				+ "totalExtortersImprisoned";
-
+		
+		str += "totalFR" + fs + strImprisoned + "totalIM";
+		
 		return str;
 	}
-
+	
+	
 	@Override
-	public String getLine(String fs) {
+	public String getLine(String fs){
 		String str = new String();
 		Map<String, Integer> map;
-
+		
 		str += this.type + fs + this.id + fs;
-
-		int numTargets;
-		int numTotalTargets = 0;
+		
+		int numTargetsAlive = 0;
+		int totalTargetsAlive = 0;
 		map = new TreeMap<String, Integer>(this.targetsAlive);
-		for (String type : map.keySet()) {
-			numTargets = map.get(type);
-			numTotalTargets += numTargets;
-
-			str += numTargets + fs;
+		for(String type : map.keySet()){
+			numTargetsAlive = map.get(type);
+			totalTargetsAlive += numTargetsAlive;
+			
+			str += numTargetsAlive + fs;
 		}
-
-		int numTargetsExtorted = 0;
-		map = new TreeMap<String, Integer>(this.targetsExtorted);
-		for (String type : map.keySet()) {
-			numTargetsExtorted = map.get(type);
-
-			str += numTargetsExtorted + fs;
+		
+		int numTargetsSurvived = 0;
+		int totalTargetsSurvived = 0;
+		map = new TreeMap<String, Integer>(this.targetsSurvived);
+		for(String type : map.keySet()){
+			numTargetsSurvived = map.get(type);
+			totalTargetsSurvived += numTargetsSurvived;
+			
+			str += numTargetsSurvived + fs;
 		}
-
-		int numExtortersPerTargetExtorted = 0;
-		map = new TreeMap<String, Integer>(this.targetsExtortion);
-		for (String type : map.keySet()) {
-			numExtortersPerTargetExtorted = map.get(type);
-
-			str += numExtortersPerTargetExtorted + fs;
-		}
-
-		str += numTotalTargets + fs;
-
+		
+		str += totalTargetsAlive + fs + totalTargetsSurvived + fs;
+		
 		int numFree;
-		int numTotalFree = 0;
+		int totalFree = 0;
 		int numImprisoned;
-		int numTotalImprisoned = 0;
+		int totalImprisoned = 0;
 		String strImprisoned = new String();
 		map = new TreeMap<String, Integer>(this.extortersFree);
-		for (String type : map.keySet()) {
+		for(String type : map.keySet()){
 			numFree = map.get(type);
-			numTotalFree += numFree;
-
+			totalFree += numFree;
+			
 			numImprisoned = 0;
-			if (this.extortersImprisoned.containsKey(type)) {
+			if(this.extortersImprisoned.containsKey(type)){
 				numImprisoned = this.extortersImprisoned.get(type);
 			}
-			numTotalImprisoned += numImprisoned;
-
+			totalImprisoned += numImprisoned;
+			
 			str += numFree + fs;
 			strImprisoned += numImprisoned + fs;
 		}
-
-		str += numTotalFree + fs + strImprisoned + numTotalImprisoned;
-
+		
+		str += totalFree + fs + strImprisoned + totalImprisoned;
+		
 		return str;
 	}
-
-	public int getNumTotalTargets() {
+	
+	
+	public int getNumTargetsAlive(String type){
 		int num = 0;
-		for (Integer numTargets : this.targetsAlive.values()) {
-			num += numTargets;
-		}
-		return num;
-	}
-
-	public int getNumTypeTargetsAlive(String type) {
-		int num = 0;
-		if (this.targetsAlive.containsKey(type)) {
+		if(this.targetsAlive.containsKey(type)){
 			num = this.targetsAlive.get(type);
 		}
-
+		
 		return num;
 	}
-
-	public void setNumTargetsAlive(String type, int numTargets) {
+	
+	
+	public void setNumTargetsAlive(String type, int numTargets){
 		this.targetsAlive.put(type, numTargets);
 	}
-
-	public int getNumTypeTargetsExtorted(String type) {
+	
+	
+	public int getNumTargetsSurvived(String type){
 		int num = 0;
-		if (this.targetsExtorted.containsKey(type)) {
-			num = this.targetsExtorted.get(type);
+		if(this.targetsSurvived.containsKey(type)){
+			num = this.targetsSurvived.get(type);
 		}
-
+		
 		return num;
 	}
-
-	public void setNumTargetsExtorted(String type, int numTargets) {
-		this.targetsExtorted.put(type, numTargets);
+	
+	
+	public void setNumTargetsSurvived(String type, int numTargets){
+		this.targetsSurvived.put(type, numTargets);
 	}
-
-	public int getNumTargetExtortions(String type) {
+	
+	
+	public int getNumExtortersFree(String type){
 		int num = 0;
-		if (this.targetsExtortion.containsKey(type)) {
-			num = this.targetsExtortion.get(type);
-		}
-
-		return num;
-	}
-
-	public void setNumTargetExtorions(String type, int numExtortions) {
-		this.targetsExtortion.put(type, numExtortions);
-	}
-
-	public int getNumTotalExtortersFree() {
-		int num = 0;
-		for (Integer numExtorters : this.extortersFree.values()) {
-			num += numExtorters;
-		}
-		return num;
-	}
-
-	public int getNumTypeExtortersFree(String type) {
-		int num = 0;
-		if (this.extortersFree.containsKey(type)) {
+		if(this.extortersFree.containsKey(type)){
 			num = this.extortersFree.get(type);
 		}
-
+		
 		return num;
 	}
-
-	public void setNumExtortersFree(String type, int numExtortersFree) {
+	
+	
+	public void setNumExtortersFree(String type, int numExtortersFree){
 		this.extortersFree.put(type, numExtortersFree);
 	}
-
-	public int getNumTotalExtortersImprisoned() {
+	
+	
+	public int getNumExtortersImprisoned(String type){
 		int num = 0;
-		for (Integer numExtorters : this.extortersImprisoned.values()) {
-			num += numExtorters;
-		}
-		return num;
-	}
-
-	public int getNumTypeExtortersImprisoned(String type) {
-		int num = 0;
-		if (this.extortersImprisoned.containsKey(type)) {
+		if(this.extortersImprisoned.containsKey(type)){
 			num = this.extortersImprisoned.get(type);
 		}
-
+		
 		return num;
 	}
-
-	public void setNumExtortersImprisoned(String type,
-			int numExtortersImprisoned) {
+	
+	
+	public void setNumExtortersImprisoned(String type, int numExtortersImprisoned){
 		this.extortersImprisoned.put(type, numExtortersImprisoned);
 	}
 }
