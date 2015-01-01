@@ -10,7 +10,7 @@ import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 import org.xml.sax.SAXException;
 
-public class XML{
+public class XML {
 	
 	/**
 	 * Validates a XML file based on a XSD Schema
@@ -22,11 +22,11 @@ public class XML{
 	 * 
 	 * @return True if valid, False otherwise
 	 */
-	public static boolean isValid(String xmlFilename, String xsdFilename){
+	public static boolean isValid(String xmlFilename, String xsdFilename) {
 		boolean result = false;
 		
-		if((new File(xmlFilename)).exists() && ((new File(xsdFilename).exists()))){
-			try{
+		if((new File(xmlFilename)).exists() && ((new File(xsdFilename).exists()))) {
+			try {
 				Source xmlFile = new StreamSource(new File(xmlFilename));
 				
 				SchemaFactory schemaFactory = SchemaFactory
@@ -37,9 +37,9 @@ public class XML{
 				validator.validate(xmlFile);
 				
 				result = true;
-			}catch(IOException e){
+			} catch(IOException e) {
 				e.printStackTrace();
-			}catch(SAXException e){
+			} catch(SAXException e) {
 				e.printStackTrace();
 			}
 		}

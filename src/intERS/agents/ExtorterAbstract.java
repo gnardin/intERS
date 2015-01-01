@@ -17,7 +17,7 @@ import repast.simphony.engine.schedule.ScheduledMethod;
 import repast.simphony.random.RandomHelper;
 import repast.simphony.util.ContextUtils;
 
-public abstract class ExtorterAbstract{
+public abstract class ExtorterAbstract {
 	
 	// Identification
 	protected int															id;
@@ -155,7 +155,7 @@ public abstract class ExtorterAbstract{
 	 */
 	public ExtorterAbstract(Map<Integer, ExtorterAbstract> extorters,
 			Map<Integer, TargetAbstract> targets, Set<Integer> initialTargets,
-			Integer id, ExtorterConf extorterConf){
+			Integer id, ExtorterConf extorterConf) {
 		this.id = id;
 		this.type = extorterConf.getType();
 		
@@ -173,7 +173,7 @@ public abstract class ExtorterAbstract{
 				.getImpulseFightRetaliation() / 100;
 		
 		this.extorted = new HashMap<Integer, Demand>();
-		for(Integer target : initialTargets){
+		for(Integer target : initialTargets) {
 			this.extorted.put(target, new Demand(0.0, 0.0));
 		}
 		
@@ -228,7 +228,7 @@ public abstract class ExtorterAbstract{
 	 * @param none
 	 * @return Extorter identification
 	 */
-	public int getId(){
+	public int getId() {
 		return this.id;
 	}
 	
@@ -239,7 +239,7 @@ public abstract class ExtorterAbstract{
 	 * @param none
 	 * @return Extorter type
 	 */
-	public String getType(){
+	public String getType() {
 		return this.type;
 	}
 	
@@ -249,7 +249,7 @@ public abstract class ExtorterAbstract{
 	 * 
 	 * @return Extortion value
 	 */
-	public double getExtortion(){
+	public double getExtortion() {
 		return this.extortion;
 	}
 	
@@ -259,7 +259,7 @@ public abstract class ExtorterAbstract{
 	 * 
 	 * @return Punishment value
 	 */
-	public double getPunishment(){
+	public double getPunishment() {
 		return this.punishment;
 	}
 	
@@ -270,7 +270,7 @@ public abstract class ExtorterAbstract{
 	 * @param none
 	 * @return Number of extorted Targets
 	 */
-	public int getNumberTargets(){
+	public int getNumberTargets() {
 		return this.extorted.size();
 	}
 	
@@ -281,7 +281,7 @@ public abstract class ExtorterAbstract{
 	 * @param none
 	 * @return Number of extorted Targets that paid extortion
 	 */
-	public int getNumberTargetsPaid(){
+	public int getNumberTargetsPaid() {
 		return this.paid.size();
 	}
 	
@@ -292,7 +292,7 @@ public abstract class ExtorterAbstract{
 	 * @param none
 	 * @return Wealth
 	 */
-	public double getWealth(){
+	public double getWealth() {
 		return this.wealth;
 	}
 	
@@ -304,8 +304,8 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.0, interval = 1)
-	public void beginRound(){
-		for(Integer targetId : this.extorted.keySet()){
+	public void beginRound() {
+		for(Integer targetId : this.extorted.keySet()) {
 			this.extorted.put(targetId, new Demand(0.0, 0.0));
 		}
 		
@@ -337,11 +337,11 @@ public abstract class ExtorterAbstract{
 		
 		Evaluator eval = new Evaluator();
 		this.enlargementProb = 0;
-		try{
+		try {
 			eval.putVariable("TARGETS", new Integer(this.extorted.size()).toString());
 			
 			this.enlargementProb = new Double(eval.evaluate(this.enlargementFormula)) / 100.0;
-		}catch(EvaluationException e){
+		} catch(EvaluationException e) {
 			e.printStackTrace();
 		}
 		
@@ -359,19 +359,19 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.05, interval = 1)
-	public void updateTargets(){
+	public void updateTargets() {
 		// Extorter has a probability to add new Target
 		if((this.enlargementProb > 0)
 				&& (RandomHelper.nextDouble() <= this.enlargementProb)
-				&& (this.extorted.size() < this.targets.size())){
+				&& (this.extorted.size() < this.targets.size())) {
 			
 			Object[] targetIds = this.targets.keySet().toArray();
 			int targetId;
 			boolean finish = false;
-			while(!finish){
+			while(!finish) {
 				targetId = (Integer) targetIds[RandomHelper.nextIntFromTo(0,
 						targetIds.length - 1)];
-				if(!this.extorted.containsKey(targetId)){
+				if(!this.extorted.containsKey(targetId)) {
 					this.extorted.put(targetId, new Demand(0, 0));
 					finish = true;
 				}
@@ -387,11 +387,11 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.10, interval = 1)
-	public void updateExtortionPunishment(){
+	public void updateExtortionPunishment() {
 		TargetAbstract target;
 		Demand demand;
 		double currentIncome;
-		for(Integer targetId : this.extorted.keySet()){
+		for(Integer targetId : this.extorted.keySet()) {
 			target = this.targets.get(targetId);
 			
 			// NOTE: If necessary, include noise here
@@ -412,15 +412,15 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.15, interval = 1)
-	public void demandExtortion(){
+	public void demandExtortion() {
 		// Output
 		int numExtortionDemanded = 0;
 		double totalExtortionDemanded = 0;
 		
 		TargetAbstract target;
 		Demand demand;
-		for(Integer targetId : this.extorted.keySet()){
-			if(this.targets.containsKey(targetId)){
+		for(Integer targetId : this.extorted.keySet()) {
+			if(this.targets.containsKey(targetId)) {
 				demand = this.extorted.get(targetId);
 				
 				target = this.targets.get(targetId);
@@ -451,15 +451,15 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	public void receivePaymentExtortion(int targetId, double extortion,
-			List<Integer> extorters){
+			List<Integer> extorters) {
 		
 		this.targetExtorter.put(targetId, extorters);
 		
 		List<Integer> targetsList;
-		for(Integer extorterId : extorters){
-			if(this.extorterTarget.containsKey(extorterId)){
+		for(Integer extorterId : extorters) {
+			if(this.extorterTarget.containsKey(extorterId)) {
 				targetsList = this.extorterTarget.get(extorterId);
-			}else{
+			} else {
 				targetsList = new ArrayList<Integer>();
 			}
 			
@@ -467,12 +467,12 @@ public abstract class ExtorterAbstract{
 			this.extorterTarget.put(extorterId, targetsList);
 		}
 		
-		if(extortion > 0){
+		if(extortion > 0) {
 			this.paid.put(targetId, extortion);
 			
-			if(this.updateAtEnd){
+			if(this.updateAtEnd) {
 				this.wealthWon += extortion;
-			}else{
+			} else {
 				this.wealth += extortion;
 			}
 			
@@ -483,7 +483,7 @@ public abstract class ExtorterAbstract{
 					.getTotalExtortionReceived() + extortion);
 			this.output
 					.setNumPaymentProtection(this.output.getNumPaymentProtection() + 1);
-			if(!extorters.isEmpty()){
+			if(!extorters.isEmpty()) {
 				this.output.setNumProtectionRequested(this.output
 						.getNumProtectionRequested() + 1);
 			}
@@ -508,20 +508,20 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.35, interval = 1)
-	public void punish(){
+	public void punish() {
 		TargetAbstract target;
 		double costPunish;
 		double totalCostPunishment = 0;
 		Demand demand;
 		int numPunishments = 0;
-		for(Integer targetId : this.punishments){
+		for(Integer targetId : this.punishments) {
 			target = this.targets.get(targetId);
 			demand = this.extorted.get(targetId);
 			
 			costPunish = demand.getPunishment();
 			
 			// Verify whether the Extorter has wealth to punish the Target
-			if((this.wealth - this.wealthLost + this.wealthWon - totalCostPunishment - (costPunish * this.costPunish)) > 0){
+			if((this.wealth - this.wealthLost + this.wealthWon - totalCostPunishment - (costPunish * this.costPunish)) > 0) {
 				target.receivePunishment(this.id, costPunish);
 				
 				numPunishments++;
@@ -529,9 +529,9 @@ public abstract class ExtorterAbstract{
 			}
 		}
 		
-		if(this.updateAtEnd){
+		if(this.updateAtEnd) {
 			this.wealthLost += totalCostPunishment;
-		}else{
+		} else {
 			this.wealth -= totalCostPunishment;
 		}
 		
@@ -558,10 +558,10 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.45, interval = 1)
-	public void attackProtection(){
+	public void attackProtection() {
 		ExtorterAbstract extorter;
 		List<Integer> targetList;
-		for(Integer extorterId : this.attackProtection.keySet()){
+		for(Integer extorterId : this.attackProtection.keySet()) {
 			targetList = this.attackProtection.get(extorterId);
 			
 			extorter = this.extorters.get(extorterId);
@@ -583,7 +583,7 @@ public abstract class ExtorterAbstract{
 	 *          List of Targets that required protection against this Extorter
 	 * @result none
 	 */
-	public void receiveAttackProtection(int extorterId, List<Integer> targetList){
+	public void receiveAttackProtection(int extorterId, List<Integer> targetList) {
 		this.protection.put(extorterId, targetList);
 		
 		this.output.setNumAttackProtectionReceived(this.output
@@ -608,9 +608,9 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.55, interval = 1)
-	public void counterattackProtection(){
+	public void counterattackProtection() {
 		ExtorterAbstract extorter;
-		for(Integer extorterId : this.counterattackProtection){
+		for(Integer extorterId : this.counterattackProtection) {
 			extorter = this.extorters.get(extorterId);
 			
 			extorter.receiveCounterattackProtection(this.id);
@@ -631,7 +631,7 @@ public abstract class ExtorterAbstract{
 	 *          Identification of the counterattack Extorter
 	 * @return none
 	 */
-	public void receiveCounterattackProtection(int extorterId){
+	public void receiveCounterattackProtection(int extorterId) {
 		this.counterattackedProtection.add(extorterId);
 		
 		ExtorterAbstract extorter = this.extorters.get(extorterId);
@@ -651,10 +651,10 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.60, interval = 1)
-	public void updateWealthProtection(){
-		if(this.updateAtEnd){
+	public void updateWealthProtection() {
+		if(this.updateAtEnd) {
 			this.wealthLost += this.lossWealthProtection;
-		}else{
+		} else {
 			this.wealth -= this.lossWealthProtection;
 		}
 		
@@ -680,10 +680,10 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.70, interval = 1)
-	public void attackRetaliation(){
+	public void attackRetaliation() {
 		List<Integer> targetsList;
 		ExtorterAbstract extorter;
-		for(Integer extorterId : this.attackRetaliation.keySet()){
+		for(Integer extorterId : this.attackRetaliation.keySet()) {
 			extorter = this.extorters.get(extorterId);
 			
 			targetsList = this.attackRetaliation.get(extorterId);
@@ -704,7 +704,7 @@ public abstract class ExtorterAbstract{
 	 * @param targetList
 	 *          List of targets I am being retaliate for
 	 */
-	public void receiveAttackRetaliation(int extorterId, List<Integer> targetList){
+	public void receiveAttackRetaliation(int extorterId, List<Integer> targetList) {
 		this.retaliation.put(extorterId, targetList);
 		
 		this.output.setNumAttackRetaliationReceived(this.output
@@ -729,9 +729,9 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.80, interval = 1)
-	public void counterattackRetaliation(){
+	public void counterattackRetaliation() {
 		ExtorterAbstract extorter;
-		for(Integer extorterId : this.counterattackRetaliation){
+		for(Integer extorterId : this.counterattackRetaliation) {
 			extorter = this.extorters.get(extorterId);
 			
 			extorter.receiveCounterattackRetaliation(this.id);
@@ -753,7 +753,7 @@ public abstract class ExtorterAbstract{
 	 *          Identification of the counterattacker Extorter
 	 * @return none
 	 */
-	public void receiveCounterattackRetaliation(int extorterId){
+	public void receiveCounterattackRetaliation(int extorterId) {
 		this.counterattackedRetaliation.add(extorterId);
 		
 		ExtorterAbstract extorter = this.extorters.get(extorterId);
@@ -773,10 +773,10 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.85, interval = 1)
-	public void updateWealthRetaliation(){
-		if(this.updateAtEnd){
+	public void updateWealthRetaliation() {
+		if(this.updateAtEnd) {
 			this.wealthLost += this.lossWealthRetaliation;
-		}else{
+		} else {
 			this.wealth -= this.lossWealthRetaliation;
 		}
 		
@@ -792,31 +792,31 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.95, interval = 1)
-	public void decideExit(){
+	public void decideExit() {
 		
-		if(this.updateAtEnd){
+		if(this.updateAtEnd) {
 			this.wealth += this.wealthWon - this.wealthLost;
 		}
 		
-		if((this.wealth <= 0) || (this.extorted.size() == 0)){
+		if((this.wealth <= 0) || (this.extorted.size() == 0)) {
 			
 			List<Integer> targetsList;
 			List<Integer> extortersList;
 			Map<Integer, List<Integer>> extortersTargets = new HashMap<Integer, List<Integer>>();
 			
 			// Extorter attacked and it was counterattacked
-			for(Integer extorterId : this.attackProtection.keySet()){
-				if(this.counterattackedProtection.contains(extorterId)){
-					if(extortersTargets.containsKey(extorterId)){
+			for(Integer extorterId : this.attackProtection.keySet()) {
+				if(this.counterattackedProtection.contains(extorterId)) {
+					if(extortersTargets.containsKey(extorterId)) {
 						targetsList = extortersTargets.get(extorterId);
-					}else{
+					} else {
 						targetsList = new ArrayList<Integer>();
 					}
 					
-					for(Integer targetId : this.targetExtorter.keySet()){
+					for(Integer targetId : this.targetExtorter.keySet()) {
 						extortersList = this.targetExtorter.get(targetId);
 						if((extortersList.contains(extorterId))
-								&& (!targetsList.contains(targetId))){
+								&& (!targetsList.contains(targetId))) {
 							targetsList.add(targetId);
 						}
 					}
@@ -826,16 +826,16 @@ public abstract class ExtorterAbstract{
 			}
 			
 			// Extorter was attacked
-			for(Integer extorterId : this.protection.keySet()){
-				if(this.counterattackProtection.contains(extorterId)){
-					if(extortersTargets.containsKey(extorterId)){
+			for(Integer extorterId : this.protection.keySet()) {
+				if(this.counterattackProtection.contains(extorterId)) {
+					if(extortersTargets.containsKey(extorterId)) {
 						targetsList = extortersTargets.get(extorterId);
-					}else{
+					} else {
 						targetsList = new ArrayList<Integer>();
 					}
 					
-					for(Integer targetId : this.protection.get(extorterId)){
-						if(!targetsList.contains(targetId)){
+					for(Integer targetId : this.protection.get(extorterId)) {
+						if(!targetsList.contains(targetId)) {
 							targetsList.add(targetId);
 						}
 					}
@@ -844,16 +844,16 @@ public abstract class ExtorterAbstract{
 			}
 			
 			// Extorter retaliated and it was counterretaliated
-			for(Integer extorterId : this.attackRetaliation.keySet()){
-				if(this.counterattackedRetaliation.contains(extorterId)){
-					if(extortersTargets.containsKey(extorterId)){
+			for(Integer extorterId : this.attackRetaliation.keySet()) {
+				if(this.counterattackedRetaliation.contains(extorterId)) {
+					if(extortersTargets.containsKey(extorterId)) {
 						targetsList = extortersTargets.get(extorterId);
-					}else{
+					} else {
 						targetsList = new ArrayList<Integer>();
 					}
 					
-					for(Integer targetId : this.extorterTarget.get(extorterId)){
-						if(!targetsList.contains(targetId)){
+					for(Integer targetId : this.extorterTarget.get(extorterId)) {
+						if(!targetsList.contains(targetId)) {
 							targetsList.add(targetId);
 						}
 					}
@@ -862,16 +862,16 @@ public abstract class ExtorterAbstract{
 			}
 			
 			// Extorter was retaliated
-			for(Integer extorterId : this.retaliation.keySet()){
-				if(this.counterattackRetaliation.contains(extorterId)){
-					if(extortersTargets.containsKey(extorterId)){
+			for(Integer extorterId : this.retaliation.keySet()) {
+				if(this.counterattackRetaliation.contains(extorterId)) {
+					if(extortersTargets.containsKey(extorterId)) {
 						targetsList = extortersTargets.get(extorterId);
-					}else{
+					} else {
 						targetsList = new ArrayList<Integer>();
 					}
 					
-					for(Integer targetId : this.retaliation.get(extorterId)){
-						if(!targetsList.contains(targetId)){
+					for(Integer targetId : this.retaliation.get(extorterId)) {
+						if(!targetsList.contains(targetId)) {
 							targetsList.add(targetId);
 						}
 					}
@@ -881,29 +881,29 @@ public abstract class ExtorterAbstract{
 			
 			// Independent Targets
 			List<Integer> allocatedTargets = new ArrayList<Integer>();
-			for(Integer extorterId : extortersTargets.keySet()){
-				for(Integer targetId : extortersTargets.get(extorterId)){
-					if(!allocatedTargets.contains(targetId)){
+			for(Integer extorterId : extortersTargets.keySet()) {
+				for(Integer targetId : extortersTargets.get(extorterId)) {
+					if(!allocatedTargets.contains(targetId)) {
 						allocatedTargets.add(targetId);
 					}
 				}
 			}
 			
 			List<Integer> generalTargetsList = new ArrayList<Integer>();
-			for(Integer targetId : this.extorted.keySet()){
-				if(!allocatedTargets.contains(targetId)){
+			for(Integer targetId : this.extorted.keySet()) {
+				if(!allocatedTargets.contains(targetId)) {
 					generalTargetsList.add(targetId);
 				}
 			}
 			
 			// Share Targets
 			ExtorterAbstract extorter;
-			for(Integer extorterId : extortersTargets.keySet()){
-				if(this.extorters.containsKey(extorterId)){
+			for(Integer extorterId : extortersTargets.keySet()) {
+				if(this.extorters.containsKey(extorterId)) {
 					targetsList = extortersTargets.get(extorterId);
 					
-					for(Integer targetId : generalTargetsList){
-						if(!targetsList.contains(targetId)){
+					for(Integer targetId : generalTargetsList) {
+						if(!targetsList.contains(targetId)) {
 							targetsList.add(targetId);
 						}
 					}
@@ -915,7 +915,7 @@ public abstract class ExtorterAbstract{
 			
 			this.endRound();
 			this.die();
-		}else{
+		} else {
 			// Remove Targets that the Extorter
 			// 1. did not receive extortion payment
 			// 2. was not able to attack anyone
@@ -929,52 +929,52 @@ public abstract class ExtorterAbstract{
 			boolean wasAttackedRetaliation;
 			boolean attackedRetaliation;
 			
-			for(Integer targetId : this.extorted.keySet()){
+			for(Integer targetId : this.extorted.keySet()) {
 				wasAttackedProtection = false;
 				attackedProtection = false;
 				wasAttackedRetaliation = false;
 				attackedRetaliation = false;
 				
-				if(!this.paid.containsKey(targetId)){
-					for(Integer extorterId : this.protection.keySet()){
+				if(!this.paid.containsKey(targetId)) {
+					for(Integer extorterId : this.protection.keySet()) {
 						targetsList = this.protection.get(extorterId);
-						if(targetsList.contains(targetId)){
+						if(targetsList.contains(targetId)) {
 							wasAttackedProtection = true;
 						}
 					}
 					
-					for(Integer extorterId : this.retaliation.keySet()){
+					for(Integer extorterId : this.retaliation.keySet()) {
 						targetsList = this.retaliation.get(extorterId);
-						if(targetsList.contains(targetId)){
+						if(targetsList.contains(targetId)) {
 							wasAttackedRetaliation = true;
 						}
 					}
 					
-					for(Integer extorterId : this.attackProtection.keySet()){
+					for(Integer extorterId : this.attackProtection.keySet()) {
 						targetsList = this.attackProtection.get(extorterId);
-						if(targetsList.contains(targetId)){
+						if(targetsList.contains(targetId)) {
 							attackedProtection = true;
 						}
 					}
 					
-					for(Integer extorterId : this.attackRetaliation.keySet()){
+					for(Integer extorterId : this.attackRetaliation.keySet()) {
 						targetsList = this.attackRetaliation.get(extorterId);
-						if(targetsList.contains(targetId)){
+						if(targetsList.contains(targetId)) {
 							attackedRetaliation = true;
 						}
 					}
 					
 					if((wasAttackedProtection) && (!attackedProtection)
-							&& (!attackedRetaliation)){
+							&& (!attackedRetaliation)) {
 						removeProtectionList.add(targetId);
-					}else if((wasAttackedRetaliation) && (!attackedProtection)
-							&& (!attackedRetaliation)){
+					} else if((wasAttackedRetaliation) && (!attackedProtection)
+							&& (!attackedRetaliation)) {
 						removeList.add(targetId);
 					}
 				}
 			}
 			
-			for(Integer targetId : removeProtectionList){
+			for(Integer targetId : removeProtectionList) {
 				this.extorted.remove(targetId);
 				
 				this.output.setNumRenounce(this.output.getNumRenounce() + 1);
@@ -983,7 +983,7 @@ public abstract class ExtorterAbstract{
 				target.receiveInformRenounce();
 			}
 			
-			for(Integer targetId : removeList){
+			for(Integer targetId : removeList) {
 				this.extorted.remove(targetId);
 			}
 		}
@@ -998,9 +998,9 @@ public abstract class ExtorterAbstract{
 	 *          Extorter
 	 * @return none
 	 */
-	public void receiveNewTargets(List<Integer> newTargets){
-		for(Integer targetId : newTargets){
-			if(!this.extorted.containsKey(targetId)){
+	public void receiveNewTargets(List<Integer> newTargets) {
+		for(Integer targetId : newTargets) {
+			if(!this.extorted.containsKey(targetId)) {
 				this.extorted.put(targetId, new Demand(0.0, 0.0));
 			}
 		}
@@ -1014,16 +1014,16 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.97, interval = 1)
-	public void endRound(){
+	public void endRound() {
 		// Remove non existent Targets from extorted list
-		for(Integer targetId : this.extorted.keySet()){
-			if(!this.targets.containsKey(targetId)){
+		for(Integer targetId : this.extorted.keySet()) {
+			if(!this.targets.containsKey(targetId)) {
 				this.targetsToRemove.add(targetId);
 			}
 		}
 		
-		for(Integer targetId : this.targetsToRemove){
-			if(this.extorted.containsKey(targetId)){
+		for(Integer targetId : this.targetsToRemove) {
+			if(this.extorted.containsKey(targetId)) {
 				this.extorted.remove(targetId);
 			}
 		}
@@ -1042,9 +1042,9 @@ public abstract class ExtorterAbstract{
 	 * @return none
 	 */
 	@SuppressWarnings("unchecked")
-	protected void die(){
+	protected void die() {
 		Context<ExtorterAbstract> agent = ContextUtils.getContext(this);
-		if(agent.size() > 1){
+		if(agent.size() > 1) {
 			agent.remove(this);
 		}
 	}

@@ -21,9 +21,9 @@ i <- as.numeric(args[2])
 ###
 ### Raw simulation data output directory
 ###
-basePath <- paste("/data/workspace/gloders/intERS/output/everyone/",sep="")
-dir.create(file.path(basePath, "imagesCOLOR"), showWarnings = FALSE)
-imagePath <- paste(basePath,"imagesCOLOR", sep="")
+basePath <- paste("/data/workspace/gloders/intERS/output/v2/",sep="")
+dir.create(file.path(basePath, "imagesBW"), showWarnings = FALSE)
+imagePath <- paste(basePath,"imagesBW", sep="")
 
 ###
 ### Constants
@@ -263,11 +263,11 @@ ggplot(data, aes(x = cycle, y = numExtorters,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                      labels=c("No-Competition", "Competition & No-Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                     labels=c("No-Competition", "Competition & No-Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                        labels=c("No-Competition", "Competition & No-Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[1]], monopolyCycle[[2]]),
              linetype=2, size=1.5, color="black") +
@@ -298,11 +298,11 @@ ggplot(data, aes(x = cycle, y = numTargets,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                      labels=c("No-Competition", "Competition & No-Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                     labels=c("No-Competition", "Competition & No-Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                        labels=c("No-Competition", "Competition & No-Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[1]], monopolyCycle[[2]]),
              linetype=2, size=1.5, color="black") +
@@ -333,11 +333,11 @@ ggplot(data, aes(x = cycle, y = targetsIncome,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                      labels=c("No-Competition", "Competition & No-Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                     labels=c("No-Competition", "Competition & No-Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                        labels=c("No-Competition", "Competition & No-Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, 100)) +
   geom_vline(xintercept = min(monopolyCycle[[1]], monopolyCycle[[2]]),
              linetype=2, size=1.5, color="black") +
@@ -368,11 +368,11 @@ ggplot(data, aes(x = cycle, y = extortionPunished,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                      labels=c("No-Competition", "Competition & No-Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                     labels=c("No-Competition", "Competition & No-Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("No-Competition", "Competition & No-Strong-Protection")) +
+                        labels=c("No-Competition", "Competition & No-Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, 100)) +
   geom_vline(xintercept = min(monopolyCycle[[1]], monopolyCycle[[2]]),
              linetype=2, size=1.5, color="black") +
@@ -403,11 +403,11 @@ ggplot(data, aes(x = cycle, y = numFights,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[1]], monopolyCycle[[2]]),
              linetype=2, size=1.5, color="black") +
@@ -438,11 +438,11 @@ ggplot(data, aes(x = cycle, y = sevPunishment,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[1]], monopolyCycle[[2]]),
              linetype=2, size=1.5, color="black") +
@@ -478,11 +478,11 @@ ggplot(data, aes(x = cycle, y = numExtorters,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[2]], monopolyCycle[[3]]),
              linetype=2, size=1.5, color="black") +
@@ -513,11 +513,11 @@ ggplot(data, aes(x = cycle, y = numTargets,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[2]], monopolyCycle[[3]]),
              linetype=2, size=1.5, color="black") +
@@ -548,11 +548,11 @@ ggplot(data, aes(x = cycle, y = targetsIncome,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, 100)) +
   geom_vline(xintercept = min(monopolyCycle[[2]], monopolyCycle[[3]]),
              linetype=2, size=1.5, color="black") +
@@ -583,11 +583,11 @@ ggplot(data, aes(x = cycle, y = extortionPunished,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, 100)) +
   geom_vline(xintercept = min(monopolyCycle[[2]], monopolyCycle[[3]]),
              linetype=2, size=1.5, color="black") +
@@ -618,11 +618,11 @@ ggplot(data, aes(x = cycle, y = numFights,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[2]], monopolyCycle[[3]]),
              linetype=2, size=1.5, color="black") +
@@ -653,11 +653,11 @@ ggplot(data, aes(x = cycle, y = sevPunishment,
                  shape = factor(type),
                  linetype = factor(type))) +
   scale_colour_manual(values=c("black","black"),
-                      labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                      labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_shape_manual(values=c(17,15),
-                     labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                     labels=c("Competition & No-Protection", "Competition & Protection")) +
   scale_linetype_manual(values=c(3,1),
-                        labels=c("Competition & No-Strong-Protection", "Competition & Strong-Protection")) +
+                        labels=c("Competition & No-Protection", "Competition & Protection")) +
   geom_line(size = 1) + coord_cartesian(ylim=c(minY, maxY + 1)) +
   geom_vline(xintercept = min(monopolyCycle[[2]], monopolyCycle[[3]]),
              linetype=2, size=1.5, color="black") +

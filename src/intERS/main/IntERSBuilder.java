@@ -33,7 +33,7 @@ import repast.simphony.parameter.Parameters;
 import repast.simphony.random.RandomHelper;
 
 public class IntERSBuilder extends DefaultContext<Object> implements
-		ContextBuilder<Object>{
+		ContextBuilder<Object> {
 	
 	private static final String							PROJECT_NAME										= "intERS";
 	
@@ -66,7 +66,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 	
 	
 	@Override
-	public Context<Object> build(Context<Object> context){
+	public Context<Object> build(Context<Object> context) {
 		context.setId(PROJECT_NAME);
 		
 		this.extorters = new Hashtable<Integer, ExtorterAbstract>();
@@ -98,13 +98,13 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 				.getValue(PARAM_OUTPUT_WRITE_EVERY));
 		
 		// If the file does not exist, exit with an error
-		if(!(new File(scenarioFilename)).exists()){
+		if(!(new File(scenarioFilename)).exists()) {
 			System.out.println("Scenario file does not exist");
 			System.exit(1);
 		}
 		
 		// Validate the Scenario XML file
-		if(!XML.isValid(scenarioFilename, schemaFilename)){
+		if(!XML.isValid(scenarioFilename, schemaFilename)) {
 			System.out.println("Invalid XML");
 			System.exit(1);
 		}
@@ -117,9 +117,9 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		List<TargetConf> targetsScenario = scenario.getTargets();
 		
 		int id = 1;
-		try{
+		try {
 			TargetAbstract target;
-			for(TargetConf targetConf : targetsScenario){
+			for(TargetConf targetConf : targetsScenario) {
 				
 				@SuppressWarnings("unchecked")
 				Class<TargetAbstract> tClass = (Class<TargetAbstract>) Class
@@ -129,7 +129,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 						.getDeclaredConstructor(Map.class, Map.class, Integer.class,
 								TargetConf.class);
 				
-				for(int i = 0; i < targetConf.getNumberTargets(); i++){
+				for(int i = 0; i < targetConf.getNumberTargets(); i++) {
 					target = tConstructor.newInstance(this.extorters, this.targets, id,
 							targetConf);
 					context.add(target);
@@ -137,15 +137,15 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 					id++;
 				}
 			}
-		}catch(ClassNotFoundException e){
+		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
-		}catch(NoSuchMethodException e){
+		} catch(NoSuchMethodException e) {
 			e.printStackTrace();
-		}catch(InvocationTargetException e){
+		} catch(InvocationTargetException e) {
 			e.printStackTrace();
-		}catch(IllegalAccessException e){
+		} catch(IllegalAccessException e) {
 			e.printStackTrace();
-		}catch(InstantiationException e){
+		} catch(InstantiationException e) {
 			e.printStackTrace();
 		}
 		
@@ -155,7 +155,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		StrategyConf strategyConf = new StrategyConf(simulationRun);
 		
 		int numExtorters = 0;
-		for(ExtorterConf extorterConf : extortersScenario){
+		for(ExtorterConf extorterConf : extortersScenario) {
 			numExtorters += extorterConf.getNumberExtorters();
 			
 			strategyConf.upload((String) params.getValue(PARAM_OUTPUT_DIRECTORY),
@@ -168,23 +168,23 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		int numTargets = this.targets.size();
 		
 		Evaluator eval = new Evaluator();
-		try{
+		try {
 			eval.putVariable("TARGETS", new Integer(numTargets).toString());
 			eval.putVariable("EXTORTERS", new Integer(numExtorters).toString());
 			
 			targetsPerExtorter = new Double(eval.evaluate(scenario
 					.getTargetPerExtorter())).intValue();
-			if(targetsPerExtorter > numTargets){
+			if(targetsPerExtorter > numTargets) {
 				targetsPerExtorter = numTargets;
 			}
-		}catch(EvaluationException e){
+		} catch(EvaluationException e) {
 			e.printStackTrace();
 			System.exit(1);
 		}
 		
 		// Assign Extorters to Targets
 		int totalNumExtorters = 0;
-		for(ExtorterConf extorterConf : extortersScenario){
+		for(ExtorterConf extorterConf : extortersScenario) {
 			totalNumExtorters += extorterConf.getNumberExtorters();
 		}
 		
@@ -192,7 +192,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		Set<Integer> targetsExtorter;
 		
 		Map<Integer, Integer> numTargetExtorters = new HashMap<Integer, Integer>();
-		for(Integer targetId : this.targets.keySet()){
+		for(Integer targetId : this.targets.keySet()) {
 			numTargetExtorters.put(targetId, 0);
 		}
 		
@@ -204,28 +204,28 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 		boolean targetAssigned;
 		boolean allTargetsExtortedByMoreThanTwo = false;
 		double prob;
-		do{
-			for(int extorterId = 1; extorterId <= totalNumExtorters; extorterId++){
+		do {
+			for(int extorterId = 1; extorterId <= totalNumExtorters; extorterId++) {
 				
-				if(extorterTargets.containsKey(extorterId)){
+				if(extorterTargets.containsKey(extorterId)) {
 					targetsExtorter = extorterTargets.get(extorterId);
-				}else{
+				} else {
 					targetsExtorter = new HashSet<Integer>();
 				}
 				
 				targetAssigned = false;
-				do{
+				do {
 					targetId = RandomHelper.nextIntFromTo(1, numTargets);
 					
-					if(!targetsExtorter.contains(targetId)){
+					if(!targetsExtorter.contains(targetId)) {
 						
-						if(numTargetExtorters.get(targetId) > 0){
+						if(numTargetExtorters.get(targetId) > 0) {
 							prob = (double) 1.0 / (double) numTargetExtorters.get(targetId);
-						}else{
+						} else {
 							prob = 1.0;
 						}
 						
-						if(RandomHelper.nextDouble() <= prob){
+						if(RandomHelper.nextDouble() <= prob) {
 							targetsExtorter.add(targetId);
 							extorterTargets.put(extorterId, targetsExtorter);
 							targetAssigned = true;
@@ -234,23 +234,23 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 									numTargetExtorters.get(targetId) + 1);
 						}
 					}
-				}while(!targetAssigned);
+				} while(!targetAssigned);
 			}
 			
 			allTargetsExtortedByMoreThanTwo = true;
-			for(Integer tId : numTargetExtorters.keySet()){
-				if(numTargetExtorters.get(tId) < 2){
+			for(Integer tId : numTargetExtorters.keySet()) {
+				if(numTargetExtorters.get(tId) < 2) {
 					allTargetsExtortedByMoreThanTwo = false;
 				}
 			}
-		}while(!allTargetsExtortedByMoreThanTwo);
+		} while(!allTargetsExtortedByMoreThanTwo);
 		
 		// Create Extorter agents
 		Set<Integer> initialTargets;
 		ExtorterAbstract extorter;
 		id = 1;
-		try{
-			for(ExtorterConf extorterConf : extortersScenario){
+		try {
+			for(ExtorterConf extorterConf : extortersScenario) {
 				
 				@SuppressWarnings("unchecked")
 				Class<ExtorterAbstract> eClass = (Class<ExtorterAbstract>) Class
@@ -261,7 +261,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 								Integer.class, ExtorterConf.class);
 				
 				numExtorters = extorterConf.getNumberExtorters();
-				for(int i = 0; i < numExtorters; i++){
+				for(int i = 0; i < numExtorters; i++) {
 					initialTargets = extorterTargets.get(id);
 					
 					extorter = eConstructor.newInstance(this.extorters, this.targets,
@@ -273,20 +273,20 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 					id++;
 				}
 			}
-		}catch(ClassNotFoundException e){
+		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
-		}catch(NoSuchMethodException e){
+		} catch(NoSuchMethodException e) {
 			e.printStackTrace();
-		}catch(InvocationTargetException e){
+		} catch(InvocationTargetException e) {
 			e.printStackTrace();
-		}catch(IllegalAccessException e){
+		} catch(IllegalAccessException e) {
 			e.printStackTrace();
-		}catch(InstantiationException e){
+		} catch(InstantiationException e) {
 			e.printStackTrace();
 		}
 		
 		// Create a State
-		try{
+		try {
 			@SuppressWarnings("unchecked")
 			Class<StateAbstract> sClass = (Class<StateAbstract>) Class
 					.forName(scenario.getState().getStateClass());
@@ -299,15 +299,15 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 					this.extorters, this.targets, 1, scenario.getState()
 							.getPrisonProbability(), scenario.getState().getPrisonRounds());
 			context.add(state);
-		}catch(ClassNotFoundException e){
+		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
-		}catch(NoSuchMethodException e){
+		} catch(NoSuchMethodException e) {
 			e.printStackTrace();
-		}catch(InvocationTargetException e){
+		} catch(InvocationTargetException e) {
 			e.printStackTrace();
-		}catch(IllegalAccessException e){
+		} catch(IllegalAccessException e) {
 			e.printStackTrace();
-		}catch(InstantiationException e){
+		} catch(InstantiationException e) {
 			e.printStackTrace();
 		}
 		
@@ -330,7 +330,7 @@ public class IntERSBuilder extends DefaultContext<Object> implements
 /**
  * Update dynamically the Extorters and Targets available in the simulation
  */
-class ContextUpdate implements ContextListener<Object>{
+class ContextUpdate implements ContextListener<Object> {
 	
 	Map<Integer, ExtorterAbstract>	extorters;
 	
@@ -338,27 +338,27 @@ class ContextUpdate implements ContextListener<Object>{
 	
 	
 	public ContextUpdate(Map<Integer, ExtorterAbstract> extorters,
-			Map<Integer, TargetAbstract> targets){
+			Map<Integer, TargetAbstract> targets) {
 		this.extorters = extorters;
 		this.targets = targets;
 	}
 	
 	
 	@Override
-	public void eventOccured(ContextEvent<Object> event){
-		if(event.getType().equals(ContextEvent.REMOVED)){
+	public void eventOccured(ContextEvent<Object> event) {
+		if(event.getType().equals(ContextEvent.REMOVED)) {
 			Object obj = event.getTarget();
-			if(obj instanceof ExtorterAbstract){
+			if(obj instanceof ExtorterAbstract) {
 				this.extorters.remove(((ExtorterAbstract) obj).getId());
-			}else if(obj instanceof TargetAbstract){
+			} else if(obj instanceof TargetAbstract) {
 				this.targets.remove(((TargetAbstract) obj).getId());
 			}
-		}else if(event.getType().equals(ContextEvent.ADDED)){
+		} else if(event.getType().equals(ContextEvent.ADDED)) {
 			Object obj = event.getTarget();
-			if(obj instanceof ExtorterAbstract){
+			if(obj instanceof ExtorterAbstract) {
 				ExtorterAbstract extorter = (ExtorterAbstract) obj;
 				this.extorters.put(extorter.getId(), extorter);
-			}else if(obj instanceof TargetAbstract){
+			} else if(obj instanceof TargetAbstract) {
 				TargetAbstract target = (TargetAbstract) obj;
 				this.targets.put(target.getId(), target);
 			}

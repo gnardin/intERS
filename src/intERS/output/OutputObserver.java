@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class OutputObserver extends OutputAbstract{
+public class OutputObserver extends OutputAbstract {
 	
 	private Map<String, Integer>	targetsAlive;
 	
@@ -15,7 +15,7 @@ public class OutputObserver extends OutputAbstract{
 	private Map<String, Integer>	extortersImprisoned;
 	
 	
-	public OutputObserver(int cycle, String type, int id){
+	public OutputObserver(int cycle, String type, int id) {
 		super(AgentType.OBSERVER, cycle, type, id);
 		
 		this.targetsAlive = new Hashtable<String, Integer>();
@@ -26,14 +26,14 @@ public class OutputObserver extends OutputAbstract{
 	
 	
 	@Override
-	public String getHeader(String fs){
+	public String getHeader(String fs) {
 		String str = new String();
 		Map<String, Integer> map;
 		
 		str += "type" + fs + "id" + fs;
 		
 		map = new TreeMap<String, Integer>(this.targetsAlive);
-		for(String type : map.keySet()){
+		for(String type : map.keySet()) {
 			str += "TA" + type + fs;
 			str += "TS" + type + fs;
 		}
@@ -42,7 +42,7 @@ public class OutputObserver extends OutputAbstract{
 		
 		String strImprisoned = new String();
 		map = new TreeMap<String, Integer>(this.extortersFree);
-		for(String type : map.keySet()){
+		for(String type : map.keySet()) {
 			str += "FR" + type + fs;
 			strImprisoned += "IM" + type + fs;
 		}
@@ -54,7 +54,7 @@ public class OutputObserver extends OutputAbstract{
 	
 	
 	@Override
-	public String getLine(String fs){
+	public String getLine(String fs) {
 		String str = new String();
 		Map<String, Integer> map;
 		
@@ -63,7 +63,7 @@ public class OutputObserver extends OutputAbstract{
 		int numTargetsAlive = 0;
 		int totalTargetsAlive = 0;
 		map = new TreeMap<String, Integer>(this.targetsAlive);
-		for(String type : map.keySet()){
+		for(String type : map.keySet()) {
 			numTargetsAlive = map.get(type);
 			totalTargetsAlive += numTargetsAlive;
 			
@@ -73,7 +73,7 @@ public class OutputObserver extends OutputAbstract{
 		int numTargetsSurvived = 0;
 		int totalTargetsSurvived = 0;
 		map = new TreeMap<String, Integer>(this.targetsSurvived);
-		for(String type : map.keySet()){
+		for(String type : map.keySet()) {
 			numTargetsSurvived = map.get(type);
 			totalTargetsSurvived += numTargetsSurvived;
 			
@@ -88,12 +88,12 @@ public class OutputObserver extends OutputAbstract{
 		int totalImprisoned = 0;
 		String strImprisoned = new String();
 		map = new TreeMap<String, Integer>(this.extortersFree);
-		for(String type : map.keySet()){
+		for(String type : map.keySet()) {
 			numFree = map.get(type);
 			totalFree += numFree;
 			
 			numImprisoned = 0;
-			if(this.extortersImprisoned.containsKey(type)){
+			if(this.extortersImprisoned.containsKey(type)) {
 				numImprisoned = this.extortersImprisoned.get(type);
 			}
 			totalImprisoned += numImprisoned;
@@ -108,9 +108,9 @@ public class OutputObserver extends OutputAbstract{
 	}
 	
 	
-	public int getNumTargetsAlive(String type){
+	public int getNumTargetsAlive(String type) {
 		int num = 0;
-		if(this.targetsAlive.containsKey(type)){
+		if(this.targetsAlive.containsKey(type)) {
 			num = this.targetsAlive.get(type);
 		}
 		
@@ -118,14 +118,14 @@ public class OutputObserver extends OutputAbstract{
 	}
 	
 	
-	public void setNumTargetsAlive(String type, int numTargets){
+	public void setNumTargetsAlive(String type, int numTargets) {
 		this.targetsAlive.put(type, numTargets);
 	}
 	
 	
-	public int getNumTargetsSurvived(String type){
+	public int getNumTargetsSurvived(String type) {
 		int num = 0;
-		if(this.targetsSurvived.containsKey(type)){
+		if(this.targetsSurvived.containsKey(type)) {
 			num = this.targetsSurvived.get(type);
 		}
 		
@@ -133,14 +133,14 @@ public class OutputObserver extends OutputAbstract{
 	}
 	
 	
-	public void setNumTargetsSurvived(String type, int numTargets){
+	public void setNumTargetsSurvived(String type, int numTargets) {
 		this.targetsSurvived.put(type, numTargets);
 	}
 	
 	
-	public int getNumExtortersFree(String type){
+	public int getNumExtortersFree(String type) {
 		int num = 0;
-		if(this.extortersFree.containsKey(type)){
+		if(this.extortersFree.containsKey(type)) {
 			num = this.extortersFree.get(type);
 		}
 		
@@ -148,14 +148,14 @@ public class OutputObserver extends OutputAbstract{
 	}
 	
 	
-	public void setNumExtortersFree(String type, int numExtortersFree){
+	public void setNumExtortersFree(String type, int numExtortersFree) {
 		this.extortersFree.put(type, numExtortersFree);
 	}
 	
 	
-	public int getNumExtortersImprisoned(String type){
+	public int getNumExtortersImprisoned(String type) {
 		int num = 0;
-		if(this.extortersImprisoned.containsKey(type)){
+		if(this.extortersImprisoned.containsKey(type)) {
 			num = this.extortersImprisoned.get(type);
 		}
 		
@@ -163,7 +163,7 @@ public class OutputObserver extends OutputAbstract{
 	}
 	
 	
-	public void setNumExtortersImprisoned(String type, int numExtortersImprisoned){
+	public void setNumExtortersImprisoned(String type, int numExtortersImprisoned) {
 		this.extortersImprisoned.put(type, numExtortersImprisoned);
 	}
 }

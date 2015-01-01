@@ -1,6 +1,6 @@
 package intERS.conf.scenario;
 
-public class TargetConf{
+public class TargetConf {
 	
 	private String	targetClass;
 	
@@ -29,138 +29,138 @@ public class TargetConf{
 	private double	unknownPunishmentProb;
 	
 	
-	public String getTargetClass(){
+	public String getTargetClass() {
 		return this.targetClass;
 	}
 	
 	
-	public void setTargetClass(String targetClass){
+	public void setTargetClass(String targetClass) {
 		this.targetClass = targetClass;
 	}
 	
 	
-	public String getType(){
+	public String getType() {
 		return this.type;
 	}
 	
 	
-	public void setType(String type){
+	public void setType(String type) {
 		this.type = type;
 	}
 	
 	
-	public int getNumberTargets(){
+	public int getNumberTargets() {
 		return this.number;
 	}
 	
 	
-	public void setNumberTargets(int number){
+	public void setNumberTargets(int number) {
 		this.number = number;
 	}
 	
 	
-	public double getInitialWealth(){
+	public double getInitialWealth() {
 		return this.initialWealth;
 	}
 	
 	
-	public void setInitialWealth(double initialWealth){
+	public void setInitialWealth(double initialWealth) {
 		this.initialWealth = initialWealth;
 	}
 	
 	
-	public int getExtortersPerTarget(){
+	public int getExtortersPerTarget() {
 		return this.extortersPerTarget;
 	}
 	
 	
-	public void setExtorterPerTarget(int extorterPerTarget){
+	public void setExtorterPerTarget(int extorterPerTarget) {
 		this.extortersPerTarget = extorterPerTarget;
 	}
 	
 	
-	public double getMinIncome(){
+	public double getMinIncome() {
 		return this.minIncome;
 	}
 	
 	
-	public void setMinIncome(double minIncome){
+	public void setMinIncome(double minIncome) {
 		this.minIncome = minIncome;
 	}
 	
 	
-	public double getMaxIncome(){
+	public double getMaxIncome() {
 		return this.maxIncome;
 	}
 	
 	
-	public void setMaxIncome(double maxIncome){
+	public void setMaxIncome(double maxIncome) {
 		this.maxIncome = maxIncome;
 	}
 	
 	
-	public double getMinIncomeVariation(){
+	public double getMinIncomeVariation() {
 		return this.minIncomeVariation;
 	}
 	
 	
-	public void setMinIncomeVariation(double minIncomeVariation){
+	public void setMinIncomeVariation(double minIncomeVariation) {
 		this.minIncomeVariation = minIncomeVariation;
 	}
 	
 	
-	public double getMaxIncomeVariation(){
+	public double getMaxIncomeVariation() {
 		return this.maxIncomeVariation;
 	}
 	
 	
-	public void setMaxIncomeVariation(double maxIncomeVariation){
+	public void setMaxIncomeVariation(double maxIncomeVariation) {
 		this.maxIncomeVariation = maxIncomeVariation;
 	}
 	
 	
-	public double getAvailExtortionIncome(){
+	public double getAvailExtortionIncome() {
 		return this.availExtortionIncome;
 	}
 	
 	
-	public void setAvailExtortionIncome(double availExtortionIncome){
+	public void setAvailExtortionIncome(double availExtortionIncome) {
 		this.availExtortionIncome = availExtortionIncome;
 	}
 	
 	
-	public int getMemLength(){
+	public int getMemLength() {
 		return this.memLength;
 	}
 	
 	
-	public void setMemLength(int memLength){
+	public void setMemLength(int memLength) {
 		this.memLength = memLength;
 	}
 	
 	
-	public double getUnknownProtectionProb(){
+	public double getUnknownProtectionProb() {
 		return this.unknownProtectionProb;
 	}
 	
 	
-	public void setUnknownProtectionProb(double unknownProtectionProb){
+	public void setUnknownProtectionProb(double unknownProtectionProb) {
 		this.unknownProtectionProb = unknownProtectionProb;
 	}
 	
 	
-	public double getUnknownPunishmentProb(){
+	public double getUnknownPunishmentProb() {
 		return this.unknownPunishmentProb;
 	}
 	
 	
-	public void setUnknownPunishmentProb(double unknownPunishmentProb){
+	public void setUnknownPunishmentProb(double unknownPunishmentProb) {
 		this.unknownPunishmentProb = unknownPunishmentProb;
 	}
 	
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		String str = new String();
 		
 		str += "TARGET\n";

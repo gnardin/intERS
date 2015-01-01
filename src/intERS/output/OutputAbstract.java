@@ -1,9 +1,11 @@
 package intERS.output;
 
-public abstract class OutputAbstract{
+public abstract class OutputAbstract {
 	
-	public enum AgentType{
-		EXTORTER, OBSERVER, TARGET;
+	public enum AgentType {
+		EXTORTER,
+		OBSERVER,
+		TARGET;
 	}
 	
 	protected AgentType	agentType;
@@ -15,7 +17,7 @@ public abstract class OutputAbstract{
 	protected int				id;
 	
 	
-	public OutputAbstract(AgentType agentType, int cycle, String type, int id){
+	public OutputAbstract(AgentType agentType, int cycle, String type, int id) {
 		this.agentType = agentType;
 		this.cycle = cycle;
 		this.type = type;
@@ -23,22 +25,22 @@ public abstract class OutputAbstract{
 	}
 	
 	
-	public AgentType getAgentType(){
+	public AgentType getAgentType() {
 		return this.agentType;
 	}
 	
 	
-	public int getCycle(){
+	public int getCycle() {
 		return this.cycle;
 	}
 	
 	
-	public String getType(){
+	public String getType() {
 		return this.type;
 	}
 	
 	
-	public int getId(){
+	public int getId() {
 		return this.id;
 	}
 	

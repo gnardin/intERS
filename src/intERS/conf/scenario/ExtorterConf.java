@@ -1,6 +1,6 @@
 package intERS.conf.scenario;
 
-public class ExtorterConf{
+public class ExtorterConf {
 	
 	private String				extorterClass;
 	
@@ -47,232 +47,232 @@ public class ExtorterConf{
 	private StrategyConf	strategyConf;
 	
 	
-	public ExtorterConf(){
+	public ExtorterConf() {
 	}
 	
 	
-	public String getExtorterClass(){
+	public String getExtorterClass() {
 		return this.extorterClass;
 	}
 	
 	
-	public void setExtorterClass(String extorterClass){
+	public void setExtorterClass(String extorterClass) {
 		this.extorterClass = extorterClass;
 	}
 	
 	
-	public String getType(){
+	public String getType() {
 		return this.type;
 	}
 	
 	
-	public void setType(String type){
+	public void setType(String type) {
 		this.type = type;
 	}
 	
 	
-	public String getEnlargementProbability(){
+	public String getEnlargementProbability() {
 		return this.enlargementProbability;
 	}
 	
 	
-	public void setEnlargementProbability(String enlargementProbability){
+	public void setEnlargementProbability(String enlargementProbability) {
 		this.enlargementProbability = enlargementProbability;
 	}
 	
 	
-	public int getNumberExtorters(){
+	public int getNumberExtorters() {
 		return this.numberExtorters;
 	}
 	
 	
-	public void setNumberExtorters(int numberExtorters){
+	public void setNumberExtorters(int numberExtorters) {
 		this.numberExtorters = numberExtorters;
 	}
 	
 	
-	public double getInitialWealth(){
+	public double getInitialWealth() {
 		return this.initialWealth;
 	}
 	
 	
-	public void setInitialWealth(double initialWealth){
+	public void setInitialWealth(double initialWealth) {
 		this.initialWealth = initialWealth;
 	}
 	
 	
-	public double getImpulseProtection(){
+	public double getImpulseProtection() {
 		return this.impulseProtection;
 	}
 	
 	
-	public void setImpulseProtection(double impulseProtection){
+	public void setImpulseProtection(double impulseProtection) {
 		this.impulseProtection = impulseProtection;
 	}
 	
 	
-	public double getImpulseFightProtection(){
+	public double getImpulseFightProtection() {
 		return this.impulseFightProtection;
 	}
 	
 	
-	public void setImpulseFightProtection(double impulseFight){
+	public void setImpulseFightProtection(double impulseFight) {
 		this.impulseFightProtection = impulseFight;
 	}
 	
 	
-	public double getImpulseRetaliation(){
+	public double getImpulseRetaliation() {
 		return this.impulseRetaliation;
 	}
 	
 	
-	public void setImpulseRetaliation(double impulseRetaliation){
+	public void setImpulseRetaliation(double impulseRetaliation) {
 		this.impulseRetaliation = impulseRetaliation;
 	}
 	
 	
-	public double getImpulseFightRetaliation(){
+	public double getImpulseFightRetaliation() {
 		return this.impulseFightRetaliation;
 	}
 	
 	
-	public void setImpulseFightRetaliation(double impulseFightRetaliation){
+	public void setImpulseFightRetaliation(double impulseFightRetaliation) {
 		this.impulseFightRetaliation = impulseFightRetaliation;
 	}
 	
 	
-	public double getCostFightProtection(){
+	public double getCostFightProtection() {
 		return this.costFightProtection;
 	}
 	
 	
-	public void setCostFightProtection(double costFightProtection){
+	public void setCostFightProtection(double costFightProtection) {
 		this.costFightProtection = costFightProtection;
 	}
 	
 	
-	public double getCostFightAttack(){
+	public double getCostFightAttack() {
 		return this.costFightRetaliation;
 	}
 	
 	
-	public void setCostFightRetaliation(double costFightRetaliation){
+	public void setCostFightRetaliation(double costFightRetaliation) {
 		this.costFightRetaliation = costFightRetaliation;
 	}
 	
 	
-	public double getCostPunish(){
+	public double getCostPunish() {
 		return this.costPunish;
 	}
 	
 	
-	public void setCostPunish(double costPunish){
+	public void setCostPunish(double costPunish) {
 		this.costPunish = costPunish;
 	}
 	
 	
-	public boolean getEnableExtortersCfg(){
+	public boolean getEnableExtortersCfg() {
 		return this.enableExtortersCfg;
 	}
 	
 	
-	public void setEnableExtortersCfg(boolean enableExtortersCfg){
+	public void setEnableExtortersCfg(boolean enableExtortersCfg) {
 		this.enableExtortersCfg = enableExtortersCfg;
 	}
 	
 	
-	public String getExtortersCfgFilename(){
+	public String getExtortersCfgFilename() {
 		return this.extortersCfgFilename;
 	}
 	
 	
-	public void setExtortersCfgFilename(String extortersCfgFilename){
+	public void setExtortersCfgFilename(String extortersCfgFilename) {
 		this.extortersCfgFilename = extortersCfgFilename;
 	}
 	
 	
-	public double getMinExtort(){
+	public double getMinExtort() {
 		return this.minExtort;
 	}
 	
 	
-	public void setMinExtort(double minExtort){
+	public void setMinExtort(double minExtort) {
 		this.minExtort = minExtort;
 	}
 	
 	
-	public double getMaxExtort(){
+	public double getMaxExtort() {
 		return this.maxExtort;
 	}
 	
 	
-	public void setMaxExtort(double maxExtort){
+	public void setMaxExtort(double maxExtort) {
 		this.maxExtort = maxExtort;
 	}
 	
 	
-	public double getStepExtort(){
+	public double getStepExtort() {
 		return this.stepExtort;
 	}
 	
 	
-	public void setStepExtort(double stepExtort){
+	public void setStepExtort(double stepExtort) {
 		this.stepExtort = stepExtort;
 	}
 	
 	
-	public double getMinPunish(){
+	public double getMinPunish() {
 		return this.minPunish;
 	}
 	
 	
-	public void setMinPunish(double minPunish){
+	public void setMinPunish(double minPunish) {
 		this.minPunish = minPunish;
 	}
 	
 	
-	public double getMaxPunish(){
+	public double getMaxPunish() {
 		return this.maxPunish;
 	}
 	
 	
-	public void setMaxPunish(double maxPunish){
+	public void setMaxPunish(double maxPunish) {
 		this.maxPunish = maxPunish;
 	}
 	
 	
-	public double getStepPunish(){
+	public double getStepPunish() {
 		return this.stepPunish;
 	}
 	
 	
-	public void setStepPunish(double stepPunish){
+	public void setStepPunish(double stepPunish) {
 		this.stepPunish = stepPunish;
 	}
 	
 	
-	public boolean getUpdateAtEnd(){
+	public boolean getUpdateAtEnd() {
 		return this.updateAtEnd;
 	}
 	
 	
-	public void setUpdateAtEnd(boolean updateAtEnd){
+	public void setUpdateAtEnd(boolean updateAtEnd) {
 		this.updateAtEnd = updateAtEnd;
 	}
 	
 	
-	public StrategyConf getExtortersStrategy(){
+	public StrategyConf getExtortersStrategy() {
 		return this.strategyConf;
 	}
 	
 	
-	public void setExtortersStrategy(StrategyConf strategyConf){
+	public void setExtortersStrategy(StrategyConf strategyConf) {
 		this.strategyConf = strategyConf;
 	}
 	
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		String str = new String();
 		
 		str = "EXTORTER \n";

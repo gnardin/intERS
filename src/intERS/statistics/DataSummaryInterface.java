@@ -1,6 +1,6 @@
 package intERS.statistics;
 
-public interface DataSummaryInterface{
+public interface DataSummaryInterface {
 	
 	public boolean add(String filename, String fieldSeparator);
 	

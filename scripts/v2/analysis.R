@@ -21,7 +21,7 @@ i <- as.numeric(args[2])
 ###
 ### Raw simulation data output directory
 ###
-basePath <- paste("/data/workspace/gloders/intERS/output/everyone/",sep="")
+basePath <- paste("/data/workspace/gloders/intERS/output/v2/",sep="")
 
 
 ###

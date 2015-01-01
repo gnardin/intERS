@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import repast.simphony.random.RandomHelper;
 
-public class StrategyConf{
+public class StrategyConf {
 	
 	private int										simulationRun;
 	
@@ -32,7 +32,7 @@ public class StrategyConf{
 	 *          Simulation run
 	 * @return none
 	 */
-	public StrategyConf(int simulationRun){
+	public StrategyConf(int simulationRun) {
 		this.simulationRun = simulationRun;
 		this.uploaded = false;
 		this.extortions = new HashMap<Integer, Double>();
@@ -52,7 +52,7 @@ public class StrategyConf{
 	 * @return none
 	 */
 	public void upload(String path, String fieldSeparator,
-			ExtorterConf extorterConf){
+			ExtorterConf extorterConf) {
 		
 		String filename = path + File.separator
 				+ extorterConf.getExtortersCfgFilename();
@@ -61,8 +61,8 @@ public class StrategyConf{
 		directory.mkdirs();
 		
 		File file = new File(filename);
-		if((file.exists()) && (extorterConf.getEnableExtortersCfg())){
-			try{
+		if((file.exists()) && (extorterConf.getEnableExtortersCfg())) {
+			try {
 				BufferedReader br = new BufferedReader(new FileReader(file));
 				String line;
 				String[] tokens;
@@ -71,47 +71,47 @@ public class StrategyConf{
 				Integer extorterId;
 				Double extortion;
 				Double punishment;
-				while(((line = br.readLine()) != null) && (!error)){
+				while(((line = br.readLine()) != null) && (!error)) {
 					tokens = line.split(fieldSeparator);
-					if(tokens.length < 4){
+					if(tokens.length < 4) {
 						error = true;
-					}else{
-						try{
+					} else {
+						try {
 							simRun = Integer.valueOf(tokens[0]);
 							extorterId = Integer.valueOf(tokens[1]);
 							extortion = Double.valueOf(tokens[2]) / 100.0;
 							punishment = Double.valueOf(tokens[3]) / 100.0;
 							
-							if(simRun == this.simulationRun){
+							if(simRun == this.simulationRun) {
 								this.extortions.put(extorterId, extortion);
 								this.punishments.put(extorterId, punishment);
 							}
 							
-						}catch(NumberFormatException e){
+						} catch(NumberFormatException e) {
 							error = true;
 						}
 					}
 				}
 				
 				if((!error) && (!this.extortions.isEmpty())
-						&& (!this.punishments.isEmpty())){
+						&& (!this.punishments.isEmpty())) {
 					this.uploaded = true;
-				}else{
+				} else {
 					this.extortions.clear();
 					this.punishments.clear();
 				}
 				
 				br.close();
-			}catch(IOException e){
+			} catch(IOException e) {
 			}
 		}
 		
-		if(!this.uploaded){
+		if(!this.uploaded) {
 			
 			// Extorter options
 			List<Double> extortValues = new ArrayList<Double>();
 			double extort = extorterConf.getMinExtort();
-			while(extort <= extorterConf.getMaxExtort()){
+			while(extort <= extorterConf.getMaxExtort()) {
 				extortValues.add(extort);
 				extort += extorterConf.getStepExtort();
 			}
@@ -119,30 +119,30 @@ public class StrategyConf{
 			// Punishment options
 			List<Double> punishValues = new ArrayList<Double>();
 			double punish = extorterConf.getMinPunish();
-			while(punish <= extorterConf.getMaxPunish()){
+			while(punish <= extorterConf.getMaxPunish()) {
 				punishValues.add(punish);
 				punish += extorterConf.getStepPunish();
 			}
 			
-			for(int extorterId = 1; extorterId <= extorterConf.getNumberExtorters(); extorterId++){
+			for(int extorterId = 1; extorterId <= extorterConf.getNumberExtorters(); extorterId++) {
 				extort = extortValues.get(RandomHelper.nextIntFromTo(0,
 						extortValues.size() - 1));
 				this.extortions.put(extorterId, extort / (double) 100);
 				
 				punish = -1;
-				while(punish < extort){
+				while(punish < extort) {
 					punish = punishValues.get(RandomHelper.nextIntFromTo(0,
 							punishValues.size() - 1));
 				}
 				this.punishments.put(extorterId, punish / (double) 100);
 			}
 			
-			if(extorterConf.getEnableExtortersCfg()){
-				try{
+			if(extorterConf.getEnableExtortersCfg()) {
+				try {
 					BufferedWriter bw = new BufferedWriter(new FileWriter(file, true));
 					
 					String str;
-					for(Integer extorterId : this.extortions.keySet()){
+					for(Integer extorterId : this.extortions.keySet()) {
 						str = this.simulationRun + fieldSeparator + extorterId.toString()
 								+ fieldSeparator
 								+ (this.extortions.get(extorterId).intValue() * 100)
@@ -153,7 +153,7 @@ public class StrategyConf{
 					
 					bw.flush();
 					bw.close();
-				}catch(IOException e){
+				} catch(IOException e) {
 				}
 			}
 		}
@@ -167,10 +167,10 @@ public class StrategyConf{
 	 *          Extorter identification
 	 * @return Extortion value
 	 */
-	public double getExtortion(int extorterId){
+	public double getExtortion(int extorterId) {
 		double extortionValue = 0;
 		
-		if(this.extortions.containsKey(extorterId)){
+		if(this.extortions.containsKey(extorterId)) {
 			extortionValue = this.extortions.get(extorterId);
 		}
 		
@@ -185,10 +185,10 @@ public class StrategyConf{
 	 *          Extorter identification
 	 * @return Punishment value
 	 */
-	public double getPunishment(int extorterId){
+	public double getPunishment(int extorterId) {
 		double punishmentValue = 0;
 		
-		if(this.punishments.containsKey(extorterId)){
+		if(this.punishments.containsKey(extorterId)) {
 			punishmentValue = this.punishments.get(extorterId);
 		}
 		

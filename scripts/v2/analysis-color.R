@@ -367,7 +367,7 @@ png(file=paste(imagePath,"/NC-extortionPunished.png", sep=""),
     width=800, height=600)
 
 minY <- 0
-maxY <- ceiling(max(NC$extortionPunished,CN$extortionPunished,CP$extortionPunished))
+maxY <- ceiling(max(NC$extortionPunished,CN$extortionPunished,CP$extortionPunished,na.rm=TRUE))
 
 ggplot(data, aes(x = cycle, y = extortionPunished,
                  color = factor(type),

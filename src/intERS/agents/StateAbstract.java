@@ -16,7 +16,7 @@ import repast.simphony.context.Context;
 import repast.simphony.engine.environment.RunEnvironment;
 import repast.simphony.engine.schedule.ScheduledMethod;
 
-public abstract class StateAbstract{
+public abstract class StateAbstract {
 	
 	protected static final String							TYPE	= "0";
 	
@@ -70,7 +70,7 @@ public abstract class StateAbstract{
 	public StateAbstract(ScenarioConf scenarioConf, Context<Object> context,
 			Map<Integer, ExtorterAbstract> extorters,
 			Map<Integer, TargetAbstract> targets, Integer id,
-			Double prisonProbability, Integer prisonRounds){
+			Double prisonProbability, Integer prisonRounds) {
 		this.id = id;
 		this.scenarioConf = scenarioConf;
 		this.context = context;
@@ -78,10 +78,10 @@ public abstract class StateAbstract{
 		this.extorters = extorters;
 		this.extorterTypes = new ArrayList<String>();
 		ExtorterAbstract extorter;
-		for(Integer extorterId : this.extorters.keySet()){
+		for(Integer extorterId : this.extorters.keySet()) {
 			extorter = this.extorters.get(extorterId);
 			
-			if(!this.extorterTypes.contains(extorter.getType())){
+			if(!this.extorterTypes.contains(extorter.getType())) {
 				this.extorterTypes.add(extorter.getType());
 			}
 		}
@@ -89,10 +89,10 @@ public abstract class StateAbstract{
 		this.targets = targets;
 		this.targetTypes = new ArrayList<String>();
 		TargetAbstract target;
-		for(Integer targetId : this.targets.keySet()){
+		for(Integer targetId : this.targets.keySet()) {
 			target = this.targets.get(targetId);
 			
-			if(!this.targetTypes.contains(target.getType())){
+			if(!this.targetTypes.contains(target.getType())) {
 				this.targetTypes.add(target.getType());
 			}
 		}
@@ -109,7 +109,7 @@ public abstract class StateAbstract{
 		
 		String type;
 		int num = 0;
-		for(Integer targetId : this.targets.keySet()){
+		for(Integer targetId : this.targets.keySet()) {
 			target = this.targets.get(targetId);
 			
 			type = target.getType();
@@ -120,7 +120,7 @@ public abstract class StateAbstract{
 			this.output.setNumTargetsSurvived(type, num + 1);
 		}
 		
-		for(Integer extorterId : this.extorters.keySet()){
+		for(Integer extorterId : this.extorters.keySet()) {
 			extorter = this.extorters.get(extorterId);
 			
 			type = extorter.getType();
@@ -128,7 +128,7 @@ public abstract class StateAbstract{
 					this.output.getNumExtortersFree(type) + 1);
 		}
 		
-		for(Integer extorterId : this.imprisoned.keySet()){
+		for(Integer extorterId : this.imprisoned.keySet()) {
 			extorter = this.imprisoned.get(extorterId);
 			
 			type = extorter.getType();
@@ -147,31 +147,31 @@ public abstract class StateAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1, interval = 1, priority = 0)
-	public void beginRound(){
+	public void beginRound() {
 		boolean stop = false;
 		Evaluator eval = new Evaluator();
 		
 		int round = (int) RunEnvironment.getInstance().getCurrentSchedule()
 				.getTickCount();
 		
-		try{
+		try {
 			eval.putVariable("CYCLE", new Integer(round - 1).toString());
 			eval.putVariable("EXTORTERS", new Integer(this.extorters.size()
 					+ this.imprisonedTotal).toString());
 			
 			List<String> extorterTypesList = new ArrayList<String>();
 			ExtorterAbstract extorter;
-			for(Integer extorterId : this.extorters.keySet()){
+			for(Integer extorterId : this.extorters.keySet()) {
 				extorter = this.extorters.get(extorterId);
 				
-				if(!extorterTypesList.contains(extorter.getType())){
+				if(!extorterTypesList.contains(extorter.getType())) {
 					extorterTypesList.add(extorter.getType());
 				}
 			}
-			for(Integer extorterId : this.imprisoned.keySet()){
+			for(Integer extorterId : this.imprisoned.keySet()) {
 				extorter = this.imprisoned.get(extorterId);
 				
-				if(!extorterTypesList.contains(extorter.getType())){
+				if(!extorterTypesList.contains(extorter.getType())) {
 					extorterTypesList.add(extorter.getType());
 				}
 			}
@@ -182,10 +182,10 @@ public abstract class StateAbstract{
 			
 			List<String> targetTypesList = new ArrayList<String>();
 			TargetAbstract target;
-			for(Integer targetId : this.targets.keySet()){
+			for(Integer targetId : this.targets.keySet()) {
 				target = this.targets.get(targetId);
 				
-				if(!targetTypesList.contains(target.getType())){
+				if(!targetTypesList.contains(target.getType())) {
 					targetTypesList.add(target.getType());
 				}
 			}
@@ -193,22 +193,22 @@ public abstract class StateAbstract{
 					new Integer(targetTypesList.size()).toString());
 			
 			stop = new Double(eval.evaluate(this.scenarioConf.getStopAt())) == 1.0;
-			if(stop){
+			if(stop) {
 				RunEnvironment.getInstance().getCurrentSchedule().setFinishing(true);
 			}
-		}catch(EvaluationException e){
+		} catch(EvaluationException e) {
 			e.printStackTrace();
 		}
 		
 		this.output = new OutputObserver(round, TYPE, this.id);
 		
-		for(String type : this.targetTypes){
+		for(String type : this.targetTypes) {
 			this.output.setNumTargetsAlive(type, 0);
 		}
 		
 		String type;
 		TargetAbstract target;
-		for(Integer targetId : this.targets.keySet()){
+		for(Integer targetId : this.targets.keySet()) {
 			target = this.targets.get(targetId);
 			
 			type = target.getType();
@@ -237,19 +237,19 @@ public abstract class StateAbstract{
 	 * @return none
 	 */
 	@ScheduledMethod(start = 1.99, interval = 1)
-	public void endRound(){
-		for(String type : this.targetTypes){
+	public void endRound() {
+		for(String type : this.targetTypes) {
 			this.output.setNumTargetsSurvived(type, 0);
 		}
 		
-		for(String type : this.extorterTypes){
+		for(String type : this.extorterTypes) {
 			this.output.setNumExtortersFree(type, 0);
 			this.output.setNumExtortersImprisoned(type, 0);
 		}
 		
 		String type;
 		TargetAbstract target;
-		for(Integer targetId : this.targets.keySet()){
+		for(Integer targetId : this.targets.keySet()) {
 			target = this.targets.get(targetId);
 			
 			type = target.getType();
@@ -258,7 +258,7 @@ public abstract class StateAbstract{
 		}
 		
 		ExtorterAbstract extorter;
-		for(Integer extorterId : this.extorters.keySet()){
+		for(Integer extorterId : this.extorters.keySet()) {
 			extorter = this.extorters.get(extorterId);
 			
 			type = extorter.getType();
@@ -266,7 +266,7 @@ public abstract class StateAbstract{
 					this.output.getNumExtortersFree(type) + 1);
 		}
 		
-		for(Integer extorterId : this.imprisoned.keySet()){
+		for(Integer extorterId : this.imprisoned.keySet()) {
 			extorter = this.imprisoned.get(extorterId);
 			
 			type = extorter.getType();

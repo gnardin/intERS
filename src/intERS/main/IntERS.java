@@ -4,15 +4,15 @@ import intERS.conf.simulation.SimulationConf;
 import intERS.statistics.DataAggregation;
 import intERS.utils.XML;
 
-public class IntERS{
+public class IntERS {
 	
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception {
 		
 		// Validate the Arguments and Simulation XML file
-		if(args.length < 2){
+		if(args.length < 2) {
 			System.out.println("Invalid Arguments");
 			System.exit(1);
-		}else if(!XML.isValid(args[0], args[1])){
+		} else if(!XML.isValid(args[0], args[1])) {
 			System.out.println("Invalid XML");
 			System.exit(1);
 		}
@@ -22,7 +22,7 @@ public class IntERS{
 		
 		int randomSeed;
 		// Runs the simulation
-		for(int sim = 0; sim < simulation.getNumberRuns(); sim++){
+		for(int sim = 0; sim < simulation.getNumberRuns(); sim++) {
 			
 			randomSeed = simulation.getSeed(sim);
 			
@@ -36,8 +36,8 @@ public class IntERS{
 			
 			runner.runInitialize();
 			
-			while((runner.go()) && (runner.getModelActionCount() > 0)){
-				if(runner.getModelActionCount() == 0){
+			while((runner.go()) && (runner.getModelActionCount() > 0)) {
+				if(runner.getModelActionCount() == 0) {
 					runner.setFinishing(true);
 				}
 				runner.step();

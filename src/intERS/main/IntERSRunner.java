@@ -16,7 +16,7 @@ import repast.simphony.parameter.Parameters;
 import repast.simphony.parameter.ParametersCreator;
 import simphony.util.messages.MessageCenter;
 
-public class IntERSRunner extends AbstractRunner{
+public class IntERSRunner extends AbstractRunner {
 	
 	private static MessageCenter	msgCenter	= MessageCenter
 																							.getMessageCenter(IntERSRunner.class);
@@ -30,7 +30,7 @@ public class IntERSRunner extends AbstractRunner{
 	private ISchedule							schedule;
 	
 	
-	public IntERSRunner(){
+	public IntERSRunner() {
 		this.runEnvironmentBuilder = new DefaultRunEnvironmentBuilder(this, true);
 		this.controller = new DefaultController(this.runEnvironmentBuilder);
 		this.controller.setScheduleRunner(this);
@@ -41,13 +41,13 @@ public class IntERSRunner extends AbstractRunner{
 			String xmlFilename, String xsdFilename, String outputDirectory,
 			String outputFileExtorter, String outputFileObserver,
 			String outputFileTarget, boolean outputFileAppend,
-			String outputFieldSeparator, int outputWriteEvery) throws Exception{
+			String outputFieldSeparator, int outputWriteEvery) throws Exception {
 		File codePath = new File(rsDirectory);
-		if(codePath.exists()){
+		if(codePath.exists()) {
 			BatchScenarioLoader loader = new BatchScenarioLoader(codePath);
 			ControllerRegistry registry = loader.load(this.runEnvironmentBuilder);
 			this.controller.setControllerRegistry(registry);
-		}else{
+		} else {
 			msgCenter.error("RS directory not found", new IllegalArgumentException(
 					"Invalid RS directory " + codePath.getAbsolutePath()));
 			return;
@@ -83,61 +83,61 @@ public class IntERSRunner extends AbstractRunner{
 	}
 	
 	
-	public void runInitialize(){
+	public void runInitialize() {
 		this.controller.runInitialize(this.params);
 		this.schedule = RunState.getInstance().getScheduleRegistry()
 				.getModelSchedule();
 	}
 	
 	
-	public void cleanUpRun(){
+	public void cleanUpRun() {
 		this.controller.runCleanup();
 	}
 	
 	
-	public void cleanUpBatch(){
+	public void cleanUpBatch() {
 		this.controller.batchCleanup();
 	}
 	
 	
 	// returns the tick count of the next scheduled item
-	public double getNextScheduledTime(){
+	public double getNextScheduledTime() {
 		return ((Schedule) RunEnvironment.getInstance().getCurrentSchedule())
 				.peekNextAction().getNextTime();
 	}
 	
 	
 	// returns the number of model actions on the schedule
-	public int getModelActionCount(){
+	public int getModelActionCount() {
 		return this.schedule.getModelActionCount();
 	}
 	
 	
 	// returns the number of non-model actions on the schedule
-	public int getActionCount(){
+	public int getActionCount() {
 		return this.schedule.getActionCount();
 	}
 	
 	
 	// Step the schedule
-	public void step(){
+	public void step() {
 		this.schedule.execute();
 	}
 	
 	
 	// stop the schedule
-	public void stop(){
-		if(this.schedule != null){
+	public void stop() {
+		if(this.schedule != null) {
 			this.schedule.executeEndActions();
 		}
 	}
 	
 	
-	public void setFinishing(boolean fin){
+	public void setFinishing(boolean fin) {
 		this.schedule.setFinishing(fin);
 	}
 	
 	
-	public void execute(RunState toExecuteOn){
+	public void execute(RunState toExecuteOn) {
 	}
 }
