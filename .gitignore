@@ -1,9 +1,0 @@
-/bin
-/lib
-/output
-/transferFiles
-
-*.class
-*.log
-*.o
-~*
