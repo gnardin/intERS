@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="scenario.xsd">
-	<!-- General Information -->
-	<general>
-		<stopAt><![CDATA[(#{CYCLE} == 1000)]]></stopAt>
-	</general>
-	<!-- State Information -->
-	<state>
-		<stateClass>intERS.impl.state.StateAgent</stateClass>
-		<prisonProbability>0</prisonProbability>
-		<prisonRounds>0</prisonRounds>
-	</state>
-	<!-- Targets Information -->
-	<targets>
-		<target>
-			<targetClass>intERS.impl.target.TargetAgent</targetClass>
-			<targetType>0</targetType>
-			<numberOfTargets>2000</numberOfTargets>
-			<initialTargetWealth>1000.0</initialTargetWealth>
-			<extorterPerTarget>-1</extorterPerTarget>
-			<minimumIncome>300.0</minimumIncome>
-			<maximumIncome>1200.0</maximumIncome>
-			<minimumIncomeVariation>100</minimumIncomeVariation>
-			<maximumIncomeVariation>100</maximumIncomeVariation>
-			<availableExtortionIncome>100</availableExtortionIncome>
-			<memoryLength>-1</memoryLength>
-			<unknownProtectionProb>0.5</unknownProtectionProb>
-			<unknownPunishmentProb>0.5</unknownPunishmentProb>
-		</target>
-	</targets>
-	<!-- Extorters Information -->
-	<extorters>
-		<targetPerExtorter><![CDATA[ceil(#{TARGETS} / #{EXTORTERS})]]></targetPerExtorter>
-		<extorter>
-			<extorterClass>intERS.impl.extorter.noCompetitionNoProtection.ExtorterAgent</extorterClass>
-			<extorterType>0</extorterType>
-			<enlargementProbability>10</enlargementProbability>
-			<numberOfExtorters>20</numberOfExtorters>
-			<initialExtorterWealth>0.0</initialExtorterWealth>
-			<impulseProtection>0</impulseProtection>
-			<impulseFightProtection>100</impulseFightProtection>
-			<impulseRetaliation>0</impulseRetaliation>
-			<impulseFightRetaliation>100</impulseFightRetaliation>
-			<costOfFightProtection>3</costOfFightProtection>
-			<costOfFightRetaliation>3</costOfFightRetaliation>
-			<costOfPunish>33.33</costOfPunish>
-			<enableExtortersCfg>true</enableExtortersCfg>
-			<extortersCfgFilename>extorters.cfg</extortersCfgFilename>
-			<minimumExtort>10</minimumExtort>
-			<maximumExtort>100</maximumExtort>
-			<stepExtort>10</stepExtort>
-			<minimumPunish>10</minimumPunish>
-			<maximumPunish>100</maximumPunish>
-			<stepPunish>10</stepPunish>
-			<updateAtEnd>false</updateAtEnd>
-		</extorter>
-	</extorters>
+  xsi:noNamespaceSchemaLocation="scenario.xsd">
+  <!-- General Information -->
+  <general>
+    <stopAt><![CDATA[(#{CYCLE} == 1000)]]></stopAt>
+  </general>
+  <!-- State Information -->
+  <state>
+    <stateClass>intERS.impl.state.StateAgent</stateClass>
+    <prisonProbability>0</prisonProbability>
+    <prisonRounds>0</prisonRounds>
+  </state>
+  <!-- Targets Information -->
+  <targets>
+    <target>
+      <targetClass>intERS.impl.target.TargetAgent</targetClass>
+      <targetType>0</targetType>
+      <numberOfTargets>2000</numberOfTargets>
+      <initialTargetWealth>1000.0</initialTargetWealth>
+      <extorterPerTarget>-1</extorterPerTarget>
+      <minimumIncome>300.0</minimumIncome>
+      <maximumIncome>1200.0</maximumIncome>
+      <minimumIncomeVariation>100</minimumIncomeVariation>
+      <maximumIncomeVariation>100</maximumIncomeVariation>
+      <availableExtortionIncome>100</availableExtortionIncome>
+      <memoryLength>-1</memoryLength>
+      <unknownProtectionProb>0.5</unknownProtectionProb>
+      <unknownPunishmentProb>0.5</unknownPunishmentProb>
+    </target>
+  </targets>
+  <!-- Extorters Information -->
+  <extorters>
+    <targetPerExtorter><![CDATA[ceil(#{TARGETS} / #{EXTORTERS})]]></targetPerExtorter>
+    <extorter>
+      <extorterClass>intERS.impl.extorter.noCompetitionNoProtection.ExtorterAgent</extorterClass>
+      <extorterType>0</extorterType>
+      <enlargementProbability>10</enlargementProbability>
+      <numberOfExtorters>20</numberOfExtorters>
+      <initialExtorterWealth>0.0</initialExtorterWealth>
+      <impulseProtection>0</impulseProtection>
+      <impulseFightProtection>100</impulseFightProtection>
+      <impulseRetaliation>0</impulseRetaliation>
+      <impulseFightRetaliation>100</impulseFightRetaliation>
+      <costOfFightProtection>3</costOfFightProtection>
+      <costOfFightRetaliation>3</costOfFightRetaliation>
+      <costOfPunish>33.33</costOfPunish>
+      <enableExtortersCfg>true</enableExtortersCfg>
+      <extortersCfgFilename>extorters.cfg</extortersCfgFilename>
+      <minimumExtort>10</minimumExtort>
+      <maximumExtort>100</maximumExtort>
+      <stepExtort>10</stepExtort>
+      <minimumPunish>10</minimumPunish>
+      <maximumPunish>100</maximumPunish>
+      <stepPunish>10</stepPunish>
+      <updateAtEnd>false</updateAtEnd>
+    </extorter>
+  </extorters>
 </scenario>

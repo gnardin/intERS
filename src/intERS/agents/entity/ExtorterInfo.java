@@ -5,7 +5,6 @@ import java.util.Queue;
 
 public class ExtorterInfo {
   
-  
   // Constants
   private static final Integer UNLIMITED = -1;
   
@@ -29,8 +28,7 @@ public class ExtorterInfo {
   private double               unknownPunishmentProb;
   
   
-  public ExtorterInfo(int memLength, double unknownProtectionProb,
-      double unknownPunishmentProb) {
+  public ExtorterInfo( int memLength, double unknownProtectionProb, double unknownPunishmentProb ) {
     this.memLength = memLength;
     this.unknownProtectionProb = unknownProtectionProb;
     this.unknownPunishmentProb = unknownPunishmentProb;
@@ -51,7 +49,7 @@ public class ExtorterInfo {
   
   
   public void
-      setNumRequestedProtectionAgainst(int numRequestedProtectionAgainst) {
+      setNumRequestedProtectionAgainst( int numRequestedProtectionAgainst ) {
     this.numRequestedProtectionAgainst = numRequestedProtectionAgainst;
   }
   
@@ -62,7 +60,7 @@ public class ExtorterInfo {
   
   
   public void
-      setNumReceivedProtectionAgainst(int numReceivedProtectionAgainst) {
+      setNumReceivedProtectionAgainst( int numReceivedProtectionAgainst ) {
     this.numReceivedProtectionAgainst = numReceivedProtectionAgainst;
   }
   
@@ -70,17 +68,17 @@ public class ExtorterInfo {
   public void updateSuccessfulProtectionProb() {
     double successfulProtectionProb;
     
-    if((this.numRequestedProtectionAgainst > 0)
-        && ((this.memLength > 0) || (this.memLength == UNLIMITED))) {
-      if((this.memLength > 0)
-          && (this.successfulProtection.size() >= this.memLength)) {
+    if ( (this.numRequestedProtectionAgainst > 0)
+        && ((this.memLength > 0) || (this.memLength == UNLIMITED)) ) {
+      if ( (this.memLength > 0)
+          && (this.successfulProtection.size() >= this.memLength) ) {
         this.successfulProtection.poll();
       }
       
       successfulProtectionProb = (double) numReceivedProtectionAgainst
           / (double) this.numRequestedProtectionAgainst;
       
-      this.successfulProtection.add(successfulProtectionProb);
+      this.successfulProtection.add( successfulProtectionProb );
     }
     
     this.numRequestedProtectionAgainst = 0;
@@ -97,9 +95,9 @@ public class ExtorterInfo {
   public double getSuccessfulProtectionProb() {
     double successfulProtectionProb;
     
-    if(this.successfulProtection.size() > 0) {
+    if ( this.successfulProtection.size() > 0 ) {
       successfulProtectionProb = 0;
-      for(Double prob : this.successfulProtection) {
+      for ( Double prob : this.successfulProtection ) {
         successfulProtectionProb += prob;
       }
       
@@ -120,7 +118,7 @@ public class ExtorterInfo {
    * @return True if has successful protection probability, false otherwise
    */
   public boolean hasSuccessfulProtectionProb() {
-    if(this.successfulProtection.size() > 0) {
+    if ( this.successfulProtection.size() > 0 ) {
       return true;
     } else {
       return false;
@@ -128,12 +126,12 @@ public class ExtorterInfo {
   }
   
   
-  public void setNotPaidExtortion(boolean notPaidExtortion) {
+  public void setNotPaidExtortion( boolean notPaidExtortion ) {
     this.notPaidExtortion = notPaidExtortion;
   }
   
   
-  public void setReceivedPunishment(boolean receivedPunishment) {
+  public void setReceivedPunishment( boolean receivedPunishment ) {
     this.receivedPunishment = receivedPunishment;
   }
   
@@ -145,16 +143,17 @@ public class ExtorterInfo {
    * @return none
    */
   public void updatePunishmentProb() {
-    if((this.notPaidExtortion)
-        && ((this.memLength > 0) || (this.memLength == UNLIMITED))) {
-      if((this.memLength > 0) && (this.punishments.size() >= this.memLength)) {
+    if ( (this.notPaidExtortion)
+        && ((this.memLength > 0) || (this.memLength == UNLIMITED)) ) {
+      if ( (this.memLength > 0)
+          && (this.punishments.size() >= this.memLength) ) {
         this.punishments.poll();
       }
       
-      if(this.receivedPunishment) {
-        this.punishments.add(new Integer(1));
+      if ( this.receivedPunishment ) {
+        this.punishments.add( new Integer( 1 ) );
       } else {
-        this.punishments.add(new Integer(0));
+        this.punishments.add( new Integer( 0 ) );
       }
     }
     
@@ -172,9 +171,9 @@ public class ExtorterInfo {
   public double getPunishmentProb() {
     double punishmentProb;
     
-    if(this.punishments.size() > 0) {
+    if ( this.punishments.size() > 0 ) {
       punishmentProb = 0;
-      for(Integer prob : this.punishments) {
+      for ( Integer prob : this.punishments ) {
         punishmentProb += prob;
       }
       
@@ -195,7 +194,7 @@ public class ExtorterInfo {
    * @return True if has punishment probability, false otherwise
    */
   public boolean hasPunishmentProb() {
-    if(this.punishments.size() > 0) {
+    if ( this.punishments.size() > 0 ) {
       return true;
     } else {
       return false;

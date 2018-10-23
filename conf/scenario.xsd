@@ -1,233 +1,235 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema">
 
-	<element name="scenario">
-		<complexType>
-			<sequence>
-				<element name="general" maxOccurs="1">
-					<complexType>
-						<sequence>
-							<!-- #{CYCLE} - Number of cycles -->
-							<!-- #{EXTORTERS} - Number of Extorters -->
-							<!-- #{EXTORTER_TYPES} - Number of Extorter Types -->
-							<!-- #{TARGETS} - Number of Targets -->
-							<!-- #{TARGET_TYPES} - Number of Target Types -->
-							<!-- Example: ((#{EXTORTERS} == 1) || (#{TARGETS} == 0)) && (#{CYCLE} 
-								> 1000) -->
-							<element name="stopAt" type="string" />
-						</sequence>
-					</complexType>
-				</element>
-				<element name="state" maxOccurs="1">
-					<complexType>
-						<sequence>
-							<element name="stateClass" type="string" />
-							<element name="prisonProbability" type="decimal" />
-							<element name="prisonRounds" type="nonNegativeInteger" />
-						</sequence>
-					</complexType>
-				</element>
-				<element name="targets" maxOccurs="1">
-					<complexType>
-						<sequence>
-							<!-- Definition of Targets type -->
-							<element name="target" maxOccurs="unbounded">
-								<complexType>
-									<sequence>
-										<!-- Java Class representing the Target's logic -->
-										<element name="targetClass" type="string" />
-										<!-- Target's type identifier -->
-										<element name="targetType" type="string" />
-										<!-- Number of Targets of this type -->
-										<element name="numberOfTargets" type="positiveInteger" />
-										<!-- Initial Target's wealth -->
-										<element name="initialTargetWealth" type="decimal" />
-										<!-- Lesser than 0 or 0 - Unlimited number of Extorters per Target -->
-										<!-- Greater than 0 - Limited number of Extorters per Target -->
-										<element name="extorterPerTarget" type="integer" />
-										<!-- Range (Min. and Max) of possible income values assigned to 
-											the Targets -->
-										<element name="minimumIncome" type="decimal" />
-										<element name="maximumIncome" type="decimal" />
-										<!-- Range to vary the income for publishing -->
-										<element name="minimumIncomeVariation">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<element name="maximumIncomeVariation">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Percentage of income available for paying extortion -->
-										<element name="availableExtortionIncome">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Lesser than -1 - Unlimited memory -->
-										<!-- 0 - Disabled memory -->
-										<!-- Greater than 0 - Limited memory -->
-										<element name="memoryLength" type="integer" />
-										<!-- Unknown Successful Protection Probability -->
-										<element name="unknownProtectionProb" type="decimal" />
-										<!-- Unknown Punishment Probability -->
-										<element name="unknownPunishmentProb" type="decimal" />
-									</sequence>
-								</complexType>
-							</element>
-						</sequence>
-					</complexType>
-				</element>
-				<element name="extorters" maxOccurs="1">
-					<complexType>
-						<sequence>
-							<!-- Parameters that may compose the formula -->
-							<!-- #{TARGETS} - Total number of Targets -->
-							<!-- #{EXTORTERS} - Total number of Extorters -->
-							<element name="targetPerExtorter" type="string" />
-							<!-- Extorters definition -->
-							<element name="extorter" maxOccurs="unbounded">
-								<complexType>
-									<sequence>
-										<!-- Java class representing the Extorter's logic -->
-										<element name="extorterClass" type="string" />
-										<!-- Extorter's type identifier -->
-										<element name="extorterType" type="string" />
-										<!-- Probability to enlarge the domain by 1 Target at each round -->
-										<!-- Parameters that may compose the formula -->
-										<!-- #{TARGETS} - Number of Current Targets -->
-										<element name="enlargementProbability" type="string" />
-										<!-- Number of Extorrters of this type -->
-										<element name="numberOfExtorters" type="positiveInteger" />
-										<!-- Initial wealth -->
-										<element name="initialExtorterWealth" type="decimal" />
-										<!-- Impulse of protect without evaluate opponent -->
-										<element name="impulseProtection">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Impulse of fight without evaluate opponent -->
-										<element name="impulseFightProtection">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Impulse of retaliation without evaluate opponent -->
-										<element name="impulseRetaliation">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Impulse for fighting in retaliation without evaluate opponent -->
-										<element name="impulseFightRetaliation">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Cost of fighting per protection (percentage) -->
-										<element name="costOfFightProtection">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Cost of fight per retaliation (percentage) -->
-										<element name="costOfFightRetaliation">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Cost of punishing a Target -->
-										<element name="costOfPunish">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Extorters' extortion and punishment values -->
-										<element name="enableExtortersCfg" type="boolean" />
-										<element name="extortersCfgFilename" type="string" />
-										<!-- Minimum extortion percentage value -->
-										<element name="minimumExtort">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Maximum extortion percentage value -->
-										<element name="maximumExtort">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Possible steps of values from minimum to maximum extortion -->
-										<element name="stepExtort" type="decimal" />
-										<!-- Minimum punishment percentage value -->
-										<element name="minimumPunish">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Maximum punishment percentage value -->
-										<element name="maximumPunish">
-											<simpleType>
-												<restriction base="decimal">
-													<minInclusive value="0.0" />
-													<maxInclusive value="100.0" />
-												</restriction>
-											</simpleType>
-										</element>
-										<!-- Possible steps of values from minimum to maximum punishment -->
-										<element name="stepPunish" type="decimal" />
-										<!-- Flag indicating whether the extortion should be add to the 
-											Extorter's wealth only at the end of the cycle -->
-										<!-- true - added at the end -->
-										<!-- false - added as soon as the Target pays -->
-										<element name="updateAtEnd" type="boolean" />
-									</sequence>
-								</complexType>
-							</element>
-						</sequence>
-					</complexType>
-				</element>
-			</sequence>
-		</complexType>
-	</element>
+  <element name="scenario">
+    <complexType>
+      <sequence>
+        <element name="general" maxOccurs="1">
+          <complexType>
+            <sequence>
+              <!-- #{CYCLE} - Number of cycles -->
+              <!-- #{EXTORTERS} - Number of Extorters -->
+              <!-- #{EXTORTER_TYPES} - Number of Extorter Types -->
+              <!-- #{TARGETS} - Number of Targets -->
+              <!-- #{TARGET_TYPES} - Number of Target Types -->
+              <!-- Example: ((#{EXTORTERS} == 1) || (#{TARGETS} == 0)) && (#{CYCLE} 
+                > 1000) -->
+              <element name="stopAt" type="string" />
+            </sequence>
+          </complexType>
+        </element>
+        <element name="state" maxOccurs="1">
+          <complexType>
+            <sequence>
+              <element name="stateClass" type="string" />
+              <element name="prisonProbability" type="decimal" />
+              <element name="prisonRounds" type="nonNegativeInteger" />
+            </sequence>
+          </complexType>
+        </element>
+        <element name="targets" maxOccurs="1">
+          <complexType>
+            <sequence>
+              <!-- Definition of Targets type -->
+              <element name="target" maxOccurs="unbounded">
+                <complexType>
+                  <sequence>
+                    <!-- Java Class representing the Target's logic -->
+                    <element name="targetClass" type="string" />
+                    <!-- Target's type identifier -->
+                    <element name="targetType" type="string" />
+                    <!-- Number of Targets of this type -->
+                    <element name="numberOfTargets"
+                      type="positiveInteger" />
+                    <!-- Initial Target's wealth -->
+                    <element name="initialTargetWealth" type="decimal" />
+                    <!-- Lesser than 0 or 0 - Unlimited number of Extorters per Target -->
+                    <!-- Greater than 0 - Limited number of Extorters per Target -->
+                    <element name="extorterPerTarget" type="integer" />
+                    <!-- Range (Min. and Max) of possible income values assigned 
+                      to the Targets -->
+                    <element name="minimumIncome" type="decimal" />
+                    <element name="maximumIncome" type="decimal" />
+                    <!-- Range to vary the income for publishing -->
+                    <element name="minimumIncomeVariation">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <element name="maximumIncomeVariation">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Percentage of income available for paying extortion -->
+                    <element name="availableExtortionIncome">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Lesser than -1 - Unlimited memory -->
+                    <!-- 0 - Disabled memory -->
+                    <!-- Greater than 0 - Limited memory -->
+                    <element name="memoryLength" type="integer" />
+                    <!-- Unknown Successful Protection Probability -->
+                    <element name="unknownProtectionProb" type="decimal" />
+                    <!-- Unknown Punishment Probability -->
+                    <element name="unknownPunishmentProb" type="decimal" />
+                  </sequence>
+                </complexType>
+              </element>
+            </sequence>
+          </complexType>
+        </element>
+        <element name="extorters" maxOccurs="1">
+          <complexType>
+            <sequence>
+              <!-- Parameters that may compose the formula -->
+              <!-- #{TARGETS} - Total number of Targets -->
+              <!-- #{EXTORTERS} - Total number of Extorters -->
+              <element name="targetPerExtorter" type="string" />
+              <!-- Extorters definition -->
+              <element name="extorter" maxOccurs="unbounded">
+                <complexType>
+                  <sequence>
+                    <!-- Java class representing the Extorter's logic -->
+                    <element name="extorterClass" type="string" />
+                    <!-- Extorter's type identifier -->
+                    <element name="extorterType" type="string" />
+                    <!-- Probability to enlarge the domain by 1 Target at each round -->
+                    <!-- Parameters that may compose the formula -->
+                    <!-- #{TARGETS} - Number of Current Targets -->
+                    <element name="enlargementProbability" type="string" />
+                    <!-- Number of Extorrters of this type -->
+                    <element name="numberOfExtorters"
+                      type="positiveInteger" />
+                    <!-- Initial wealth -->
+                    <element name="initialExtorterWealth" type="decimal" />
+                    <!-- Impulse of protect without evaluate opponent -->
+                    <element name="impulseProtection">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Impulse of fight without evaluate opponent -->
+                    <element name="impulseFightProtection">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Impulse of retaliation without evaluate opponent -->
+                    <element name="impulseRetaliation">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Impulse for fighting in retaliation without evaluate opponent -->
+                    <element name="impulseFightRetaliation">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Cost of fighting per protection (percentage) -->
+                    <element name="costOfFightProtection">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Cost of fight per retaliation (percentage) -->
+                    <element name="costOfFightRetaliation">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Cost of punishing a Target -->
+                    <element name="costOfPunish">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Extorters' extortion and punishment values -->
+                    <element name="enableExtortersCfg" type="boolean" />
+                    <element name="extortersCfgFilename" type="string" />
+                    <!-- Minimum extortion percentage value -->
+                    <element name="minimumExtort">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Maximum extortion percentage value -->
+                    <element name="maximumExtort">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Possible steps of values from minimum to maximum extortion -->
+                    <element name="stepExtort" type="decimal" />
+                    <!-- Minimum punishment percentage value -->
+                    <element name="minimumPunish">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Maximum punishment percentage value -->
+                    <element name="maximumPunish">
+                      <simpleType>
+                        <restriction base="decimal">
+                          <minInclusive value="0.0" />
+                          <maxInclusive value="100.0" />
+                        </restriction>
+                      </simpleType>
+                    </element>
+                    <!-- Possible steps of values from minimum to maximum punishment -->
+                    <element name="stepPunish" type="decimal" />
+                    <!-- Flag indicating whether the extortion should be add to the 
+                      Extorter's wealth only at the end of the cycle -->
+                    <!-- true - added at the end -->
+                    <!-- false - added as soon as the Target pays -->
+                    <element name="updateAtEnd" type="boolean" />
+                  </sequence>
+                </complexType>
+              </element>
+            </sequence>
+          </complexType>
+        </element>
+      </sequence>
+    </complexType>
+  </element>
 </schema>

@@ -2,7 +2,6 @@ package intERS.conf.scenario;
 
 public class StateConf {
   
-  
   private String stateClass;
   
   // Prison information
@@ -16,7 +15,7 @@ public class StateConf {
   }
   
   
-  public void setStateClass(String stateClass) {
+  public void setStateClass( String stateClass ) {
     this.stateClass = stateClass;
   }
   
@@ -26,7 +25,7 @@ public class StateConf {
   }
   
   
-  public void setPrisonProbability(double prisonProbability) {
+  public void setPrisonProbability( double prisonProbability ) {
     this.prisonProbability = prisonProbability;
   }
   
@@ -36,7 +35,7 @@ public class StateConf {
   }
   
   
-  public void setPrisonRounds(int prisonRounds) {
+  public void setPrisonRounds( int prisonRounds ) {
     this.prisonRounds = prisonRounds;
   }
   

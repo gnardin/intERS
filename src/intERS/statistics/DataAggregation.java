@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationTargetException;
 
 public class DataAggregation {
   
-  
   private int    numSims;
   
   private String baseDirectory;
@@ -14,8 +13,7 @@ public class DataAggregation {
   private String outputFieldSeparator;
   
   
-  public DataAggregation(int numSims, String baseDirectory,
-      String outputFieldSeparator) {
+  public DataAggregation( int numSims, String baseDirectory, String outputFieldSeparator ) {
     this.numSims = numSims;
     this.baseDirectory = baseDirectory;
     this.outputFieldSeparator = outputFieldSeparator;
@@ -35,40 +33,40 @@ public class DataAggregation {
    * @param sumFilename
    *          Output filename containing the sum values
    */
-  public void aggregate(String classStat, String rawFile, String avgFilename,
-      String sumFilename) {
+  public void aggregate( String classStat, String rawFile, String avgFilename,
+      String sumFilename ) {
     
     try {
-      @SuppressWarnings("unchecked")
+      @SuppressWarnings ( "unchecked" )
       Class<DataSummaryInterface> ds = (Class<DataSummaryInterface>) Class
-          .forName(classStat);
+          .forName( classStat );
       Constructor<DataSummaryInterface> dataSummary = ds
           .getDeclaredConstructor();
       
       DataSummaryInterface summary = dataSummary.newInstance();
       
       String filename;
-      for(int sim = 0; sim < this.numSims; sim++) {
+      for ( int sim = 0; sim < this.numSims; sim++ ) {
         filename = this.baseDirectory + File.separator + (sim + 1)
             + File.separator + rawFile;
         
-        summary.add(filename, this.outputFieldSeparator);
+        summary.add( filename, this.outputFieldSeparator );
       }
       
-      summary.writeAvg(this.baseDirectory + File.separator + avgFilename,
-          this.outputFieldSeparator);
-      summary.writeSum(this.baseDirectory + File.separator + sumFilename,
-          this.outputFieldSeparator);
+      summary.writeAvg( this.baseDirectory + File.separator + avgFilename,
+          this.outputFieldSeparator );
+      summary.writeSum( this.baseDirectory + File.separator + sumFilename,
+          this.outputFieldSeparator );
       
-    } catch(ClassNotFoundException e) {
+    } catch ( ClassNotFoundException e ) {
       e.printStackTrace();
-    } catch(NoSuchMethodException e) {
+    } catch ( NoSuchMethodException e ) {
       e.printStackTrace();
-    } catch(InvocationTargetException e) {
+    } catch ( InvocationTargetException e ) {
       e.printStackTrace();
-    } catch(IllegalAccessException e) {
+    } catch ( IllegalAccessException e ) {
       e.printStackTrace();
-    } catch(InstantiationException e) {
+    } catch ( InstantiationException e ) {
       e.printStackTrace();
     }
   }

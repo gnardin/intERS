@@ -6,28 +6,27 @@ import intERS.utils.XML;
 
 public class IntERS {
   
-  
-  public static void main(String[] args) throws Exception {
+  public static void main( String[] args ) throws Exception {
     
     // Validate the Arguments and Simulation XML file
-    if(args.length < 2) {
-      System.out.println("Invalid Arguments");
-      System.exit(1);
-    } else if(!XML.isValid(args[0], args[1])) {
-      System.out.println("Invalid XML");
-      System.exit(1);
+    if ( args.length < 2 ) {
+      System.out.println( "Invalid Arguments" );
+      System.exit( 1 );
+    } else if ( !XML.isValid( args[0], args[1] ) ) {
+      System.out.println( "Invalid XML" );
+      System.exit( 1 );
     }
-    SimulationConf simulation = SimulationConf.simulationParser(args[0]);
+    SimulationConf simulation = SimulationConf.simulationParser( args[0] );
     
     IntERSRunner runner = new IntERSRunner();
     
     int randomSeed;
     // Runs the simulation
-    for(int sim = 0; sim < simulation.getNumberRuns(); sim++) {
+    for ( int sim = 0; sim < simulation.getNumberRuns(); sim++ ) {
       
-      randomSeed = simulation.getSeed(sim);
+      randomSeed = simulation.getSeed( sim );
       
-      runner.load((sim + 1), randomSeed, simulation.getRSDirectory(),
+      runner.load( (sim + 1), randomSeed, simulation.getRSDirectory(),
           simulation.getXMLFilename(), simulation.getXSDFilename(),
           simulation.getOutput().getDirectory(),
           simulation.getOutput().getFileExtorter(),
@@ -35,13 +34,13 @@ public class IntERS {
           simulation.getOutput().getFileTarget(),
           simulation.getOutput().getFileAppend(),
           simulation.getOutput().getFieldSeparator(),
-          simulation.getOutput().getWriteEvery());
+          simulation.getOutput().getWriteEvery() );
       
       runner.runInitialize();
       
-      while((runner.go()) && (runner.getModelActionCount() > 0)) {
-        if(runner.getModelActionCount() == 0) {
-          runner.setFinishing(true);
+      while ( (runner.go()) && (runner.getModelActionCount() > 0) ) {
+        if ( runner.getModelActionCount() == 0 ) {
+          runner.setFinishing( true );
         }
         runner.step();
       }
@@ -52,29 +51,29 @@ public class IntERS {
     runner.cleanUpBatch();
     
     // Data aggregation
-    DataAggregation summary = new DataAggregation(simulation.getNumberRuns(),
+    DataAggregation summary = new DataAggregation( simulation.getNumberRuns(),
         simulation.getOutput().getDirectory(),
-        simulation.getOutput().getFieldSeparator());
+        simulation.getOutput().getFieldSeparator() );
     
-    summary.aggregate(simulation.getOutput().getClassExtorterStat(),
+    summary.aggregate( simulation.getOutput().getClassExtorterStat(),
         simulation.getOutput().getFileExtorter(),
         simulation.getOutput().getFilePrefixAvg()
             + simulation.getOutput().getFileExtorter(),
         simulation.getOutput().getFilePrefixSum()
-            + simulation.getOutput().getFileExtorter());
+            + simulation.getOutput().getFileExtorter() );
     
-    summary.aggregate(simulation.getOutput().getClassObserverStat(),
+    summary.aggregate( simulation.getOutput().getClassObserverStat(),
         simulation.getOutput().getFileObserver(),
         simulation.getOutput().getFilePrefixAvg()
             + simulation.getOutput().getFileObserver(),
         simulation.getOutput().getFilePrefixSum()
-            + simulation.getOutput().getFileObserver());
+            + simulation.getOutput().getFileObserver() );
     
-    summary.aggregate(simulation.getOutput().getClassTargetStat(),
+    summary.aggregate( simulation.getOutput().getClassTargetStat(),
         simulation.getOutput().getFileTarget(),
         simulation.getOutput().getFilePrefixAvg()
             + simulation.getOutput().getFileTarget(),
         simulation.getOutput().getFilePrefixSum()
-            + simulation.getOutput().getFileTarget());
+            + simulation.getOutput().getFileTarget() );
   }
 }

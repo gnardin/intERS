@@ -2,7 +2,6 @@ package intERS.agents.entity;
 
 public class Demand {
   
-  
   // Extortion value
   private double extortion;
   
@@ -19,7 +18,7 @@ public class Demand {
    *          Punishment value
    * @return none
    */
-  public Demand(double extortion, double punishment) {
+  public Demand( double extortion, double punishment ) {
     this.extortion = extortion;
     this.punishment = punishment;
   }

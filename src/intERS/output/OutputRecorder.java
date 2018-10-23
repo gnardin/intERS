@@ -12,7 +12,6 @@ import java.util.TreeMap;
 
 public class OutputRecorder {
   
-  
   private static volatile OutputRecorder     instance = null;
   
   private BufferedWriter                     fExtorter;
@@ -43,33 +42,33 @@ public class OutputRecorder {
   }
   
   
-  public void setOutput(OutputConf output) {
+  public void setOutput( OutputConf output ) {
     this.output = output;
     
     this.firstExtorter = true;
     this.firstObserver = true;
     this.firstTarget = true;
     
-    File directory = new File(this.output.getDirectory());
+    File directory = new File( this.output.getDirectory() );
     directory.mkdirs();
     
     try {
-      this.fExtorter = new BufferedWriter(
-          new FileWriter(
-              new File(this.output.getDirectory() + File.separator
-                  + this.output.getFileExtorter()),
-              this.output.getFileAppend()));
+      this.fExtorter = new BufferedWriter( new FileWriter(
+          new File( this.output.getDirectory() + File.separator
+              + this.output.getFileExtorter() ),
+          this.output.getFileAppend() ) );
       
-      this.fObserver = new BufferedWriter(
-          new FileWriter(
-              new File(this.output.getDirectory() + File.separator
-                  + this.output.getFileObserver()),
-              this.output.getFileAppend()));
+      this.fObserver = new BufferedWriter( new FileWriter(
+          new File( this.output.getDirectory() + File.separator
+              + this.output.getFileObserver() ),
+          this.output.getFileAppend() ) );
       
       this.fTarget = new BufferedWriter(
-          new FileWriter(new File(this.output.getDirectory() + File.separator
-              + this.output.getFileTarget()), this.output.getFileAppend()));
-    } catch(IOException e) {
+          new FileWriter(
+              new File( this.output.getDirectory() + File.separator
+                  + this.output.getFileTarget() ),
+              this.output.getFileAppend() ) );
+    } catch ( IOException e ) {
       e.printStackTrace();
     }
   }
@@ -82,9 +81,9 @@ public class OutputRecorder {
    * @return OutputRecorder instance
    */
   public static OutputRecorder getInstance() {
-    if(instance == null) {
-      synchronized(OutputRecorder.class) {
-        if(instance == null) {
+    if ( instance == null ) {
+      synchronized ( OutputRecorder.class ) {
+        if ( instance == null ) {
           instance = new OutputRecorder();
         }
       }
@@ -100,15 +99,15 @@ public class OutputRecorder {
    *          Record output
    * @return none
    */
-  public synchronized void addRecord(OutputAbstract record) {
-    List<OutputAbstract> outputs = this.records.get(record.getCycle());
+  public synchronized void addRecord( OutputAbstract record ) {
+    List<OutputAbstract> outputs = this.records.get( record.getCycle() );
     
-    if(outputs == null) {
+    if ( outputs == null ) {
       outputs = new ArrayList<OutputAbstract>();
     }
     
-    outputs.add(record);
-    this.records.put(record.getCycle(), outputs);
+    outputs.add( record );
+    this.records.put( record.getCycle(), outputs );
   }
   
   
@@ -121,45 +120,45 @@ public class OutputRecorder {
   public synchronized void write() throws IOException {
     
     List<OutputAbstract> outputs;
-    for(Integer cycle : this.records.keySet()) {
-      outputs = this.records.get(cycle);
+    for ( Integer cycle : this.records.keySet() ) {
+      outputs = this.records.get( cycle );
       
-      for(OutputAbstract record : outputs) {
+      for ( OutputAbstract record : outputs ) {
         
-        if(record instanceof OutputExtorter) {
-          if(this.firstExtorter) {
-            this.fExtorter.write("cycle" + this.output.getFieldSeparator()
-                + record.getHeader(this.output.getFieldSeparator()));
+        if ( record instanceof OutputExtorter ) {
+          if ( this.firstExtorter ) {
+            this.fExtorter.write( "cycle" + this.output.getFieldSeparator()
+                + record.getHeader( this.output.getFieldSeparator() ) );
             this.fExtorter.newLine();
             this.firstExtorter = false;
           }
           
-          this.fExtorter.write(cycle + this.output.getFieldSeparator()
-              + record.getLine(this.output.getFieldSeparator()));
+          this.fExtorter.write( cycle + this.output.getFieldSeparator()
+              + record.getLine( this.output.getFieldSeparator() ) );
           this.fExtorter.newLine();
           
-        } else if(record instanceof OutputObserver) {
-          if(this.firstObserver) {
-            this.fObserver.write("cycle" + this.output.getFieldSeparator()
-                + record.getHeader(this.output.getFieldSeparator()));
+        } else if ( record instanceof OutputObserver ) {
+          if ( this.firstObserver ) {
+            this.fObserver.write( "cycle" + this.output.getFieldSeparator()
+                + record.getHeader( this.output.getFieldSeparator() ) );
             this.fObserver.newLine();
             this.firstObserver = false;
           }
           
-          this.fObserver.write(cycle + this.output.getFieldSeparator()
-              + record.getLine(this.output.getFieldSeparator()));
+          this.fObserver.write( cycle + this.output.getFieldSeparator()
+              + record.getLine( this.output.getFieldSeparator() ) );
           this.fObserver.newLine();
           
-        } else if(record instanceof OutputTarget) {
-          if(this.firstTarget) {
-            this.fTarget.write("cycle" + this.output.getFieldSeparator()
-                + record.getHeader(this.output.getFieldSeparator()));
+        } else if ( record instanceof OutputTarget ) {
+          if ( this.firstTarget ) {
+            this.fTarget.write( "cycle" + this.output.getFieldSeparator()
+                + record.getHeader( this.output.getFieldSeparator() ) );
             this.fTarget.newLine();
             this.firstTarget = false;
           }
           
-          this.fTarget.write(cycle + this.output.getFieldSeparator()
-              + record.getLine(this.output.getFieldSeparator()));
+          this.fTarget.write( cycle + this.output.getFieldSeparator()
+              + record.getLine( this.output.getFieldSeparator() ) );
           this.fTarget.newLine();
         }
       }

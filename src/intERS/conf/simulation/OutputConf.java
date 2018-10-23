@@ -2,7 +2,6 @@ package intERS.conf.simulation;
 
 public class OutputConf {
   
-  
   private String  directory;
   
   private String  fileExtorter;
@@ -33,7 +32,7 @@ public class OutputConf {
   }
   
   
-  public void setDirectory(String directory) {
+  public void setDirectory( String directory ) {
     this.directory = directory;
   }
   
@@ -43,7 +42,7 @@ public class OutputConf {
   }
   
   
-  public void setFileExtorter(String fileExtorter) {
+  public void setFileExtorter( String fileExtorter ) {
     this.fileExtorter = fileExtorter;
   }
   
@@ -53,7 +52,7 @@ public class OutputConf {
   }
   
   
-  public void setFileObserver(String fileObserver) {
+  public void setFileObserver( String fileObserver ) {
     this.fileObserver = fileObserver;
   }
   
@@ -63,7 +62,7 @@ public class OutputConf {
   }
   
   
-  public void setFileTarget(String fileTarget) {
+  public void setFileTarget( String fileTarget ) {
     this.fileTarget = fileTarget;
   }
   
@@ -73,7 +72,7 @@ public class OutputConf {
   }
   
   
-  public void setFileAppend(Boolean fileAppend) {
+  public void setFileAppend( Boolean fileAppend ) {
     this.fileAppend = fileAppend;
   }
   
@@ -83,7 +82,7 @@ public class OutputConf {
   }
   
   
-  public void setFieldSeparator(String fieldSeparator) {
+  public void setFieldSeparator( String fieldSeparator ) {
     this.fieldSeparator = fieldSeparator;
   }
   
@@ -93,7 +92,7 @@ public class OutputConf {
   }
   
   
-  public void setWriteEvery(int writeEvery) {
+  public void setWriteEvery( int writeEvery ) {
     this.writeEvery = writeEvery;
   }
   
@@ -103,7 +102,7 @@ public class OutputConf {
   }
   
   
-  public void setFilePrefixAvg(String filePrefixAvg) {
+  public void setFilePrefixAvg( String filePrefixAvg ) {
     this.filePrefixAvg = filePrefixAvg;
   }
   
@@ -113,7 +112,7 @@ public class OutputConf {
   }
   
   
-  public void setFilePrefixSum(String filePrefixSum) {
+  public void setFilePrefixSum( String filePrefixSum ) {
     this.filePrefixSum = filePrefixSum;
   }
   
@@ -123,7 +122,7 @@ public class OutputConf {
   }
   
   
-  public void setClassExtorterStat(String classExtorterStat) {
+  public void setClassExtorterStat( String classExtorterStat ) {
     this.classExtorterStat = classExtorterStat;
   }
   
@@ -133,7 +132,7 @@ public class OutputConf {
   }
   
   
-  public void setClassObserverStat(String classObserverStat) {
+  public void setClassObserverStat( String classObserverStat ) {
     this.classObserverStat = classObserverStat;
   }
   
@@ -143,7 +142,7 @@ public class OutputConf {
   }
   
   
-  public void setClassTargetStat(String classTargetStat) {
+  public void setClassTargetStat( String classTargetStat ) {
     this.classTargetStat = classTargetStat;
   }
   

@@ -2,7 +2,6 @@ package intERS.output;
 
 public class OutputTarget extends OutputAbstract {
   
-  
   private double wealth;
   
   private double income;
@@ -36,8 +35,8 @@ public class OutputTarget extends OutputAbstract {
   private double totalPunishment;
   
   
-  public OutputTarget(int cycle, String type, int id) {
-    super(AgentType.TARGET, cycle, type, id);
+  public OutputTarget( int cycle, String type, int id ) {
+    super( AgentType.TARGET, cycle, type, id );
     
     this.wealth = 0;
     this.income = 0;
@@ -59,7 +58,7 @@ public class OutputTarget extends OutputAbstract {
   
   
   @Override
-  public String getHeader(String fs) {
+  public String getHeader( String fs ) {
     String str = new String();
     
     str += "type" + fs + "id" + fs + "wealth" + fs + "income" + fs + "extorted"
@@ -75,7 +74,7 @@ public class OutputTarget extends OutputAbstract {
   
   
   @Override
-  public String getLine(String fs) {
+  public String getLine( String fs ) {
     String str = new String();
     
     str += this.type + fs + this.id + fs + this.wealth + fs + this.income + fs
@@ -96,7 +95,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setWealth(double wealth) {
+  public void setWealth( double wealth ) {
     this.wealth = wealth;
   }
   
@@ -106,7 +105,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setIncome(double income) {
+  public void setIncome( double income ) {
     this.income = income;
   }
   
@@ -116,8 +115,8 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setExtorted(boolean extorted) {
-    if(extorted) {
+  public void setExtorted( boolean extorted ) {
+    if ( extorted ) {
       this.extorted = 1;
     } else {
       this.extorted = 0;
@@ -130,7 +129,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setIncomeExtorted(double incomeExtorted) {
+  public void setIncomeExtorted( double incomeExtorted ) {
     this.incomeExtorted = incomeExtorted;
   }
   
@@ -140,7 +139,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumPaymentProtection(int numPaymentProtection) {
+  public void setNumPaymentProtection( int numPaymentProtection ) {
     this.numPaymentProtection = numPaymentProtection;
   }
   
@@ -150,7 +149,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumProtectionRequested(int numProtectionRequested) {
+  public void setNumProtectionRequested( int numProtectionRequested ) {
     this.numProtectionRequested = numProtectionRequested;
   }
   
@@ -160,7 +159,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumProtectionReceived(int numProtectionReceived) {
+  public void setNumProtectionReceived( int numProtectionReceived ) {
     this.numProtectionReceived = numProtectionReceived;
   }
   
@@ -170,7 +169,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumSuccessfulProtection(int numSuccessfulProtection) {
+  public void setNumSuccessfulProtection( int numSuccessfulProtection ) {
     this.numSuccessfulProtection = numSuccessfulProtection;
   }
   
@@ -180,7 +179,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumExtortion(int numExtortion) {
+  public void setNumExtortion( int numExtortion ) {
     this.numExtortion = numExtortion;
   }
   
@@ -190,7 +189,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setTotalExtortion(double totalExtortion) {
+  public void setTotalExtortion( double totalExtortion ) {
     this.totalExtortion = totalExtortion;
   }
   
@@ -200,7 +199,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumExtortionPaid(int numExtortionPaid) {
+  public void setNumExtortionPaid( int numExtortionPaid ) {
     this.numExtortionPaid = numExtortionPaid;
   }
   
@@ -210,7 +209,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setTotalExtortionPaid(double totalExtortionPaid) {
+  public void setTotalExtortionPaid( double totalExtortionPaid ) {
     this.totalExtortionPaid = totalExtortionPaid;
   }
   
@@ -220,7 +219,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumExtortionNotPaid(int numExtortionNotPaid) {
+  public void setNumExtortionNotPaid( int numExtortionNotPaid ) {
     this.numExtortionNotPaid = numExtortionNotPaid;
   }
   
@@ -230,7 +229,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setTotalExtortionNotPaid(double totalExtortionNotPaid) {
+  public void setTotalExtortionNotPaid( double totalExtortionNotPaid ) {
     this.totalExtortionNotPaid = totalExtortionNotPaid;
   }
   
@@ -240,7 +239,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setNumPunishment(int numPunishment) {
+  public void setNumPunishment( int numPunishment ) {
     this.numPunishment = numPunishment;
   }
   
@@ -250,7 +249,7 @@ public class OutputTarget extends OutputAbstract {
   }
   
   
-  public void setTotalPunishment(double totalPunishment) {
+  public void setTotalPunishment( double totalPunishment ) {
     this.totalPunishment = totalPunishment;
   }
 }

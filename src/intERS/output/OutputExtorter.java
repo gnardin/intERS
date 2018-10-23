@@ -2,7 +2,6 @@ package intERS.output;
 
 public class OutputExtorter extends OutputAbstract {
   
-  
   private double extortion;
   
   private double punishment;
@@ -58,9 +57,8 @@ public class OutputExtorter extends OutputAbstract {
   private int    numRenounce;
   
   
-  public OutputExtorter(int cycle, String type, int id, double extortion,
-      double punishment) {
-    super(AgentType.EXTORTER, cycle, type, id);
+  public OutputExtorter( int cycle, String type, int id, double extortion, double punishment ) {
+    super( AgentType.EXTORTER, cycle, type, id );
     
     this.extortion = extortion;
     this.punishment = punishment;
@@ -93,7 +91,7 @@ public class OutputExtorter extends OutputAbstract {
   
   
   @Override
-  public String getHeader(String fs) {
+  public String getHeader( String fs ) {
     String str = new String();
     
     str += "type" + fs + "id" + fs + "extortion" + fs + "punishment" + fs
@@ -116,7 +114,7 @@ public class OutputExtorter extends OutputAbstract {
   
   
   @Override
-  public String getLine(String fs) {
+  public String getLine( String fs ) {
     String str = new String();
     
     str += this.type + fs + this.id + fs + this.extortion + fs + this.punishment
@@ -155,7 +153,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setWealth(double wealth) {
+  public void setWealth( double wealth ) {
     this.wealth = wealth;
   }
   
@@ -165,7 +163,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumTargets(int numTargets) {
+  public void setNumTargets( int numTargets ) {
     this.numTargets = numTargets;
   }
   
@@ -175,7 +173,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumExtortionDemanded(int numExtortionDemanded) {
+  public void setNumExtortionDemanded( int numExtortionDemanded ) {
     this.numExtortionDemanded = numExtortionDemanded;
   }
   
@@ -185,7 +183,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setTotalExtortionDemanded(double totalExtortionDemanded) {
+  public void setTotalExtortionDemanded( double totalExtortionDemanded ) {
     this.totalExtortionDemanded = totalExtortionDemanded;
   }
   
@@ -195,7 +193,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumPaymentProtection(int numHelpRequested) {
+  public void setNumPaymentProtection( int numHelpRequested ) {
     this.numPaymentProtection = numHelpRequested;
   }
   
@@ -205,7 +203,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumProtectionRequested(int numProtectionRequested) {
+  public void setNumProtectionRequested( int numProtectionRequested ) {
     this.numProtectionRequested = numProtectionRequested;
   }
   
@@ -215,7 +213,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumProtectionProvided(int numProtectionProvided) {
+  public void setNumProtectionProvided( int numProtectionProvided ) {
     this.numProtectionProvided = numProtectionProvided;
   }
   
@@ -225,8 +223,8 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void
-      setNumSuccessfulProtectionProvided(int numSuccessfulProtectionProvided) {
+  public void setNumSuccessfulProtectionProvided(
+      int numSuccessfulProtectionProvided ) {
     this.numSuccessfulProtection = numSuccessfulProtectionProvided;
   }
   
@@ -236,7 +234,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumAttackProtection(int numAttackProtection) {
+  public void setNumAttackProtection( int numAttackProtection ) {
     this.numAttackProtection = numAttackProtection;
   }
   
@@ -246,7 +244,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumNonAttackProtection(int numNonAttackProtection) {
+  public void setNumNonAttackProtection( int numNonAttackProtection ) {
     this.numNonAttackProtection = numNonAttackProtection;
   }
   
@@ -256,7 +254,8 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumAttackProtectionReceived(int numAttackProtectionReceived) {
+  public void
+      setNumAttackProtectionReceived( int numAttackProtectionReceived ) {
     this.numAttackProtectionReceived = numAttackProtectionReceived;
   }
   
@@ -266,7 +265,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumCounterattackProtection(int numCounterattackProtection) {
+  public void setNumCounterattackProtection( int numCounterattackProtection ) {
     this.numCounterattackProtection = numCounterattackProtection;
   }
   
@@ -277,7 +276,7 @@ public class OutputExtorter extends OutputAbstract {
   
   
   public void setNumCounterattackProtectionReceived(
-      int numCounterattackProtectionReceived) {
+      int numCounterattackProtectionReceived ) {
     this.numCounterattackProtectionReceived = numCounterattackProtectionReceived;
   }
   
@@ -287,7 +286,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setTotalLostFightProtection(double totalLostFightProtection) {
+  public void setTotalLostFightProtection( double totalLostFightProtection ) {
     this.totalLostFightProtection = totalLostFightProtection;
   }
   
@@ -297,7 +296,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumAttackRetaliation(int numAttackRetaliation) {
+  public void setNumAttackRetaliation( int numAttackRetaliation ) {
     this.numAttackRetaliation = numAttackRetaliation;
   }
   
@@ -307,7 +306,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumNonAttackRetaliation(int numNonAttackRetaliation) {
+  public void setNumNonAttackRetaliation( int numNonAttackRetaliation ) {
     this.numNonAttackRetaliation = numNonAttackRetaliation;
   }
   
@@ -318,7 +317,7 @@ public class OutputExtorter extends OutputAbstract {
   
   
   public void
-      setNumAttackRetaliationReceived(int numAttackRetaliationReceived) {
+      setNumAttackRetaliationReceived( int numAttackRetaliationReceived ) {
     this.numAttackRetaliationReceived = numAttackRetaliationReceived;
   }
   
@@ -328,7 +327,8 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumCounterattackRetaliation(int numCounterattackRetaliation) {
+  public void
+      setNumCounterattackRetaliation( int numCounterattackRetaliation ) {
     this.numCounterattackRetaliation = numCounterattackRetaliation;
   }
   
@@ -339,7 +339,7 @@ public class OutputExtorter extends OutputAbstract {
   
   
   public void setNumCounterattackRetaliationReceived(
-      int numCounterattackRetaliationReceived) {
+      int numCounterattackRetaliationReceived ) {
     this.numCounterattackRetaliationReceived = numCounterattackRetaliationReceived;
   }
   
@@ -349,7 +349,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setTotalLostFightRetaliation(double totalLostFightRetaliation) {
+  public void setTotalLostFightRetaliation( double totalLostFightRetaliation ) {
     this.totalLostFightRetaliation = totalLostFightRetaliation;
   }
   
@@ -359,7 +359,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumExtortionReceived(int numExtortionReceived) {
+  public void setNumExtortionReceived( int numExtortionReceived ) {
     this.numExtortionReceived = numExtortionReceived;
   }
   
@@ -369,7 +369,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setTotalExtortionReceived(double totalExtortionReceived) {
+  public void setTotalExtortionReceived( double totalExtortionReceived ) {
     this.totalExtortionReceived = totalExtortionReceived;
   }
   
@@ -379,7 +379,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumPunishment(int numPunishment) {
+  public void setNumPunishment( int numPunishment ) {
     this.numPunishment = numPunishment;
   }
   
@@ -389,7 +389,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setTotalLostPunishment(double totalLostPunishment) {
+  public void setTotalLostPunishment( double totalLostPunishment ) {
     this.totalLostPunishment = totalLostPunishment;
   }
   
@@ -399,7 +399,7 @@ public class OutputExtorter extends OutputAbstract {
   }
   
   
-  public void setNumRenounce(int numRenounce) {
+  public void setNumRenounce( int numRenounce ) {
     this.numRenounce = numRenounce;
   }
 }

@@ -2,7 +2,6 @@ package intERS.conf.scenario;
 
 public class ExtorterConf {
   
-  
   private String       extorterClass;
   
   private String       type;
@@ -57,7 +56,7 @@ public class ExtorterConf {
   }
   
   
-  public void setExtorterClass(String extorterClass) {
+  public void setExtorterClass( String extorterClass ) {
     this.extorterClass = extorterClass;
   }
   
@@ -67,7 +66,7 @@ public class ExtorterConf {
   }
   
   
-  public void setType(String type) {
+  public void setType( String type ) {
     this.type = type;
   }
   
@@ -77,7 +76,7 @@ public class ExtorterConf {
   }
   
   
-  public void setEnlargementProbability(String enlargementProbability) {
+  public void setEnlargementProbability( String enlargementProbability ) {
     this.enlargementProbability = enlargementProbability;
   }
   
@@ -87,7 +86,7 @@ public class ExtorterConf {
   }
   
   
-  public void setNumberExtorters(int numberExtorters) {
+  public void setNumberExtorters( int numberExtorters ) {
     this.numberExtorters = numberExtorters;
   }
   
@@ -97,7 +96,7 @@ public class ExtorterConf {
   }
   
   
-  public void setInitialWealth(double initialWealth) {
+  public void setInitialWealth( double initialWealth ) {
     this.initialWealth = initialWealth;
   }
   
@@ -107,7 +106,7 @@ public class ExtorterConf {
   }
   
   
-  public void setImpulseProtection(double impulseProtection) {
+  public void setImpulseProtection( double impulseProtection ) {
     this.impulseProtection = impulseProtection;
   }
   
@@ -117,7 +116,7 @@ public class ExtorterConf {
   }
   
   
-  public void setImpulseFightProtection(double impulseFight) {
+  public void setImpulseFightProtection( double impulseFight ) {
     this.impulseFightProtection = impulseFight;
   }
   
@@ -127,7 +126,7 @@ public class ExtorterConf {
   }
   
   
-  public void setImpulseRetaliation(double impulseRetaliation) {
+  public void setImpulseRetaliation( double impulseRetaliation ) {
     this.impulseRetaliation = impulseRetaliation;
   }
   
@@ -137,7 +136,7 @@ public class ExtorterConf {
   }
   
   
-  public void setImpulseFightRetaliation(double impulseFightRetaliation) {
+  public void setImpulseFightRetaliation( double impulseFightRetaliation ) {
     this.impulseFightRetaliation = impulseFightRetaliation;
   }
   
@@ -147,7 +146,7 @@ public class ExtorterConf {
   }
   
   
-  public void setCostFightProtection(double costFightProtection) {
+  public void setCostFightProtection( double costFightProtection ) {
     this.costFightProtection = costFightProtection;
   }
   
@@ -157,7 +156,7 @@ public class ExtorterConf {
   }
   
   
-  public void setCostFightRetaliation(double costFightRetaliation) {
+  public void setCostFightRetaliation( double costFightRetaliation ) {
     this.costFightRetaliation = costFightRetaliation;
   }
   
@@ -167,7 +166,7 @@ public class ExtorterConf {
   }
   
   
-  public void setCostPunish(double costPunish) {
+  public void setCostPunish( double costPunish ) {
     this.costPunish = costPunish;
   }
   
@@ -177,7 +176,7 @@ public class ExtorterConf {
   }
   
   
-  public void setEnableExtortersCfg(boolean enableExtortersCfg) {
+  public void setEnableExtortersCfg( boolean enableExtortersCfg ) {
     this.enableExtortersCfg = enableExtortersCfg;
   }
   
@@ -187,7 +186,7 @@ public class ExtorterConf {
   }
   
   
-  public void setExtortersCfgFilename(String extortersCfgFilename) {
+  public void setExtortersCfgFilename( String extortersCfgFilename ) {
     this.extortersCfgFilename = extortersCfgFilename;
   }
   
@@ -197,7 +196,7 @@ public class ExtorterConf {
   }
   
   
-  public void setMinExtort(double minExtort) {
+  public void setMinExtort( double minExtort ) {
     this.minExtort = minExtort;
   }
   
@@ -207,7 +206,7 @@ public class ExtorterConf {
   }
   
   
-  public void setMaxExtort(double maxExtort) {
+  public void setMaxExtort( double maxExtort ) {
     this.maxExtort = maxExtort;
   }
   
@@ -217,7 +216,7 @@ public class ExtorterConf {
   }
   
   
-  public void setStepExtort(double stepExtort) {
+  public void setStepExtort( double stepExtort ) {
     this.stepExtort = stepExtort;
   }
   
@@ -227,7 +226,7 @@ public class ExtorterConf {
   }
   
   
-  public void setMinPunish(double minPunish) {
+  public void setMinPunish( double minPunish ) {
     this.minPunish = minPunish;
   }
   
@@ -237,7 +236,7 @@ public class ExtorterConf {
   }
   
   
-  public void setMaxPunish(double maxPunish) {
+  public void setMaxPunish( double maxPunish ) {
     this.maxPunish = maxPunish;
   }
   
@@ -247,7 +246,7 @@ public class ExtorterConf {
   }
   
   
-  public void setStepPunish(double stepPunish) {
+  public void setStepPunish( double stepPunish ) {
     this.stepPunish = stepPunish;
   }
   
@@ -257,7 +256,7 @@ public class ExtorterConf {
   }
   
   
-  public void setUpdateAtEnd(boolean updateAtEnd) {
+  public void setUpdateAtEnd( boolean updateAtEnd ) {
     this.updateAtEnd = updateAtEnd;
   }
   
@@ -267,7 +266,7 @@ public class ExtorterConf {
   }
   
   
-  public void setExtortersStrategy(StrategyConf strategyConf) {
+  public void setExtortersStrategy( StrategyConf strategyConf ) {
     this.strategyConf = strategyConf;
   }
   

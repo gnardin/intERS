@@ -2,7 +2,6 @@ package intERS.output;
 
 public abstract class OutputAbstract {
   
-  
   public enum AgentType {
     EXTORTER,
     OBSERVER,
@@ -18,7 +17,7 @@ public abstract class OutputAbstract {
   protected int       id;
   
   
-  public OutputAbstract(AgentType agentType, int cycle, String type, int id) {
+  public OutputAbstract( AgentType agentType, int cycle, String type, int id ) {
     this.agentType = agentType;
     this.cycle = cycle;
     this.type = type;
@@ -46,8 +45,8 @@ public abstract class OutputAbstract {
   }
   
   
-  public abstract String getHeader(String fs);
+  public abstract String getHeader( String fs );
   
   
-  public abstract String getLine(String fs);
+  public abstract String getLine( String fs );
 }

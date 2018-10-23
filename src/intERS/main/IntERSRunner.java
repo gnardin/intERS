@@ -18,9 +18,8 @@ import simphony.util.messages.MessageCenter;
 
 public class IntERSRunner extends AbstractRunner {
   
-  
   private static MessageCenter  msgCenter = MessageCenter
-      .getMessageCenter(IntERSRunner.class);
+      .getMessageCenter( IntERSRunner.class );
   
   private RunEnvironmentBuilder runEnvironmentBuilder;
   
@@ -32,60 +31,61 @@ public class IntERSRunner extends AbstractRunner {
   
   
   public IntERSRunner() {
-    this.runEnvironmentBuilder = new DefaultRunEnvironmentBuilder(this, true);
-    this.controller = new DefaultController(this.runEnvironmentBuilder);
-    this.controller.setScheduleRunner(this);
+    this.runEnvironmentBuilder = new DefaultRunEnvironmentBuilder( this, true );
+    this.controller = new DefaultController( this.runEnvironmentBuilder );
+    this.controller.setScheduleRunner( this );
   }
   
   
-  public void load(int simulationRun, int randomSeed, String rsDirectory,
+  public void load( int simulationRun, int randomSeed, String rsDirectory,
       String xmlFilename, String xsdFilename, String outputDirectory,
       String outputFileExtorter, String outputFileObserver,
       String outputFileTarget, boolean outputFileAppend,
-      String outputFieldSeparator, int outputWriteEvery) throws Exception {
-    File codePath = new File(rsDirectory);
-    if(codePath.exists()) {
-      BatchScenarioLoader loader = new BatchScenarioLoader(codePath);
-      ControllerRegistry registry = loader.load(this.runEnvironmentBuilder);
-      this.controller.setControllerRegistry(registry);
+      String outputFieldSeparator, int outputWriteEvery ) throws Exception {
+    File codePath = new File( rsDirectory );
+    if ( codePath.exists() ) {
+      BatchScenarioLoader loader = new BatchScenarioLoader( codePath );
+      ControllerRegistry registry = loader.load( this.runEnvironmentBuilder );
+      this.controller.setControllerRegistry( registry );
     } else {
-      msgCenter.error("RS directory not found", new IllegalArgumentException(
-          "Invalid RS directory " + codePath.getAbsolutePath()));
+      msgCenter.error( "RS directory not found", new IllegalArgumentException(
+          "Invalid RS directory " + codePath.getAbsolutePath() ) );
       return;
     }
     
     this.controller.batchInitialize();
     
     ParametersCreator paramsCreator = new ParametersCreator();
-    paramsCreator.addParameter("simulationRun", Integer.class, simulationRun,
-        false);
-    paramsCreator.addParameter("randomSeed", Integer.class, randomSeed, false);
-    paramsCreator.addParameter("scenarioFilename", String.class, xmlFilename,
-        false);
-    paramsCreator.addParameter("schemaFilename", String.class, xsdFilename,
-        false);
-    paramsCreator.addParameter("outputDirectory", String.class, outputDirectory,
-        false);
-    paramsCreator.addParameter("outputFileExtorter", String.class,
-        outputFileExtorter, false);
-    paramsCreator.addParameter("outputFileObserver", String.class,
-        outputFileObserver, false);
-    paramsCreator.addParameter("outputFileTarget", String.class,
-        outputFileTarget, false);
-    paramsCreator.addParameter("outputFileAppend", Boolean.class,
-        outputFileAppend, false);
-    paramsCreator.addParameter("outputFieldSeparator", String.class,
-        outputFieldSeparator, false);
-    paramsCreator.addParameter("outputWriteEvery", Integer.class,
-        outputWriteEvery, false);
+    paramsCreator.addParameter( "simulationRun", Integer.class, simulationRun,
+        false );
+    paramsCreator.addParameter( "randomSeed", Integer.class, randomSeed,
+        false );
+    paramsCreator.addParameter( "scenarioFilename", String.class, xmlFilename,
+        false );
+    paramsCreator.addParameter( "schemaFilename", String.class, xsdFilename,
+        false );
+    paramsCreator.addParameter( "outputDirectory", String.class,
+        outputDirectory, false );
+    paramsCreator.addParameter( "outputFileExtorter", String.class,
+        outputFileExtorter, false );
+    paramsCreator.addParameter( "outputFileObserver", String.class,
+        outputFileObserver, false );
+    paramsCreator.addParameter( "outputFileTarget", String.class,
+        outputFileTarget, false );
+    paramsCreator.addParameter( "outputFileAppend", Boolean.class,
+        outputFileAppend, false );
+    paramsCreator.addParameter( "outputFieldSeparator", String.class,
+        outputFieldSeparator, false );
+    paramsCreator.addParameter( "outputWriteEvery", Integer.class,
+        outputWriteEvery, false );
     this.params = paramsCreator.createParameters();
     
-    this.controller.runParameterSetters(this.params);
+    this.controller.runParameterSetters( this.params );
   }
   
   
   public void runInitialize() {
-    this.controller.runInitialize(this.params);
+    this.controller.runInitialize( this.params );
     this.schedule = RunState.getInstance().getScheduleRegistry()
         .getModelSchedule();
   }
@@ -128,17 +128,17 @@ public class IntERSRunner extends AbstractRunner {
   
   // stop the schedule
   public void stop() {
-    if(this.schedule != null) {
+    if ( this.schedule != null ) {
       this.schedule.executeEndActions();
     }
   }
   
   
-  public void setFinishing(boolean fin) {
-    this.schedule.setFinishing(fin);
+  public void setFinishing( boolean fin ) {
+    this.schedule.setFinishing( fin );
   }
   
   
-  public void execute(RunState toExecuteOn) {
+  public void execute( RunState toExecuteOn ) {
   }
 }

@@ -2,7 +2,6 @@ package intERS.conf.scenario;
 
 public class TargetConf {
   
-  
   private String targetClass;
   
   private String type;
@@ -35,7 +34,7 @@ public class TargetConf {
   }
   
   
-  public void setTargetClass(String targetClass) {
+  public void setTargetClass( String targetClass ) {
     this.targetClass = targetClass;
   }
   
@@ -45,7 +44,7 @@ public class TargetConf {
   }
   
   
-  public void setType(String type) {
+  public void setType( String type ) {
     this.type = type;
   }
   
@@ -55,7 +54,7 @@ public class TargetConf {
   }
   
   
-  public void setNumberTargets(int number) {
+  public void setNumberTargets( int number ) {
     this.number = number;
   }
   
@@ -65,7 +64,7 @@ public class TargetConf {
   }
   
   
-  public void setInitialWealth(double initialWealth) {
+  public void setInitialWealth( double initialWealth ) {
     this.initialWealth = initialWealth;
   }
   
@@ -75,7 +74,7 @@ public class TargetConf {
   }
   
   
-  public void setExtorterPerTarget(int extorterPerTarget) {
+  public void setExtorterPerTarget( int extorterPerTarget ) {
     this.extortersPerTarget = extorterPerTarget;
   }
   
@@ -85,7 +84,7 @@ public class TargetConf {
   }
   
   
-  public void setMinIncome(double minIncome) {
+  public void setMinIncome( double minIncome ) {
     this.minIncome = minIncome;
   }
   
@@ -95,7 +94,7 @@ public class TargetConf {
   }
   
   
-  public void setMaxIncome(double maxIncome) {
+  public void setMaxIncome( double maxIncome ) {
     this.maxIncome = maxIncome;
   }
   
@@ -105,7 +104,7 @@ public class TargetConf {
   }
   
   
-  public void setMinIncomeVariation(double minIncomeVariation) {
+  public void setMinIncomeVariation( double minIncomeVariation ) {
     this.minIncomeVariation = minIncomeVariation;
   }
   
@@ -115,7 +114,7 @@ public class TargetConf {
   }
   
   
-  public void setMaxIncomeVariation(double maxIncomeVariation) {
+  public void setMaxIncomeVariation( double maxIncomeVariation ) {
     this.maxIncomeVariation = maxIncomeVariation;
   }
   
@@ -125,7 +124,7 @@ public class TargetConf {
   }
   
   
-  public void setAvailExtortionIncome(double availExtortionIncome) {
+  public void setAvailExtortionIncome( double availExtortionIncome ) {
     this.availExtortionIncome = availExtortionIncome;
   }
   
@@ -135,7 +134,7 @@ public class TargetConf {
   }
   
   
-  public void setMemLength(int memLength) {
+  public void setMemLength( int memLength ) {
     this.memLength = memLength;
   }
   
@@ -145,7 +144,7 @@ public class TargetConf {
   }
   
   
-  public void setUnknownProtectionProb(double unknownProtectionProb) {
+  public void setUnknownProtectionProb( double unknownProtectionProb ) {
     this.unknownProtectionProb = unknownProtectionProb;
   }
   
@@ -155,7 +154,7 @@ public class TargetConf {
   }
   
   
-  public void setUnknownPunishmentProb(double unknownPunishmentProb) {
+  public void setUnknownPunishmentProb( double unknownPunishmentProb ) {
     this.unknownPunishmentProb = unknownPunishmentProb;
   }
   

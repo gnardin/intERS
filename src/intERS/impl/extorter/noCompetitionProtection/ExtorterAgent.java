@@ -10,21 +10,18 @@ import repast.simphony.random.RandomHelper;
 
 public class ExtorterAgent extends ExtorterAbstract {
   
-  
-  public ExtorterAgent(Map<Integer, ExtorterAbstract> extorters,
-      Map<Integer, TargetAbstract> targets, Set<Integer> initialTargets,
-      Integer id, ExtorterConf extorterConf) {
-    super(extorters, targets, initialTargets, id, extorterConf);
+  public ExtorterAgent( Map<Integer, ExtorterAbstract> extorters, Map<Integer, TargetAbstract> targets, Set<Integer> initialTargets, Integer id, ExtorterConf extorterConf ) {
+    super( extorters, targets, initialTargets, id, extorterConf );
   }
   
   
   @Override
   public void decidePunishment() {
-    for(Integer targetId : this.extorted.keySet()) {
-      if(!this.paid.containsKey(targetId)) {
+    for ( Integer targetId : this.extorted.keySet() ) {
+      if ( !this.paid.containsKey( targetId ) ) {
         
-        if(!this.punishments.contains(targetId)) {
-          this.punishments.add(targetId);
+        if ( !this.punishments.contains( targetId ) ) {
+          this.punishments.add( targetId );
         }
       }
     }
@@ -42,25 +39,25 @@ public class ExtorterAgent extends ExtorterAbstract {
     double opStrength;
     double myStrength;
     boolean protect;
-    for(Integer extorterId : this.extorterTarget.keySet()) {
-      targetsList = this.extorterTarget.get(extorterId);
+    for ( Integer extorterId : this.extorterTarget.keySet() ) {
+      targetsList = this.extorterTarget.get( extorterId );
       
       // Check whether one of the targets paid me
       protect = false;
-      for(Integer targetId : targetsList) {
-        if(this.paid.containsKey(targetId)) {
+      for ( Integer targetId : targetsList ) {
+        if ( this.paid.containsKey( targetId ) ) {
           protect = true;
         }
       }
       
-      if(protect) {
+      if ( protect ) {
         // Attack Protection anyway
-        if(RandomHelper.nextDouble() <= this.impulseProtectionProb) {
-          this.attackProtection.put(extorterId, targetsList);
+        if ( RandomHelper.nextDouble() <= this.impulseProtectionProb ) {
+          this.attackProtection.put( extorterId, targetsList );
           
           // Rational decision to protect
         } else {
-          extorter = this.extorters.get(extorterId);
+          extorter = this.extorters.get( extorterId );
           
           opTarget = extorter.getNumberTargetsPaid();
           sumTarget = this.paid.size() + opTarget;
@@ -70,22 +67,22 @@ public class ExtorterAgent extends ExtorterAbstract {
           
           opStrength = 0;
           myStrength = 0;
-          if(sumTarget != 0) {
+          if ( sumTarget != 0 ) {
             opStrength = (double) opTarget / (double) sumTarget;
             myStrength = (double) this.paid.size() / (double) sumTarget;
           }
           
-          if(sumWealth != 0) {
+          if ( sumWealth != 0 ) {
             opStrength = opStrength + ((double) opWealth / (double) sumWealth);
             myStrength = myStrength
                 + ((double) this.wealth / (double) sumWealth);
           }
           
           // If stronger then attack protection, otherwise do not
-          if(opStrength <= myStrength) {
-            targetsList = this.attackProtection.put(extorterId, targetsList);
+          if ( opStrength <= myStrength ) {
+            targetsList = this.attackProtection.put( extorterId, targetsList );
           } else {
-            this.nonAttackProtection.put(extorterId, targetsList);
+            this.nonAttackProtection.put( extorterId, targetsList );
           }
         }
       }
@@ -102,14 +99,14 @@ public class ExtorterAgent extends ExtorterAbstract {
     double opWealth;
     double opStrength;
     double myStrength;
-    for(Integer extorterId : this.protection.keySet()) {
+    for ( Integer extorterId : this.protection.keySet() ) {
       // Counterattack anyway
-      if(RandomHelper.nextDouble() <= this.impulseFightProtectionProb) {
-        this.counterattackProtection.add(extorterId);
+      if ( RandomHelper.nextDouble() <= this.impulseFightProtectionProb ) {
+        this.counterattackProtection.add( extorterId );
         
         // Rational decision to counterattack
       } else {
-        extorter = this.extorters.get(extorterId);
+        extorter = this.extorters.get( extorterId );
         
         opTarget = extorter.getNumberTargetsPaid();
         sumTarget = this.paid.size() + opTarget;
@@ -119,19 +116,19 @@ public class ExtorterAgent extends ExtorterAbstract {
         
         opStrength = 0;
         myStrength = 0;
-        if(sumTarget != 0) {
+        if ( sumTarget != 0 ) {
           opStrength = (double) opTarget / (double) sumTarget;
           myStrength = (double) this.paid.size() / (double) sumTarget;
         }
         
-        if(sumWealth != 0) {
+        if ( sumWealth != 0 ) {
           opStrength = opStrength + ((double) opWealth / (double) sumWealth);
           myStrength = myStrength + ((double) this.wealth / (double) sumWealth);
         }
         
         // If stronger then attack, otherwise do not
-        if(opStrength <= myStrength) {
-          this.counterattackProtection.add(extorterId);
+        if ( opStrength <= myStrength ) {
+          this.counterattackProtection.add( extorterId );
         }
       }
     }
@@ -141,10 +138,10 @@ public class ExtorterAgent extends ExtorterAbstract {
   @Override
   public void decideRetaliation() {
     List<Integer> targetsList;
-    for(Integer extorterId : this.extorterTarget.keySet()) {
-      targetsList = this.extorterTarget.get(extorterId);
+    for ( Integer extorterId : this.extorterTarget.keySet() ) {
+      targetsList = this.extorterTarget.get( extorterId );
       
-      this.nonAttackRetaliation.put(extorterId, targetsList);
+      this.nonAttackRetaliation.put( extorterId, targetsList );
     }
   }
   
